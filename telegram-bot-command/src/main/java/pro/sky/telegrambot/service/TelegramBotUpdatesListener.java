@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.listener;
+package pro.sky.telegrambot.service;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
