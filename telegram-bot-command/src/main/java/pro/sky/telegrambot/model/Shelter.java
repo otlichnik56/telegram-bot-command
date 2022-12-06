@@ -23,12 +23,14 @@ public class Shelter {
     private String scheduleAndAddressFileName;
     @Value("${documentsForAdoptionFileName}")
     private String documentsForAdoptionFileName;
-    @Value("${cynologistsFileName}")
-    private String cynologistsFileName;
     @Value("${safetyPrecuationsFileName")
     private String safetyPrecuationsFileName;
     @Value("${declineReasonsFileName}")
     private String declineReasonsFileName;
+
+
+
+
 
     private List<String> greetings;
     private List<String> description;

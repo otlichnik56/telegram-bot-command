@@ -36,4 +36,5 @@ public class ShelterService {
     public void callVolunteer() {
         shelter.callVolunteer();
     }
+
 }
