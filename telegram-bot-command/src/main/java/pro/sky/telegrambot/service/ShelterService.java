@@ -10,6 +10,7 @@ public class ShelterService {
     private final Shelter shelter;
 
     public ShelterService(Shelter shelter) {
+        System.out.println("Вызываю конструктор сервиса");
         this.shelter = shelter;
     }
 

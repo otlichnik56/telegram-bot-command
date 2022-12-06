@@ -45,11 +45,12 @@ public class Shelter {
     private List<String> safetyPrecuations;
 
     public Shelter() {
+        System.out.println("Вызываю конструктор приюта");
         updateInfoAboutShelter();
     }
 
     private void updateInfoAboutShelter() {
-        greetings = readStringsFromFile(greetingsFileName);
+        greetings = readStringsFromFile("src/main/resources/files/greetings.txt");
         description = readStringsFromFile(descriptionFileName);
         scheduleAndAddress = readStringsFromFile(scheduleAndAddressFileName);
         documentsForAdoption = readStringsFromFile(documentsForAdoptionFileName);
@@ -63,8 +64,10 @@ public class Shelter {
         try (
                 FileReader fr = new FileReader(fileName);
                 BufferedReader reader = new BufferedReader(fr)) {
+            System.out.println("пытаюсь прочитать" + fileName);
             Stream<String> lines = reader.lines();
             strings = lines.filter(line -> !line.isBlank()).collect(Collectors.toList());
+            System.out.println(fileName + "прочитан");
 
         } catch (IOException e) {
             logger.error("Can't open file + {filename}");
