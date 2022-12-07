@@ -3,16 +3,15 @@ package pro.sky.telegrambot.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 @Component
 public class Shelter {
     @Value("${greetingsFileName}")
@@ -27,9 +26,6 @@ public class Shelter {
     private String safetyPrecuationsFileName;
     @Value("${declineReasonsFileName}")
     private String declineReasonsFileName;
-
-
-
 
 
     private List<String> greetings;
@@ -49,8 +45,8 @@ public class Shelter {
         updateInfoAboutShelter();
     }
 
-    private void updateInfoAboutShelter() {
-        greetings = readStringsFromFile("src/main/resources/files/greetings.txt");
+    public void updateInfoAboutShelter() {
+        greetings = readStringsFromFile(greetingsFileName);
         description = readStringsFromFile(descriptionFileName);
         scheduleAndAddress = readStringsFromFile(scheduleAndAddressFileName);
         documentsForAdoption = readStringsFromFile(documentsForAdoptionFileName);
@@ -62,24 +58,28 @@ public class Shelter {
     private List<String> readStringsFromFile(String fileName) {
         List<String> strings = new ArrayList<>();
         try (
-                FileReader fr = new FileReader(fileName);
-                BufferedReader reader = new BufferedReader(fr)) {
-            System.out.println("пытаюсь прочитать" + fileName);
-            Stream<String> lines = reader.lines();
-            strings = lines.filter(line -> !line.isBlank()).collect(Collectors.toList());
-            System.out.println(fileName + "прочитан");
+                BufferedReader br = Files.newBufferedReader(Paths.get(fileName))
+              /* FileReader fr = new FileReader(fileName);
+                BufferedReader reader = new BufferedReader(fr)*/) {
+            while (br.ready()) {
+                strings.add(br.readLine());
+            }
+            System.out.println("пытаюсь прочитать " + fileName);
+            //strings = new BufferedReader(new InputStreamReader(/is)).lines().filter(line-> !line.isBlank()).collect(Collectors.toList());
+            //strings = lines.filter(line -> !line.isBlank()).collect(Collectors.toList());
+            System.out.println("!!! " + strings);
 
         } catch (IOException e) {
-            logger.error("Can't open file + {filename}");
-            strings= new ArrayList<String>(List.of("Ошибка чтения"));
+            logger.error("Can't open file + " + fileName);
+            strings = new ArrayList<String>(List.of("Ошибка чтения"));
         } finally {
             return strings;
         }
     }
 
 
-    public List<String> greetings() {
-        return greetings;
+    public String greetings() {
+        return greetings.stream().collect(Collectors.joining("\n"));
     }
 
     public List<String> getAbout() {
