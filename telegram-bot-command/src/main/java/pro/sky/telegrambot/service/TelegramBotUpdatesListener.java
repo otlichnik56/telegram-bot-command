@@ -3,11 +3,13 @@ package pro.sky.telegrambot.service;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.Buttons.InlineKeyboards;
 import pro.sky.telegrambot.Buttons.ReplyKeyboards;
 import pro.sky.telegrambot.constants.Constants;
 
@@ -20,6 +22,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
     private final ReplyKeyboards replyKeyboards = new ReplyKeyboards();
+    private final InlineKeyboards inlineKeyboards = new InlineKeyboards();
 
     @Autowired
     private TelegramBot telegramBot;
@@ -43,7 +46,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         switch (update.message().text()) {
             case "/start":
                 SendMessage messageMain = new SendMessage(chatId, Constants.WELCOME_MESSAGE_MAIN);
-                messageMain.replyMarkup(replyKeyboards.generateMainKeyboard());
+                messageMain.replyMarkup(inlineKeyboards.generateMainKeyboard());
                 telegramBot.execute(messageMain);
                 break;
             case Constants.KEYBOARD_MAIM_SHELTER_INFORMATION:
