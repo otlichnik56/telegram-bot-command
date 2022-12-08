@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.entity;
+package pro.sky.telegrambot.entitydatabase;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
