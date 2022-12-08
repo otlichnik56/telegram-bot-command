@@ -5,6 +5,7 @@ import com.pengrad.telegrambot.Callback;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 
 
@@ -12,11 +13,13 @@ import com.pengrad.telegrambot.model.request.Keyboard;
 
 
 import com.pengrad.telegrambot.model.request.KeyboardButton;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
+import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.SendResponse;
 import org.telegram.telegrambots.TelegramBotsApi;
 
 import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -26,7 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import pro.sky.telegrambot.Buttons.ReplyKeyboards;
 
 
 import javax.annotation.PostConstruct;
@@ -39,6 +42,7 @@ import java.util.List;
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
+    private ReplyKeyboards replyKeyboards = new ReplyKeyboards();
 
     @Autowired
     private TelegramBot telegramBot;
@@ -53,32 +57,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
 
-            List<List<InlineKeyboardButton>> buttonsMain = new ArrayList<>();
-
-            List<InlineKeyboardButton> buttonShelterInformation = new ArrayList<>();
-            buttonShelterInformation.add(new InlineKeyboardButton().setText("Информация о приюте").setCallbackData("CallFi4a"));
-            buttonsMain.add(buttonShelterInformation);
-
-            List<InlineKeyboardButton> buttonAdoptDog = new ArrayList<>();
-            buttonAdoptDog.add(new InlineKeyboardButton().setText("приютить собаку").setCallbackData("CallFi4a"));
-            buttonsMain.add(buttonAdoptDog);
-
-            List<InlineKeyboardButton> buttonSubmitReport = new ArrayList<>();
-            buttonSubmitReport.add(new InlineKeyboardButton().setText("Прислать отчет о питомце").setCallbackData("CallFi4a"));
-            buttonsMain.add(buttonSubmitReport);
-
-            List<InlineKeyboardButton> buttonCallVolunteer = new ArrayList<>();
-            buttonCallVolunteer.add(new InlineKeyboardButton().setText("Позвать волонтера").setCallbackData("CallFi4a"));
-            buttonsMain.add(buttonCallVolunteer);
-
-            InlineKeyboardMarkup keyboardMarkup =new InlineKeyboardMarkup();
-            keyboardMarkup.setKeyboard(buttonsMain);
-
 
 
             long chatId = update.message().chat().id();
-            String messageText = String.valueOf(keyboardMarkup);
+            String messageText = "dfghdf";
+            //Message message = new Message();
+
+
+
             SendMessage message = new SendMessage(chatId, messageText);
+            message.replyMarkup(replyKeyboards.generateMainKeyboard());
+
 
             try {
                 if(update.message().text().equals("/start")) {
@@ -102,15 +91,12 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
            // }
 
             //SendMessage message = new SendMessage().setChatId(update.message().chat().id()).setText("Пример").setReplyMarkup(inlineKeyboardMarkup);
-            // SendMessage message = new SendMessage(update.message().chat().id(), inlineKeyboardMarkup);
+            //SendMessage message = new SendMessage(update.message().chat().id(), inlineKeyboardMarkup);
 
 
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
-
-
-
 
 }
