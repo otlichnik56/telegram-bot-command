@@ -22,19 +22,20 @@ public class ShelterService {
         return shelter.greetings();
     }
 
-    public List<String> getAbout() {
+    public String getAbout() {
         return shelter.getAbout();
     }
 
-    public List<String> getSheduleAndAdress() {
+    public String getSheduleAndAdress() {
         return shelter.getScheduleAndAdress();
     }
 
-    public List<String> getSafetyPrecautions() {
+    public String getSafetyPrecautions() {
         return shelter.getSafetyPrecuations();
     }
+    public String getDocumentsForAdpotion(){return shelter.getDocumentsForAdoption();}
 
-    public List<String> getContacts() {
+    public String getContacts() {
         return shelter.getContacts();
     }
 

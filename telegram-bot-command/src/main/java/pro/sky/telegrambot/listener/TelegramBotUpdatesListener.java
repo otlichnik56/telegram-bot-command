@@ -39,9 +39,13 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             logger.info("Processing update: {}", update);
             if (update.message()!=null){
                 try {
-                    System.out.println("!!!" + shelterService.greetings());
+                    //System.out.println("!!!" + shelterService.greetings());
                     shelterService.updateInfo();
-                    //telegramBot.execute(new SendMessage(update.message().chat().id(),shelterService.greetings()));
+                    telegramBot.execute(new SendMessage(update.message().chat().id(),shelterService.greetings()));
+                    telegramBot.execute(new SendMessage(update.message().chat().id(),shelterService.getSheduleAndAdress()));
+                    telegramBot.execute(new SendMessage(update.message().chat().id(),shelterService.getAbout()));
+                    telegramBot.execute(new SendMessage(update.message().chat().id(),shelterService.getSafetyPrecautions()));
+                    telegramBot.execute(new SendMessage(update.message().chat().id(),shelterService.getDocumentsForAdpotion()));
 
                 }catch (Exception e){
 

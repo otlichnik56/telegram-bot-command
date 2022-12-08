@@ -82,22 +82,26 @@ public class Shelter {
         return greetings.stream().collect(Collectors.joining("\n"));
     }
 
-    public List<String> getAbout() {
-        return description;
+    public String getAbout() {
+        return description.toString();
     }
 
-    public List<String> getScheduleAndAdress() {
-        return scheduleAndAddress;
+    public String getScheduleAndAdress() {
+        return scheduleAndAddress.toString();
     }
 
-    public List<String> getSafetyPrecuations() {
-        return safetyPrecuations;
+    public String getSafetyPrecuations() {
+        return safetyPrecuations.toString();
     }
 
-    public List<String> getContacts() {
+    public String getContacts() {
         return null;
     }
 
     public void callVolunteer() {
+    }
+
+    public String getDocumentsForAdoption() {
+        return documentsForAdoption.toString();
     }
 }
