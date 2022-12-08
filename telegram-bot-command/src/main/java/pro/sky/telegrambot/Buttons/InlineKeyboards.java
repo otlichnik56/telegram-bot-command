@@ -6,6 +6,7 @@ import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboar
 import java.util.ArrayList;
 import java.util.List;
 
+// Класс не используется
 public class InlineKeyboards {
 
     public void generate(){

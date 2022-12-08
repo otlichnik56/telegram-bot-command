@@ -1,0 +1,5 @@
+# Запуск запрос SQL
+
+databaseChangeLog:
+  - include:
+      file: liquibase/table-work.sql

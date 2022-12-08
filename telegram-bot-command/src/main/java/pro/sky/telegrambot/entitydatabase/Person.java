@@ -9,13 +9,9 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long chatId;
-
     private String numberPhone;
-
     private String fullName;
-
     private Boolean status;
 
 

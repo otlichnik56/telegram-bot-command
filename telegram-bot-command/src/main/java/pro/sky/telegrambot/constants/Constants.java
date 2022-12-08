@@ -2,6 +2,8 @@ package pro.sky.telegrambot.constants;
 
 public class Constants {
 
+
+    // заготовленные фразы, которые пишет бот. например, приветствие
     public static final String WELCOME_MESSAGE_MAIN = "Добро пожаловать в наш приют для собак. Вы можете узнать следующую инфу ";
     public static final String WELCOME_MESSAGE_ONE = "Ещё раз здравствуйте. Вы можете узнать следующую инфу о нашем приюте ";
     public static final String WELCOME_MESSAGE_TWO = "Готов предоставить вам следующую полезную инфу ";
@@ -10,6 +12,7 @@ public class Constants {
     public static final String SORRY_MESSAGE = "Извинините, я вас не понимаю ";
 
 
+    //название кнопок из главного меню + прислать отчёт и позвать волонтёра и оставить контактные данные
     public static final String KEYBOARD_MAIM_SHELTER_INFORMATION = "Информация о приюте";
     public static final String KEYBOARD_MAIM_ADOPT_DOG = "Приютить собаку";
     public static final String KEYBOARD_MAIM_SUBMIT_REPORT = "Прислать отчет о питомце";
@@ -17,11 +20,13 @@ public class Constants {
     public static final String KEYBOARD_CONTACT = "Оставить контактные данные для связи";
 
 
+    //название кнопок из меню 1, которое выпадает по нажатию кнопки "Информация о приюте" из главного меню
     public static final String KEYBOARD_ONE_SHELTER_INFORMATION = "История приюта";
     public static final String KEYBOARD_ONE_WORK_SCHEDULE = "Расписание работы приюта, адрес, схема проезда";
     public static final String KEYBOARD_ONE_ACCIDENT_PREVENTION = "Рекомендации о технике безопасности";
 
 
+    //название кнопок из меню 2, которое выпадает по нажатию кнопки "Приютить собаку" из главного меню
     public static final String KEYBOARD_TWO_DATING_DOG = "Правила знакомства с собакой";
     public static final String KEYBOARD_TWO_DOCUMENTS_ADOPT_DOG = "Список документов, необходимых для того, чтобы взять собаку из приюта";
     public static final String KEYBOARD_TWO_TRANSPORTATION_DOG = "Список рекомендаций по транспортировке животного";
