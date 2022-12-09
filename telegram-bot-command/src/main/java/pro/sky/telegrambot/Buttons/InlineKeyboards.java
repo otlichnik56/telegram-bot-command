@@ -17,13 +17,13 @@ public class InlineKeyboards {
 
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION).url("www.google.com")
+                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION).callbackData(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION)
                 },
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG).url("www.google.com")
+                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG).callbackData(Constants.KEYBOARD_MAIM_ADOPT_DOG)
                 },
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT).url("www.google.com")
+                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT).callbackData(Constants.KEYBOARD_MAIM_SUBMIT_REPORT)
                 },
                 new InlineKeyboardButton[]{
                         new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER).callbackData(Constants.KEYBOARD_CALL_VOLUNTEER),

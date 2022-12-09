@@ -41,27 +41,37 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    private void messageProcessing(Update update){
-        long chatId = update.message().chat().id();
+    // ПОДУМАТЬ КАК КОРЕКТНО ВЕРНУТЬ НОМЕР ЧАТА
 
-        if(update.callbackQuery() == null){
-            switch (update.message().text()) {
-                case "/start":
-                    SendMessage messageMain = new SendMessage(chatId, Constants.WELCOME_MESSAGE_MAIN);
-                    messageMain.replyMarkup(inlineKeyboards.generateMainKeyboard());
-                    telegramBot.execute(messageMain);
-                    System.out.println(update.callbackQuery());
-                    break;
-
-                // СЮДА НАПИСАТЬ ДЕЙСТВИЯ НА ОСТАВШИЕСЯ КНОПКИ
-
-                default:
-                    SendMessage message = new SendMessage(chatId, Constants.SORRY_MESSAGE);
-                    telegramBot.execute(message);
+    private Long getChatId(Update update) {
+        Long chatId = null;
+        try {
+            if (update.message().chat().id() == null) {
+                chatId = update.callbackQuery().message().chat().id();
+            } else {
+                chatId = update.message().chat().id();
             }
-        } else {
-            switch (update.callbackQuery().data()) {
+        } catch (NullPointerException notInitializedChatId){
+            System.out.println("Сработал блок try catch в методе getChatId() " + chatId);
+        }
+        return chatId;
+    }
 
+
+
+    private void messageProcessing(Update update){
+        Long chatId = getChatId(update);
+
+        if (!(update.message() == null)){
+            if ("/start".equals(update.message().text())) {
+                SendMessage messageMain = new SendMessage(chatId, Constants.WELCOME_MESSAGE_MAIN);
+                messageMain.replyMarkup(inlineKeyboards.generateMainKeyboard());
+                telegramBot.execute(messageMain);
+            }
+        }
+
+        if (!(update.callbackQuery() == null)) {
+            switch (update.callbackQuery().data()) {
                 case Constants.KEYBOARD_MAIM_SHELTER_INFORMATION:
                     SendMessage messageOne = new SendMessage(chatId, Constants.WELCOME_MESSAGE_ONE);
                     messageOne.replyMarkup(replyKeyboards.generateOneKeyboard());
@@ -77,15 +87,20 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     telegramBot.execute(messageThree);
                     break;
                 case Constants.KEYBOARD_CALL_VOLUNTEER:
-                    System.out.println(update.callbackQuery());
-                    System.out.println(update.callbackQuery().data());
+                    System.out.println("chatId " + chatId);
+                    System.out.println("update.callbackQuery().message().chat().id() " + update.callbackQuery().message().chat().id());
+                    System.out.println("update.callbackQuery().data() " + update.callbackQuery().data());
 
                     break;
 
                 // СЮДА НАПИСАТЬ ДЕЙСТВИЯ НА ОСТАВШИЕСЯ КНОПКИ
-
             }
+
         }
+
+
+
+
     }
 
 }
