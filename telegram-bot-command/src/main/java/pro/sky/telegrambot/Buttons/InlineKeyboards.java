@@ -14,15 +14,39 @@ public class InlineKeyboards {
 
 
     public Keyboard generateMainKeyboard(){
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION));
-        inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG));
-        inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT));
-        inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER));
-        return inlineKeyboardMarkup;
+
+        InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(
+                new InlineKeyboardButton[]{
+                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION).url("www.google.com")
+                },
+                new InlineKeyboardButton[]{
+                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG).url("www.google.com")
+                },
+                new InlineKeyboardButton[]{
+                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT).url("www.google.com")
+                },
+                new InlineKeyboardButton[]{
+                        new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER).callbackData(Constants.KEYBOARD_CALL_VOLUNTEER),
+                });
+
+        //InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION));
+        //inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION));
+        //inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG));
+        //inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT));
+        //inlineKeyboardMarkup.addRow(new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER));
+        //inlineKeyboardMarkup.inlineKeyboard();
+        return inlineKeyboard;
     }
 
     public void never() {
+
+
+
+
+
+
+
+
 
         List<List<InlineKeyboardButton>> buttonsMain = new ArrayList<>();
 

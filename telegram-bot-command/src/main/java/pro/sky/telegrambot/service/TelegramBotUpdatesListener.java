@@ -43,36 +43,48 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private void messageProcessing(Update update){
         long chatId = update.message().chat().id();
-        switch (update.message().text()) {
-            case "/start":
-                SendMessage messageMain = new SendMessage(chatId, Constants.WELCOME_MESSAGE_MAIN);
-                messageMain.replyMarkup(inlineKeyboards.generateMainKeyboard());
-                telegramBot.execute(messageMain);
-                break;
-            case Constants.KEYBOARD_MAIM_SHELTER_INFORMATION:
-                SendMessage messageOne = new SendMessage(chatId, Constants.WELCOME_MESSAGE_ONE);
-                messageOne.replyMarkup(replyKeyboards.generateOneKeyboard());
-                telegramBot.execute(messageOne);
-                break;
-            case Constants.KEYBOARD_MAIM_ADOPT_DOG:
-                SendMessage messageTwo = new SendMessage(chatId, Constants.WELCOME_MESSAGE_TWO);
-                messageTwo.replyMarkup(replyKeyboards.generateTwoKeyboard());
-                telegramBot.execute(messageTwo);
-                break;
-            case Constants.KEYBOARD_MAIM_SUBMIT_REPORT:
-                SendMessage messageThree = new SendMessage(chatId, Constants.WELCOME_MESSAGE_THREE);
-                telegramBot.execute(messageThree);
-                break;
-            case Constants.KEYBOARD_CALL_VOLUNTEER:
-                SendMessage messageFour = new SendMessage(chatId, Constants.WELCOME_MESSAGE_FOUR);
-                telegramBot.execute(messageFour);
-                break;
+
+        if(update.callbackQuery() == null){
+            switch (update.message().text()) {
+                case "/start":
+                    SendMessage messageMain = new SendMessage(chatId, Constants.WELCOME_MESSAGE_MAIN);
+                    messageMain.replyMarkup(inlineKeyboards.generateMainKeyboard());
+                    telegramBot.execute(messageMain);
+                    System.out.println(update.callbackQuery());
+                    break;
 
                 // СЮДА НАПИСАТЬ ДЕЙСТВИЯ НА ОСТАВШИЕСЯ КНОПКИ
 
-            default:
-                SendMessage message = new SendMessage(chatId, Constants.SORRY_MESSAGE);
-                telegramBot.execute(message);
+                default:
+                    SendMessage message = new SendMessage(chatId, Constants.SORRY_MESSAGE);
+                    telegramBot.execute(message);
+            }
+        } else {
+            switch (update.callbackQuery().data()) {
+
+                case Constants.KEYBOARD_MAIM_SHELTER_INFORMATION:
+                    SendMessage messageOne = new SendMessage(chatId, Constants.WELCOME_MESSAGE_ONE);
+                    messageOne.replyMarkup(replyKeyboards.generateOneKeyboard());
+                    telegramBot.execute(messageOne);
+                    break;
+                case Constants.KEYBOARD_MAIM_ADOPT_DOG:
+                    SendMessage messageTwo = new SendMessage(chatId, Constants.WELCOME_MESSAGE_TWO);
+                    messageTwo.replyMarkup(replyKeyboards.generateTwoKeyboard());
+                    telegramBot.execute(messageTwo);
+                    break;
+                case Constants.KEYBOARD_MAIM_SUBMIT_REPORT:
+                    SendMessage messageThree = new SendMessage(chatId, Constants.WELCOME_MESSAGE_THREE);
+                    telegramBot.execute(messageThree);
+                    break;
+                case Constants.KEYBOARD_CALL_VOLUNTEER:
+                    System.out.println(update.callbackQuery());
+                    System.out.println(update.callbackQuery().data());
+
+                    break;
+
+                // СЮДА НАПИСАТЬ ДЕЙСТВИЯ НА ОСТАВШИЕСЯ КНОПКИ
+
+            }
         }
     }
 
