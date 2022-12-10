@@ -4,20 +4,23 @@ public class Constants {
 
 
     // заготовленные фразы, которые пишет бот. например, приветствие
-    public static final String WELCOME_MESSAGE_MAIN = "Добро пожаловать в наш приют для собак. Вы можете узнать следующую инфу ";
+    public static final String WELCOME_MESSAGE_MAIN = "Добро пожаловать в наш приют для собак. \nВы можете воспользоваться одним из пунктов гланого меню ";
     public static final String WELCOME_MESSAGE_ONE = "Ещё раз здравствуйте. Вы можете узнать следующую инфу о нашем приюте ";
     public static final String WELCOME_MESSAGE_TWO = "Готов предоставить вам следующую полезную инфу ";
-    public static final String WELCOME_MESSAGE_THREE = "Рад вам помочь, я готов принять ваш отчёт ";
+    public static final String WELCOME_MESSAGE_THREE = "Рад вам помочь, я готов принять ваш отчёт. В ежедневный отчет входит следующая информация: \n" +
+            "- Фото животного.\n" + "- Рацион животного.\n" + "- Общее самочувствие и привыкание к новому месту.\n" +
+            "- Изменение в поведении: отказ от старых привычек, приобретение новых.";
     public static final String WELCOME_MESSAGE_FOUR = "Спасибо за обращение, волонтёр скоро с вами свяжется ";
     public static final String SORRY_MESSAGE = "Извинините, я вас не понимаю ";
 
 
     //название кнопок из главного меню + прислать отчёт и позвать волонтёра и оставить контактные данные
-    public static final String KEYBOARD_MAIM_SHELTER_INFORMATION = "Информация о приюте";
-    public static final String KEYBOARD_MAIM_ADOPT_DOG = "Приютить собаку";
+    public static final String KEYBOARD_MAIM_SHELTER_INFORMATION = "Узнать информацию о приюте";
+    public static final String KEYBOARD_MAIM_ADOPT_DOG = "Как взять собаку из приюта";
     public static final String KEYBOARD_MAIM_SUBMIT_REPORT = "Прислать отчет о питомце";
     public static final String KEYBOARD_CALL_VOLUNTEER = "Позвать волонтера";
     public static final String KEYBOARD_CONTACT = "Оставить контактные данные для связи";
+    public static final String KEYBOARD_MAIN_MENU = "Вернуться в главное меню";
 
 
     //название кнопок из меню 1, которое выпадает по нажатию кнопки "Информация о приюте" из главного меню
