@@ -1,6 +1,7 @@
 package pro.sky.telegrambot.Buttons;
 
 import com.pengrad.telegrambot.model.request.Keyboard;
+import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import pro.sky.telegrambot.constants.Constants;
 
@@ -11,12 +12,15 @@ public class ReplyKeyboards {
     public Keyboard generateMainKeyboard(){
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
-                Constants.KEYBOARD_MAIM_SHELTER_INFORMATION,
-                Constants.KEYBOARD_MAIM_ADOPT_DOG ,
-                Constants.KEYBOARD_MAIM_SUBMIT_REPORT,
-                Constants.KEYBOARD_CALL_VOLUNTEER);
+                new KeyboardButton[]{
+                        new KeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION),
+                        new KeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG)
+                },
+                new KeyboardButton[]{
+                        new KeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT),
+                        new KeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER)
+                });
         replyKeyboardMarkup.resizeKeyboard(true); //подгоняем размер
-        replyKeyboardMarkup.oneTimeKeyboard(true); //скрываем после использования
         return replyKeyboardMarkup;
     }
 
@@ -28,7 +32,6 @@ public class ReplyKeyboards {
                 Constants.KEYBOARD_CONTACT,
                 Constants.KEYBOARD_CALL_VOLUNTEER);
         replyKeyboardMarkup.resizeKeyboard(true); //подгоняем размер
-        replyKeyboardMarkup.oneTimeKeyboard(true); //скрываем после использования
         return replyKeyboardMarkup;
     }
 

@@ -4,13 +4,14 @@ public class Constants {
 
 
     // заготовленные фразы, которые пишет бот. например, приветствие
-    public static final String WELCOME_MESSAGE_MAIN = "Добро пожаловать в наш приют для собак. \nВы можете воспользоваться одним из пунктов гланого меню ";
+    public static final String WELCOME_MESSAGE_MAIN = "Добро пожаловать в наш приют для собак. \nВы можете воспользоваться одним из пунктов гланого меню ниже ";
     public static final String WELCOME_MESSAGE_ONE = "Ещё раз здравствуйте. Вы можете узнать следующую инфу о нашем приюте ";
     public static final String WELCOME_MESSAGE_TWO = "Готов предоставить вам следующую полезную инфу ";
     public static final String WELCOME_MESSAGE_THREE = "Рад вам помочь, я готов принять ваш отчёт. В ежедневный отчет входит следующая информация: \n" +
             "- Фото животного.\n" + "- Рацион животного.\n" + "- Общее самочувствие и привыкание к новому месту.\n" +
             "- Изменение в поведении: отказ от старых привычек, приобретение новых.";
     public static final String WELCOME_MESSAGE_FOUR = "Спасибо за обращение, волонтёр скоро с вами свяжется ";
+    public static final String MESSAGE_FOR_VOLUNTEER = "По братски прошу, всязитесь с  ";
     public static final String SORRY_MESSAGE = "Извинините, я вас не понимаю ";
 
 

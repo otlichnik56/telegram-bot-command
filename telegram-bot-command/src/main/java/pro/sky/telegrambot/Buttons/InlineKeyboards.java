@@ -9,7 +9,6 @@ import pro.sky.telegrambot.constants.Constants;
 
 public class InlineKeyboards {
 
-
     public Keyboard generateMainKeyboard(){
         return new InlineKeyboardMarkup(
                 new InlineKeyboardButton[]{
@@ -22,7 +21,7 @@ public class InlineKeyboards {
                         new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT).callbackData(Constants.KEYBOARD_MAIM_SUBMIT_REPORT)
                 },
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER).callbackData(Constants.KEYBOARD_CALL_VOLUNTEER),
+                        new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER).callbackData(Constants.KEYBOARD_CALL_VOLUNTEER)
                 });
     }
 
@@ -38,7 +37,7 @@ public class InlineKeyboards {
                         new InlineKeyboardButton(Constants.KEYBOARD_ONE_ACCIDENT_PREVENTION).callbackData(Constants.KEYBOARD_ONE_ACCIDENT_PREVENTION)
                 },
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton(Constants.KEYBOARD_CONTACT).callbackData(Constants.KEYBOARD_CONTACT),
+                        new InlineKeyboardButton(Constants.KEYBOARD_CONTACT).callbackData(Constants.KEYBOARD_CONTACT)
                 },
                 new InlineKeyboardButton[]{
                         new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER).callbackData(Constants.KEYBOARD_CALL_VOLUNTEER)
@@ -78,7 +77,7 @@ public class InlineKeyboards {
                         new InlineKeyboardButton(Constants.KEYBOARD_TWO_NOT_DOG).callbackData(Constants.KEYBOARD_TWO_NOT_DOG)
                 },
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton(Constants.KEYBOARD_CONTACT).callbackData(Constants.KEYBOARD_CONTACT),
+                        new InlineKeyboardButton(Constants.KEYBOARD_CONTACT).callbackData(Constants.KEYBOARD_CONTACT)
                 },
                 new InlineKeyboardButton[]{
                         new InlineKeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER).callbackData(Constants.KEYBOARD_CALL_VOLUNTEER)
