@@ -3,6 +3,7 @@ package pro.sky.telegrambot.service;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +21,11 @@ import java.util.List;
 public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
-    private final ReplyKeyboards replyKeyboards = new ReplyKeyboards();
-    private final InlineKeyboards inlineMainKeyboards = new InlineKeyboards();
-    private InlineKeyboards inlineOneKeyboards = new InlineKeyboards();
-    private InlineKeyboards inlineTwoKeyboards = new InlineKeyboards();
+    private final static Keyboard replyKeyboards = new ReplyKeyboards().generateMainKeyboard();
+    private final static Keyboard inlineMainKeyboards = new InlineKeyboards().generateMainKeyboard();
+    private final static Keyboard inlineOneKeyboards = new InlineKeyboards().generateOneKeyboard();
+    private final static Keyboard inlineTwoKeyboards = new InlineKeyboards().generateTwoKeyboard();
+    private final static Long volunteerChatId = -1001816802535L;
 
     @Autowired
     private TelegramBot telegramBot;
@@ -42,13 +44,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    // ПОДУМАТЬ КАК КОРЕКТНО ВЕРНУТЬ НОМЕР ЧАТА
-
     private Long getChatId(Update update) {
         Long chatId = null;
         try {
             if (update.message() == null) {
-                chatId = update.callbackQuery().message().chat().id();
+                if(update.callbackQuery() == null){
+                    chatId = update.myChatMember().chat().id();
+                } else {
+                    chatId = update.callbackQuery().message().chat().id();
+                }
             } else {
                 chatId = update.message().chat().id();
             }
@@ -62,20 +66,23 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private void messageProcessing(Update update){
         Long chatId = getChatId(update);
+        if (chatId.equals(volunteerChatId)||chatId.equals(-891499042L)) {
+            System.out.println("Помехи в чате волонтёров. ID чата: " + chatId + " " + chatId.equals(volunteerChatId));
+        } else {
         if (!(update.message() == null)){
             switch (update.message().text()) {
                 case "/start":
                     SendMessage messageMain = new SendMessage(chatId, Constants.WELCOME_MESSAGE_MAIN);
-                    messageMain.replyMarkup(replyKeyboards.generateMainKeyboard());
+                    messageMain.replyMarkup(replyKeyboards);
                     telegramBot.execute(messageMain);
                 case Constants.KEYBOARD_MAIM_SHELTER_INFORMATION:
                     SendMessage messageOne = new SendMessage(chatId, Constants.WELCOME_MESSAGE_ONE);
-                    messageOne.replyMarkup(inlineOneKeyboards.generateMainKeyboard());
+                    messageOne.replyMarkup(inlineOneKeyboards);
                     telegramBot.execute(messageOne);
                     break;
                 case Constants.KEYBOARD_MAIM_ADOPT_DOG:
                     SendMessage messageTwo = new SendMessage(chatId, Constants.WELCOME_MESSAGE_TWO);
-                    messageTwo.replyMarkup(inlineTwoKeyboards.generateTwoKeyboard());
+                    messageTwo.replyMarkup(inlineTwoKeyboards);
                     telegramBot.execute(messageTwo);
                     break;
                 case Constants.KEYBOARD_MAIM_SUBMIT_REPORT:
@@ -83,16 +90,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                     telegramBot.execute(messageThree);
                     break;
                 case Constants.KEYBOARD_CALL_VOLUNTEER:
-                    System.out.println("chatId " + chatId);
                     SendMessage messagePerson = new SendMessage(chatId, Constants.WELCOME_MESSAGE_FOUR);
                     telegramBot.execute(messagePerson);
-                    SendMessage messageVolunteer = new SendMessage(891499042, Constants.MESSAGE_FOR_VOLUNTEER);
+                    SendMessage messageVolunteer = new SendMessage(volunteerChatId, Constants.MESSAGE_FOR_VOLUNTEER + " " + "@" + update.message().from().username());
                     telegramBot.execute(messageVolunteer);
                     break;
+               }
             }
         }
-
-
     }
+
 
 }
