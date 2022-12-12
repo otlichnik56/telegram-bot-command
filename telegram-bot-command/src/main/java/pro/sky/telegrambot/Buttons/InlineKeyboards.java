@@ -12,7 +12,7 @@ public class InlineKeyboards {
     public Keyboard generateMainKeyboard(){
         return new InlineKeyboardMarkup(
                 new InlineKeyboardButton[]{
-                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION).callbackData(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION)
+                        new InlineKeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION).callbackData("/information")
                 },
                 new InlineKeyboardButton[]{
                         new InlineKeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG).callbackData(Constants.KEYBOARD_MAIM_ADOPT_DOG)

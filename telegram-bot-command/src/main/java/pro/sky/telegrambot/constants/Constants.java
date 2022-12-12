@@ -12,6 +12,7 @@ public class Constants {
             "- Изменение в поведении: отказ от старых привычек, приобретение новых.";
     public static final String WELCOME_MESSAGE_FOUR = "Спасибо за обращение, волонтёр скоро с вами свяжется ";
     public static final String MESSAGE_FOR_VOLUNTEER = "По братски прошу, всязитесь с  ";
+    public static final String RECORD_CONTACT = "Будьте добры по-медлене, я записываю. Введите свой номер телефона и как к вам обращаться ";
     public static final String SORRY_MESSAGE = "Извинините, я вас не понимаю ";
 
 
