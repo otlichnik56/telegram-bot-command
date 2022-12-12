@@ -4,7 +4,6 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.Keyboard;
-import com.pengrad.telegrambot.request.SendContact;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +27,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final static Keyboard inlineMainKeyboards = new InlineKeyboards().generateMainKeyboard();
     private final static Keyboard inlineOneKeyboards = new InlineKeyboards().generateOneKeyboard();
     private final static Keyboard inlineTwoKeyboards = new InlineKeyboards().generateTwoKeyboard();
+    private Boolean recordStatus = false;
     private final static Long volunteerChatId = -1001816802535L;
 
     @Autowired
@@ -49,12 +49,17 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private void messageProcessing(Update update) {
         Long chatId = getChatId(update);
-        if (chatId.equals(volunteerChatId) || chatId.equals(-891499042L)) {
-            System.out.println("Помехи в чате волонтёров. ID чата: " + chatId + " " + chatId.equals(volunteerChatId));
+        if (recordStatus) {
+            if (!(update.message() == null)) {
+                String text = "Ребят, новый контакт, запишите  " + update.message().text() + " " + update.message().chat().firstName() + " " + update.message().chat().lastName();
+                SendMessage message = new SendMessage(volunteerChatId, text);
+                telegramBot.execute(message);
+                recordStatus = false;
+            }
         } else {
             if (!(update.message() == null)) {
                 telegramBot.execute(createMessage(chatId, update.message().text()));
-                if (update.message().text().equals(KEYBOARD_CALL_VOLUNTEER)){
+                if (!(update.message().text() == null) && update.message().text().equals(KEYBOARD_CALL_VOLUNTEER)){
                     SendMessage messageVolunteer = new SendMessage(volunteerChatId, MESSAGE_FOR_VOLUNTEER + " " + "@" + update.message().from().username());
                     telegramBot.execute(messageVolunteer);
                 }
@@ -81,9 +86,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     }
 
     private SendMessage createMessage(Long chatId, String text) {
-        SendMessage message = null;
+        SendMessage message;
+        System.out.println(text);
+        if(text == null){
+            message = new SendMessage(chatId, SORRY_MESSAGE);
+            return message;
+        };
+
         switch (text) {
             // главное меню и общее
+            case "null":
             case "/start":
             case "Главное меню":
                 message = new SendMessage(chatId, WELCOME_MESSAGE_MAIN);
@@ -99,12 +111,14 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
             case KEYBOARD_MAIM_SUBMIT_REPORT:
                 message = new SendMessage(chatId, WELCOME_MESSAGE_THREE);
+                recordStatus = true;
                 break;
             case KEYBOARD_CALL_VOLUNTEER:
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
                 break;
             case KEYBOARD_CONTACT:
                 message = new SendMessage(chatId, RECORD_CONTACT);
+                recordStatus = true;
                 break;
             // меню один
             case KEYBOARD_ONE_SHELTER_INFORMATION:
@@ -144,10 +158,15 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             case KEYBOARD_TWO_NOT_DOG:
                 message = new SendMessage(chatId, "заглушка");
                 break;
+            default:
+                message = new SendMessage(chatId, SORRY_MESSAGE);
         }
         return message;
     }
 
+    private void saveReport(Update update) {
+
+    }
 
 
 }

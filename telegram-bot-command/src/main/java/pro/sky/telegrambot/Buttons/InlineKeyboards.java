@@ -1,12 +1,11 @@
 package pro.sky.telegrambot.Buttons;
 
-
 import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import pro.sky.telegrambot.constants.Constants;
 
-
+// не используются. не получилось подключить
 public class InlineKeyboards {
 
     public Keyboard generateMainKeyboard(){

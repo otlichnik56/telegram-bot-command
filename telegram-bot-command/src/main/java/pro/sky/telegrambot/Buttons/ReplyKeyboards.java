@@ -8,7 +8,7 @@ import pro.sky.telegrambot.constants.Constants;
 import static pro.sky.telegrambot.constants.Constants.*;
 
 
-// кнопки, котарые отображаются из главного меню, этапа 1 и 2. генерирует три разные клавиатуры
+// кнопки, которые отображаются из главного меню, этапа 1 и 2. генерирует три разные клавиатуры
 public class ReplyKeyboards {
 
     public Keyboard generateMainKeyboard(){
@@ -76,8 +76,5 @@ public class ReplyKeyboards {
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
     }
-
-
-
 
 }
