@@ -20,6 +20,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
     private final ReplyKeyboards replyKeyboards = new ReplyKeyboards();
+    private final ShelterService shelterService;
+
+    public TelegramBotUpdatesListener(ShelterService shelterService) {
+        this.shelterService = shelterService;
+    }
 
     @Autowired
     private TelegramBot telegramBot;
@@ -63,6 +68,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             case Constants.KEYBOARD_CALL_VOLUNTEER:
                 SendMessage messageFour = new SendMessage(chatId, Constants.WELCOME_MESSAGE_FOUR);
                 telegramBot.execute(messageFour);
+                break;
+            case "/hello":
+                SendMessage messageN = new SendMessage(chatId, shelterService.greetings());
+                telegramBot.execute(messageN);
                 break;
 
                 // СЮДА НАПИСАТЬ ДЕЙСТВИЯ НА ОСТАВШИЕСЯ КНОПКИ
