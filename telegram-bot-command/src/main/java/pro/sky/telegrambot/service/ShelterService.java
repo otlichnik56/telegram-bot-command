@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 @Service
 public class ShelterService {
@@ -26,7 +25,7 @@ public class ShelterService {
         return shelter.getAbout();
     }
 
-    public String getSheduleAndAdress() {
+    public String getScheduleAndAdress() {
         return shelter.getScheduleAndAdress();
     }
 
@@ -34,6 +33,7 @@ public class ShelterService {
         return shelter.getSafetyPrecuations();
     }
     public String getDocumentsForAdpotion(){return shelter.getDocumentsForAdoption();}
+    public String getDeclineReasons(){return shelter.getDeclineReasons();}
 
     public String getContacts() {
         return shelter.getContacts();

@@ -49,7 +49,7 @@ public class ReplyKeyboards {
     public Keyboard generateTwoKeyboard(){
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_TWO_DATING_DOG),
+                        //new KeyboardButton(KEYBOARD_TWO_DATING_DOG),
                         new KeyboardButton(KEYBOARD_TWO_DOCUMENTS_ADOPT_DOG)
                 },
                 new KeyboardButton[]{
