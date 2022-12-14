@@ -32,5 +32,11 @@ public class Constants {
     public static final String KEYBOARD_TWO_GOOD_CYNOLOGIST = "Проверенные кинологи для дальнейшего обращения к ним";
     public static final String KEYBOARD_TWO_NOT_DOG = "Список причин, почему могут отказать и не дать забрать собаку из приюта";
 
+    public static final String greetingsFileName = "/greetings.txt";
+    public static final String descriptionFileName = "/shelterDescription.txt";
+    public static final String scheduleFileName = "/scheduleAndAddress.txt";
+    public static final String documentsForAdoptionFileName = "/documentsForAdoption.txt";
+    public static final String declineReasonsFileName = "/declineReasons.txt";
+    public static final String safetyPrecuationsFileName = "/safetyPrecuations.txt";
 
 }

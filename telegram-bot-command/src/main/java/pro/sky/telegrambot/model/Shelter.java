@@ -4,28 +4,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import pro.sky.telegrambot.TelegramBotApplication;
+import pro.sky.telegrambot.constants.Constants;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
 public class Shelter {
-    @Value("${greetingsFileName}")
-    private String greetingsFileName;
-    @Value("${descriptionFileName}")
-    private String descriptionFileName;
-    @Value("${scheduleFileName}")
-    private String scheduleAndAddressFileName;
-    @Value("${documentsForAdoptionFileName}")
-    private String documentsForAdoptionFileName;
-    @Value("${safetyPrecuationsFileName")
-    private String safetyPrecuationsFileName;
-    @Value("${declineReasonsFileName}")
-    private String declineReasonsFileName;
+    //  @Value("${greetingsFileName}")
+    private String greetingsFileName = Constants.greetingsFileName;
+    //@Value("${descriptionFileName}")
+    private String descriptionFileName= Constants.descriptionFileName;
+//    @Value("${scheduleFileName}")
+    private String scheduleAndAddressFileName= Constants.scheduleFileName;
+
+//    @Value("${documentsForAdoptionFileName}")
+    private String documentsForAdoptionFileName= Constants.documentsForAdoptionFileName;
+//    @Value("${safetyPrecuationsFileName")
+    private String safetyPrecuationsFileName= Constants.safetyPrecuationsFileName;
+//    @Value("${declineReasonsFileName}")
+    private String declineReasonsFileName= Constants.declineReasonsFileName;
 
 
     private List<String> greetings;
@@ -54,13 +59,23 @@ public class Shelter {
         safetyPrecuations = readStringsFromFile(safetyPrecuationsFileName);
 
     }
+    private List<String> readStringsFromFile(String fileName)  {
+        try {
+            return Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI())));
+        } catch (IOException e) {
 
-    private List<String> readStringsFromFile(String fileName) {
+        } catch (URISyntaxException e) {
+
+        }
+        return new ArrayList<>(List.of("Не могу считать информацию"));
+    }
+
+/*    private List<String> readStringsFromFile(String fileName) {
         List<String> strings = new ArrayList<>();
         try (
                 BufferedReader br = Files.newBufferedReader(Paths.get(fileName))
-              /* FileReader fr = new FileReader(fileName);
-                BufferedReader reader = new BufferedReader(fr)*/) {
+              *//* FileReader fr = new FileReader(fileName);
+                BufferedReader reader = new BufferedReader(fr)*//*) {
             while (br.ready()) {
                 strings.add(br.readLine());
             }
@@ -75,7 +90,7 @@ public class Shelter {
         } finally {
             return strings;
         }
-    }
+    }*/
 
 
     public String greetings() {
