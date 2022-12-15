@@ -1,0 +1,72 @@
+Index: telegram-bot-command/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/telegram-bot-command/src/main/resources/application.properties b/telegram-bot-command/src/main/resources/application.properties
+--- a/telegram-bot-command/src/main/resources/application.properties	
++++ b/telegram-bot-command/src/main/resources/application.properties	
+@@ -1,13 +1,14 @@
+ spring.datasource.url=jdbc:postgresql://localhost:5432/shelterTelegramBot
+ spring.datasource.username=command
+ spring.datasource.password=1234567890
+-telegram.bot.token=58980
++telegram.bot.token=5640743318:AAEg_UU1aDGgLax5ZW1yadaSf-sTq2mxKTM
+ 
+-greetingsFileName= C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\greetings.txt
+-descriptionFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\shelterDescription.txt
+-scheduleFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\scheduleAndAddress.txt
+-documentsForAdoptionFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\documentsForAdoption.txt
+-declineReasonsFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\declineReasons.txt
++greetings.FileName=/greetings.txt
++description.FileName=/shelterDescription.txt
++schedule.FileName=/scheduleAndAddress.txt
++documentsForAdoption.FileName=/documentsForAdoption.txt
++declineReasons.FileName=/declineReasons.txt
++safetyPrecuations.FileName=/safetyPrecuations.txt
+ 
+ 
+ 
+Index: telegram-bot-command/src/main/java/pro/sky/telegrambot/listener/TelegramBotUpdatesListener.java
+===================================================================
+diff --git a/telegram-bot-command/src/main/java/pro/sky/telegrambot/listener/TelegramBotUpdatesListener.java b/telegram-bot-command/src/main/java/pro/sky/telegrambot/listener/TelegramBotUpdatesListener.java
+deleted file mode 100644
+--- a/telegram-bot-command/src/main/java/pro/sky/telegrambot/listener/TelegramBotUpdatesListener.java	
++++ /dev/null	
+@@ -1,36 +0,0 @@
+-package pro.sky.telegrambot.listener;
+-
+-import com.pengrad.telegrambot.TelegramBot;
+-import com.pengrad.telegrambot.UpdatesListener;
+-import com.pengrad.telegrambot.model.Update;
+-import org.slf4j.Logger;
+-import org.slf4j.LoggerFactory;
+-import org.springframework.beans.factory.annotation.Autowired;
+-import org.springframework.stereotype.Service;
+-
+-import javax.annotation.PostConstruct;
+-import java.util.List;
+-
+-@Service
+-public class TelegramBotUpdatesListener implements UpdatesListener {
+-
+-    private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
+-
+-    @Autowired
+-    private TelegramBot telegramBot;
+-
+-    @PostConstruct
+-    public void init() {
+-        telegramBot.setUpdatesListener(this);
+-    }
+-
+-    @Override
+-    public int process(List<Update> updates) {
+-        updates.forEach(update -> {
+-            logger.info("Processing update: {}", update);
+-            // Process your updates here
+-        });
+-        return UpdatesListener.CONFIRMED_UPDATES_ALL;
+-    }
+-
+-}

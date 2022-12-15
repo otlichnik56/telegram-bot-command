@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0b67c242-9a8a-4030-a797-14f81eefd787" name="Changes" comment="Добавил методы в сервис недостающие" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Hyp &lt;otlichnik56@yandex.ru&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature_vmishutkin_refactor" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2ItAOsgqNB1mvvIG6K1UrjdwL6o" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/mishutkin.va/IdeaProjects/commandBot/telegram-bot-command/src/main/java/pro/sky/telegrambot/TelegramBotApplication.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "File.Encoding",
+    "spring.configuration.checksum": "7b0ed8c8c9087e5bcaf8917932d6604c"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mishutkin.va\IdeaProjects\commandBot\telegram-bot-command\src\main\resources" />
+      <recent name="C:\Users\mishutkin.va\IdeaProjects\commandBot\telegram-bot-command\src\main\resources\pro\sky\telegrambot" />
+      <recent name="C:\Users\mishutkin.va\IdeaProjects\commandBot\telegram-bot-command\src\main\resources\pro.sky.telegrambot" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="TelegramBotApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="telegram-bot" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="pro.sky.telegrambot.TelegramBotApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0b67c242-9a8a-4030-a797-14f81eefd787" name="Changes" comment="" />
+      <created>1670990477104</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1670990477104</updated>
+      <workItem from="1670990478611" duration="4041000" />
+      <workItem from="1671005891602" duration="807000" />
+      <workItem from="1671006811168" duration="7127000" />
+    </task>
+    <task id="LOCAL-00001" summary="Пробую сделать вывод">
+      <created>1671010836268</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1671010836268</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Пробую сделать вывод">
+      <created>1671011036536</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1671011036536</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Пробую сделать вывод">
+      <created>1671011102366</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1671011102366</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Пробую сделать вывод">
+      <created>1671011218028</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1671011218028</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Пробую сделать вывод">
+      <created>1671014581584</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1671014581584</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Добавил методы в сервис недостающие">
+      <created>1671014650345</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1671014650345</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="feature_vmishutkin" />
+                  <option value="origin/feature_otlichnik56" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="слил ветку" />
+    <MESSAGE value="Пробую сделать вывод" />
+    <MESSAGE value="Добавил методы в сервис недостающие" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил методы в сервис недостающие" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/model/Shelter.java</url>
+          <line>53</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
