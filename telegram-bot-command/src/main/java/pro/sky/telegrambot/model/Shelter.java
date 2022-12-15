@@ -46,7 +46,7 @@ public class Shelter {
     private List<String> safetyPrecuations;
 
     public Shelter() {
-        System.out.println("Вызываю конструктор приюта");
+
         updateInfoAboutShelter();
     }
 

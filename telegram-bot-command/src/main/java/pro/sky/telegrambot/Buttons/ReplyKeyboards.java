@@ -11,67 +11,69 @@ import static pro.sky.telegrambot.constants.Constants.*;
 // кнопки, которые отображаются из главного меню, этапа 1 и 2. генерирует три разные клавиатуры
 public class ReplyKeyboards {
 
-    public Keyboard generateMainKeyboard(){
+    public Keyboard generateMainMenuKeyboard(){
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
-                        new KeyboardButton(Constants.KEYBOARD_MAIM_SHELTER_INFORMATION),
-                        new KeyboardButton(Constants.KEYBOARD_MAIM_ADOPT_DOG)
+                        new KeyboardButton(Constants.TO_INFO_ABOUT_SHELTER),
+                        new KeyboardButton(Constants.TO_ADOPT_DOG)
                 },
                 new KeyboardButton[]{
                         new KeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT),
-                        new KeyboardButton(Constants.KEYBOARD_CALL_VOLUNTEER)
+                        new KeyboardButton(Constants.CALL_VOLUNTEER)
                 });
         replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
     }
 
-    public Keyboard generateOneKeyboard(){
+    public Keyboard generateAboutShelterMenuKeyboard(){
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_ONE_SHELTER_INFORMATION),
-                        new KeyboardButton(KEYBOARD_ONE_WORK_SCHEDULE)
+                        new KeyboardButton(ABOUT_SHELTER_INFO),
+                        new KeyboardButton(ABOUT_SHELTER_ADDRESS_SCHEDULE)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_ONE_ACCIDENT_PREVENTION),
-                        new KeyboardButton(KEYBOARD_CONTACT)
+                        new KeyboardButton(ABOUT_SHELTER_SAFETYPRECUATUINS),
+                        new KeyboardButton(SEND_CONTACTS)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_CALL_VOLUNTEER),
-                        new KeyboardButton("Главное меню")
+                        new KeyboardButton(CALL_VOLUNTEER),
+                        new KeyboardButton(TO_MAIN_MENU)
                 });
         replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
     }
 
-    public Keyboard generateTwoKeyboard(){
+    public Keyboard generateAdoptDogMenuKeyboard(){
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
-                        //new KeyboardButton(KEYBOARD_TWO_DATING_DOG),
-                        new KeyboardButton(KEYBOARD_TWO_DOCUMENTS_ADOPT_DOG)
+                        new KeyboardButton(ADOPT_DOG_RULES),
+                        new KeyboardButton(ADOPT_DOG_DOCUMENTS)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_TWO_TRANSPORTATION_DOG),
-                        new KeyboardButton(KEYBOARD_TWO_SMALL_DOG)
+                        new KeyboardButton(ADOPT_DOG_RECOMENDATIONS),
+                        new KeyboardButton(ADOPT_DOG_APPROVED_CYNOLOGYSTS)
                 },
-                new KeyboardButton[]{
+/*                new KeyboardButton[]{
                         new KeyboardButton(KEYBOARD_TWO_BIG_DOG),
                         new KeyboardButton(KEYBOARD_TWO_INVALID_DOG)
+                },*/
+                new KeyboardButton[]{
+                        new KeyboardButton(ADOPT_DOG_CYNOLOGYSTS_ADVICES),
+                        new KeyboardButton(ADOPT_DOG_APPROVED_CYNOLOGYSTS)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_TWO_CYNOLOGIST_ADVICE),
-                        new KeyboardButton(KEYBOARD_TWO_GOOD_CYNOLOGIST)
+                        new KeyboardButton(ADOPT_DOG_DECLINE_REASONS),
+                        new KeyboardButton(SEND_CONTACTS)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_TWO_NOT_DOG),
-                        new KeyboardButton(KEYBOARD_CONTACT)
-                },
-                new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_CALL_VOLUNTEER),
-                        new KeyboardButton("Главное меню")
+                        new KeyboardButton(CALL_VOLUNTEER),
+                        new KeyboardButton(TO_MAIN_MENU)
                 });
+
+
         replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;

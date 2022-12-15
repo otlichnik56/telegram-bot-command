@@ -1,20 +1,36 @@
 package pro.sky.telegrambot.service;
 
+import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.Keyboard;
+import com.pengrad.telegrambot.request.SendMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.Buttons.Keyboards;
+import pro.sky.telegrambot.Buttons.ReplyKeyboards;
 
+import javax.annotation.PostConstruct;
+import java.util.List;
 
-public abstract class TelegramBotUpdatesListener implements UpdatesListener {
-    /*
+import static pro.sky.telegrambot.constants.Constants.*;
 
-    private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
+@Service
+public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
+    private Keyboards keyboard;
+    private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
     private final static Keyboard replyMainKeyboards = new ReplyKeyboards().generateMainMenuKeyboard();
     private final static Keyboard replyOneKeyboards = new ReplyKeyboards().generateAboutShelterMenuKeyboard();
-    private final static Keyboard replyTwoKeyboards = new ReplyKeyboards().generateGetDogMenuKeyboard();
-    private final static Keyboard inlineMainKeyboards = new InlineKeyboards().generateMainKeyboard();
-    private final static Keyboard inlineOneKeyboards = new InlineKeyboards().generateOneKeyboard();
-    private final static Keyboard inlineTwoKeyboards = new InlineKeyboards().generateTwoKeyboard();
+    private final static Keyboard replyTwoKeyboards = new ReplyKeyboards().generateAdoptDogMenuKeyboard();
+
     private Boolean recordStatus = false;
     private final static Long volunteerChatId = -1001816802535L;
+
+    public TelegramBotUpdatesListenerVlad() {
+        this.keyboard = new Keyboards();
+    }
 
     @Autowired
     private TelegramBot telegramBot;
@@ -28,10 +44,21 @@ public abstract class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            messageProcessing(update);
+
+            long chatId = update.message().chat().id();
+            String inputText = update.message().text();
+
+            SendMessage replyMessage = createMessage(chatId, inputText);
+            telegramBot.execute(replyMessage);
+
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
+
+    private void sendReply(SendMessage replyMessage) {
+        telegramBot.execute(replyMessage);
+    }
+
 
     private void messageProcessing(Update update) {
         Long chatId = getChatId(update);
@@ -74,17 +101,11 @@ public abstract class TelegramBotUpdatesListener implements UpdatesListener {
     private SendMessage createMessage(Long chatId, String text) {
         SendMessage message;
         System.out.println(text);
-        if (text == null) {
-            message = new SendMessage(chatId, SORRY_MESSAGE);
-            return message;
-        }
-        ;
 
         switch (text) {
             // главное меню и общее
-            case "null":
-            case "/start":
-            case "Главное меню":
+            case START:
+            case TO_MAIN_MENU:
                 message = new SendMessage(chatId, WELCOME_MESSAGE_MAIN);
                 message.replyMarkup(replyMainKeyboards);
                 break;
@@ -100,6 +121,7 @@ public abstract class TelegramBotUpdatesListener implements UpdatesListener {
                 message = new SendMessage(chatId, WELCOME_MESSAGE_THREE);
                 recordStatus = true;
                 break;
+
             case CALL_VOLUNTEER:
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
                 break;
@@ -108,23 +130,15 @@ public abstract class TelegramBotUpdatesListener implements UpdatesListener {
                 recordStatus = true;
                 break;
             // меню один
-            case ABOUT_SHELTER:
-                message = new SendMessage(chatId, "заглушка");
-                break;
-            case KEYBOARD_ONE_WORK_SCHEDULE:
-                message = new SendMessage(chatId, "заглушка");
-                break;
-            case KEYBOARD_ONE_ACCIDENT_PREVENTION:
-                message = new SendMessage(chatId, "заглушка");
-                break;
+
             // меню два
-            case KEYBOARD_TWO_DATING_DOG:
+            case ADOPT_DOG_RULES:
                 message = new SendMessage(chatId, "заглушка");
                 break;
-            case KEYBOARD_TWO_DOCUMENTS_ADOPT_DOG:
+            case ADOPT_DOG_DOCUMENTS:
                 message = new SendMessage(chatId, "заглушка");
                 break;
-            case KEYBOARD_TWO_TRANSPORTATION_DOG:
+            case ADOPT_DOG_RECOMENDATIONS:
                 message = new SendMessage(chatId, "заглушка");
                 break;
             case KEYBOARD_TWO_SMALL_DOG:
@@ -136,13 +150,11 @@ public abstract class TelegramBotUpdatesListener implements UpdatesListener {
             case KEYBOARD_TWO_INVALID_DOG:
                 message = new SendMessage(chatId, "заглушка");
                 break;
-            case KEYBOARD_TWO_CYNOLOGIST_ADVICE:
+
+            case ADOPT_DOG_APPROVED_CYNOLOGYSTS:
                 message = new SendMessage(chatId, "заглушка");
                 break;
-            case KEYBOARD_TWO_GOOD_CYNOLOGIST:
-                message = new SendMessage(chatId, "заглушка");
-                break;
-            case KEYBOARD_TWO_NOT_DOG:
+            case ADOPT_DOG_DECLINE_REASONS:
                 message = new SendMessage(chatId, "заглушка");
                 break;
             default:
@@ -154,6 +166,6 @@ public abstract class TelegramBotUpdatesListener implements UpdatesListener {
     private void saveReport(Update update) {
 
     }
-*/
+
 
 }
