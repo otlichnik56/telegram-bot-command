@@ -48,7 +48,7 @@ public class ShelterService {
     }
 
     public String hello() {
-        try (BufferedReader br = Files.newBufferedReader(     Paths.get("C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\hello.txt"))){
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\hello.txt"))){
             return br.readLine();
         }catch (IOException e){
 

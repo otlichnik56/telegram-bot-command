@@ -92,7 +92,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
             message = new SendMessage(chatId, SORRY_MESSAGE);
             return message;
         };
-
         switch (text) {
             // главное меню и общее
             case "null":
