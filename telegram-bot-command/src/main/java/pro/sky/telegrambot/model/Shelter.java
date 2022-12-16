@@ -33,6 +33,7 @@ public class Shelter {
     private String safetyPrecuationsFileName = Constants.safetyPrecuationsFileName;
     //    @Value("${declineReasonsFileName}")
     private String declineReasonsFileName = Constants.declineReasonsFileName;
+    private String meetingRulesFileName = Constants.meetingRulesFileName;
 
 
     private String greetings;
@@ -40,6 +41,7 @@ public class Shelter {
     private String scheduleAndAddress;
     private String documentsForAdoption;
     private String declineReasons;
+    private String meetingRules;
 
 
     private List<String> contactsList;
@@ -61,6 +63,7 @@ public class Shelter {
         documentsForAdoption = readStringsFromFile(documentsForAdoptionFileName);
         declineReasons = readStringsFromFile(declineReasonsFileName);
         safetyPrecuations = readStringsFromFile(safetyPrecuationsFileName);
+        meetingRules = readStringsFromFile(meetingRulesFileName);
 
     }
 
@@ -106,6 +109,9 @@ public class Shelter {
 
     public String getAbout() {
         return description;
+    }
+    public String getMeetingRules() {
+        return meetingRules;
     }
 
     public String getScheduleAndAdress() {

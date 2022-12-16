@@ -5,6 +5,8 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.Keyboard;
+import com.pengrad.telegrambot.model.request.KeyboardButton;
+import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.Buttons.Keyboards;
 import pro.sky.telegrambot.Buttons.ReplyKeyboards;
+import pro.sky.telegrambot.entitydatabase.Person;
+import pro.sky.telegrambot.repositoty.PersonRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -20,16 +24,23 @@ import static pro.sky.telegrambot.constants.Constants.*;
 
 @Service
 public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
+    private final PersonRepository contactRepository;
     private Keyboards keyboard;
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
     private final static Keyboard replyMainKeyboards = new ReplyKeyboards().generateMainMenuKeyboard();
     private final static Keyboard replyAboutShelterKeyboards = new ReplyKeyboards().generateAboutShelterMenuKeyboard();
     private final static Keyboard replyAdoptDogKeyboards = new ReplyKeyboards().generateAdoptDogMenuKeyboard();
 
+    private final static Keyboard replyEmptyKeyboard = new ReplyKeyboards().generateEmptyMenuKeyboard();
+
+
     private Boolean recordStatus = false;
+    private boolean isLeavingRequest = false;
+    private boolean isLeavingContact = false;
     private final static Long volunteerChatId = 202671625L;
 
-    public TelegramBotUpdatesListenerVlad(ShelterService shelterService) {
+    public TelegramBotUpdatesListenerVlad(PersonRepository contactRepository, ShelterService shelterService) {
+        this.contactRepository = contactRepository;
         this.shelterService = shelterService;
         this.keyboard = new Keyboards();
     }
@@ -50,13 +61,45 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
 
-
             Message inputMessage = update.message();
-            SendMessage replyMessage = createMessage(inputMessage);
-            telegramBot.execute(replyMessage);
+            if (isLeavingRequest) {
+                callVolunteer(inputMessage);
+            } else if (isLeavingContact) {
+                getContact(inputMessage);
+            } else {
+                SendMessage replyMessage = createMessage(inputMessage);
+                telegramBot.execute(replyMessage);
+            }
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
+    }
+
+    private void getContact(Message inputMessage) {
+
+        String inputText = inputMessage.text();
+
+        System.out.println(inputText.substring(0, inputText.indexOf("\\W")));
+        //Person newContact = new Person(inputMessage.chat().id(), phoneString, name, false);
+        /*if (!contactRepository.contains()) {
+            contactRepository.save(newContact);
+        }*/
+
+        isLeavingContact=false;
+
+    }
+
+    private void callVolunteer(Message inputMessage) {
+        String nickName = inputMessage.from().username();
+        String requestText = inputMessage.text();
+
+        SendMessage messageVolunteer = new SendMessage(inputMessage.chat().id(), MESSAGE_FOR_VOLUNTEER + "\n " + "@" + nickName + "\n" + requestText );
+        telegramBot.execute(messageVolunteer);
+        SendMessage replyMessage = new SendMessage(inputMessage.chat().id(), THANKS_FOR_REQUEST );
+
+        telegramBot.execute(replyMessage);
+        isLeavingRequest=false;
+
     }
 
     private void sendReply(SendMessage replyMessage) {
@@ -132,13 +175,18 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 break;
 
             case CALL_VOLUNTEER:
-                callVolunteer(inputMessage);
+                isLeavingRequest=true;
+                //callVolunteer(inputMessage);
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
+                message.replyMarkup(replyEmptyKeyboard);
 
                 break;
             case SEND_CONTACTS:
+                isLeavingContact = true;
                 message = new SendMessage(chatId, RECORD_CONTACT);
-                recordStatus = true;
+                message.replyMarkup(replyEmptyKeyboard);
+                //message = new SendMessage(chatId, RECORD_CONTACT);
+                //recordStatus = true;
                 break;
             // меню один
             case ABOUT_SHELTER_INFO:
@@ -155,8 +203,9 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 break;
 
             // меню два
-            case ADOPT_DOG_RULES:
-                message = new SendMessage(chatId, "заглушка");
+            case ADOPT_DOG_MEETING_RULES:
+                replyTextMessage= shelterService.getmeetingRules();
+                message = new SendMessage(chatId, replyTextMessage);
                 break;
             case ADOPT_DOG_DOCUMENTS:
                 replyTextMessage = shelterService.getDocumentsForAdpotion();
@@ -189,13 +238,17 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         return message;
     }
 
+    private void saveContact() {
+
+    }
+    /*
     private void callVolunteer(Message message) {
 
         SendMessage messageVolunteer = new SendMessage(volunteerChatId, MESSAGE_FOR_VOLUNTEER + " " + "@" + message.from().username());
         telegramBot.execute(messageVolunteer);
 
     }
-
+*/
     private void saveReport(Update update) {
 
     }

@@ -11,7 +11,7 @@ import static pro.sky.telegrambot.constants.Constants.*;
 // кнопки, которые отображаются из главного меню, этапа 1 и 2. генерирует три разные клавиатуры
 public class ReplyKeyboards {
 
-    public Keyboard generateMainMenuKeyboard(){
+    public Keyboard generateMainMenuKeyboard() {
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
@@ -27,7 +27,7 @@ public class ReplyKeyboards {
         return replyKeyboardMarkup;
     }
 
-    public Keyboard generateAboutShelterMenuKeyboard(){
+    public Keyboard generateAboutShelterMenuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
                         new KeyboardButton(ABOUT_SHELTER_INFO),
@@ -46,15 +46,15 @@ public class ReplyKeyboards {
         return replyKeyboardMarkup;
     }
 
-    public Keyboard generateAdoptDogMenuKeyboard(){
+    public Keyboard generateAdoptDogMenuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
-                        new KeyboardButton(ADOPT_DOG_RULES),
+                        new KeyboardButton(ADOPT_DOG_MEETING_RULES),
                         new KeyboardButton(ADOPT_DOG_DOCUMENTS)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(ADOPT_DOG_RECOMENDATIONS),
-                        new KeyboardButton(ADOPT_DOG_APPROVED_CYNOLOGYSTS)
+                        new KeyboardButton(ADOPT_DOG_RECOMENDATIONS)
+
                 },
 /*                new KeyboardButton[]{
                         new KeyboardButton(KEYBOARD_TWO_BIG_DOG),
@@ -70,6 +70,18 @@ public class ReplyKeyboards {
                 },
                 new KeyboardButton[]{
                         new KeyboardButton(CALL_VOLUNTEER),
+                        new KeyboardButton(TO_MAIN_MENU)
+                });
+
+
+        replyKeyboardMarkup.resizeKeyboard(true);
+        replyKeyboardMarkup.oneTimeKeyboard(true);
+        return replyKeyboardMarkup;
+    }
+
+    public Keyboard generateEmptyMenuKeyboard() {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
+                new KeyboardButton[]{
                         new KeyboardButton(TO_MAIN_MENU)
                 });
 

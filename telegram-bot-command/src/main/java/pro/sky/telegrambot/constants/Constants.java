@@ -10,10 +10,13 @@ public class Constants {
     public static final String WELCOME_MESSAGE_THREE = "Рад вам помочь, я готов принять ваш отчёт. В ежедневный отчет входит следующая информация: \n" +
             "- Фото животного.\n" + "- Рацион животного.\n" + "- Общее самочувствие и привыкание к новому месту.\n" +
             "- Изменение в поведении: отказ от старых привычек, приобретение новых.";
-    public static final String WELCOME_MESSAGE_FOUR = "Спасибо за обращение, волонтёр скоро с вами свяжется ";
+    public static final String WELCOME_MESSAGE_FOUR = "Опишите пожалуйста свою проблему";
     public static final String MESSAGE_FOR_VOLUNTEER = "По братски прошу, свяжитесь с  ";
-    public static final String RECORD_CONTACT = "Будьте добры по-медлене, я записываю. Введите свой номер телефона и как к вам обращаться ";
+    public static final String RECORD_CONTACT = "Оставьте пожалуйста свой телефон и как к Вам обращаться";
     public static final String SORRY_MESSAGE = "Извинините, я вас не понимаю ";
+
+    public static final String THANKS_FOR_REQUEST = "Спасибо за обращение, Вам скоро ответит первый свободный волонтер";
+
 
 
     //название кнопок из главного меню + прислать отчёт и позвать волонтёра и оставить контактные данные
@@ -28,7 +31,6 @@ public class Constants {
     public static final String TO_MAIN_MENU = "Вернуться в главное меню";
 
 
-
     //название кнопок из меню 1, которое выпадает по нажатию кнопки "Информация о приюте" из главного меню
     public static final String ABOUT_SHELTER_INFO = "О приюте";
     public static final String ABOUT_SHELTER_ADDRESS_SCHEDULE = "Расписание и Адрес";
@@ -38,16 +40,14 @@ public class Constants {
     public static final String SEND_CONTACTS = "Оставить контактные данные для связи";
 
 
-
-
     //название кнопок из меню 2, которое выпадает по нажатию кнопки "Приютить собаку" из главного меню
-    public static final String ADOPT_DOG_RULES = "Правила знакомства с собакой";
+    public static final String ADOPT_DOG_MEETING_RULES = "Правила знакомства";
     public static final String ADOPT_DOG_DOCUMENTS = "Необходимые документы";
-    public static final String ADOPT_DOG_RECOMENDATIONS = "Список рекомендаций по транспортировке животного";
+    public static final String ADOPT_DOG_RECOMENDATIONS = "Списки рекомендаций";
     public static final String KEYBOARD_TWO_SMALL_DOG = "Список рекомендаций по обустройству дома для щенка";
     public static final String KEYBOARD_TWO_BIG_DOG = "Список рекомендаций по обустройству дома для взрослой собаки";
     public static final String KEYBOARD_TWO_INVALID_DOG = "Список рекомендаций по обустройству дома для собаки с ограниченными возможностями (зрение, передвижение)";
-    public static final String ADOPT_DOG_CYNOLOGYSTS_ADVICES = "Советы кинолога по первичному общению с собакой";
+    public static final String ADOPT_DOG_CYNOLOGYSTS_ADVICES = "Советы кинолога";
     public static final String ADOPT_DOG_APPROVED_CYNOLOGYSTS = "Проверенные кинологи";
     public static final String ADOPT_DOG_DECLINE_REASONS = "Причины отказа";
 
@@ -60,4 +60,5 @@ public class Constants {
     public static final String declineReasonsFileName = "/declineReasons.txt";
     public static final String safetyPrecuationsFileName = "/safetyPrecuations.txt";
 
+    public static String meetingRulesFileName = "/meetingRules.txt";
 }

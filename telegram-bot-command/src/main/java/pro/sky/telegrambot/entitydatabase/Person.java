@@ -14,6 +14,15 @@ public class Person {
     private String fullName;
     private Boolean status;
 
+    public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
+        this.chatId = chatId;
+        this.numberPhone = numberPhone;
+        this.fullName = fullName;
+        this.status = status;
+    }
+
+    public Person() {
+    }
 
     public Long getId() {
         return id;

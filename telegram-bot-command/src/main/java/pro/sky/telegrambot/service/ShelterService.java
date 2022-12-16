@@ -41,6 +41,11 @@ public class ShelterService {
     public String getDeclineReasons() {
         return shelter.getDeclineReasons();
     }
+    public String getmeetingRules() {
+        return shelter.getMeetingRules();
+    }
+
+
 
     public String getContacts() {
         return shelter.getContacts();
@@ -55,20 +60,5 @@ public class ShelterService {
     }
 
 
-    public String hello() {
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\hello.txt"))) {
-            return br.readLine();
-        } catch (IOException e) {
 
-        }
-        return null;
-
-    }
-    public static String listToString(List<String> strings){
-        StringBuilder resultString = new StringBuilder();
-        for (String string : strings) {
-            resultString.append(string);
-        }
-        return resultString.toString();
-    }
 }
