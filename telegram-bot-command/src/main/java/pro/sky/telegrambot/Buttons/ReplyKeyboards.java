@@ -34,7 +34,7 @@ public class ReplyKeyboards {
                         new KeyboardButton(ABOUT_SHELTER_ADDRESS_SCHEDULE)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(ABOUT_SHELTER_SAFETYPRECUATUINS),
+                        new KeyboardButton(ABOUT_SHELTER_SAFETY_PRECUATUINS),
                         new KeyboardButton(SEND_CONTACTS)
                 },
                 new KeyboardButton[]{

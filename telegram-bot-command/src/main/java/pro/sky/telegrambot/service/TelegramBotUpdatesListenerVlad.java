@@ -2,6 +2,7 @@ package pro.sky.telegrambot.service;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
+import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.request.SendMessage;
@@ -22,15 +23,19 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     private Keyboards keyboard;
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
     private final static Keyboard replyMainKeyboards = new ReplyKeyboards().generateMainMenuKeyboard();
-    private final static Keyboard replyOneKeyboards = new ReplyKeyboards().generateAboutShelterMenuKeyboard();
-    private final static Keyboard replyTwoKeyboards = new ReplyKeyboards().generateAdoptDogMenuKeyboard();
+    private final static Keyboard replyAboutShelterKeyboards = new ReplyKeyboards().generateAboutShelterMenuKeyboard();
+    private final static Keyboard replyAdoptDogKeyboards = new ReplyKeyboards().generateAdoptDogMenuKeyboard();
 
     private Boolean recordStatus = false;
-    private final static Long volunteerChatId = -1001816802535L;
+    private final static Long volunteerChatId = 202671625L;
 
-    public TelegramBotUpdatesListenerVlad() {
+    public TelegramBotUpdatesListenerVlad(ShelterService shelterService) {
+        this.shelterService = shelterService;
         this.keyboard = new Keyboards();
     }
+
+    private final ShelterService shelterService;
+
 
     @Autowired
     private TelegramBot telegramBot;
@@ -45,10 +50,9 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
 
-            long chatId = update.message().chat().id();
-            String inputText = update.message().text();
 
-            SendMessage replyMessage = createMessage(chatId, inputText);
+            Message inputMessage = update.message();
+            SendMessage replyMessage = createMessage(inputMessage);
             telegramBot.execute(replyMessage);
 
         });
@@ -59,7 +63,7 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         telegramBot.execute(replyMessage);
     }
 
-
+/*
     private void messageProcessing(Update update) {
         Long chatId = getChatId(update);
         if (recordStatus) {
@@ -79,6 +83,8 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
             }
         }
     }
+    */
+
 
     private Long getChatId(Update update) {
         Long chatId = null;
@@ -98,24 +104,27 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         return chatId;
     }
 
-    private SendMessage createMessage(Long chatId, String text) {
+    private SendMessage createMessage(Message inputMessage) {
+        long chatId = inputMessage.chat().id();
+        String inputTextMessage = inputMessage.text();
+        String replyTextMessage;
         SendMessage message;
-        System.out.println(text);
 
-        switch (text) {
+
+        switch (inputTextMessage) {
             // главное меню и общее
             case START:
             case TO_MAIN_MENU:
-                message = new SendMessage(chatId, WELCOME_MESSAGE_MAIN);
+                message = new SendMessage(chatId, WELCOME_MESSAGE_MENU_MAIN);
                 message.replyMarkup(replyMainKeyboards);
                 break;
             case TO_INFO_ABOUT_SHELTER:
-                message = new SendMessage(chatId, WELCOME_MESSAGE_ONE);
-                message.replyMarkup(replyOneKeyboards);
+                message = new SendMessage(chatId, WELCOME_MESSAGE_MENU_ABOUT_SHELTER);
+                message.replyMarkup(replyAboutShelterKeyboards);
                 break;
             case TO_ADOPT_DOG:
-                message = new SendMessage(chatId, WELCOME_MESSAGE_TWO);
-                message.replyMarkup(replyTwoKeyboards);
+                message = new SendMessage(chatId, WELCOME_MESSAGE_MENU_ADOPT_DOG);
+                message.replyMarkup(replyAdoptDogKeyboards);
                 break;
             case KEYBOARD_MAIM_SUBMIT_REPORT:
                 message = new SendMessage(chatId, WELCOME_MESSAGE_THREE);
@@ -123,20 +132,35 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 break;
 
             case CALL_VOLUNTEER:
+                callVolunteer(inputMessage);
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
+
                 break;
             case SEND_CONTACTS:
                 message = new SendMessage(chatId, RECORD_CONTACT);
                 recordStatus = true;
                 break;
             // меню один
+            case ABOUT_SHELTER_INFO:
+                replyTextMessage = shelterService.getAbout();
+                message = new SendMessage(chatId, replyTextMessage);
+                break;
+            case ABOUT_SHELTER_ADDRESS_SCHEDULE:
+                replyTextMessage = shelterService.getScheduleAndAdress();
+                message = new SendMessage(chatId, replyTextMessage);
+                break;
+            case ABOUT_SHELTER_SAFETY_PRECUATUINS:
+                replyTextMessage = shelterService.getSafetyPrecautions();
+                message = new SendMessage(chatId, replyTextMessage);
+                break;
 
             // меню два
             case ADOPT_DOG_RULES:
                 message = new SendMessage(chatId, "заглушка");
                 break;
             case ADOPT_DOG_DOCUMENTS:
-                message = new SendMessage(chatId, "заглушка");
+                replyTextMessage = shelterService.getDocumentsForAdpotion();
+                message = new SendMessage(chatId, replyTextMessage);
                 break;
             case ADOPT_DOG_RECOMENDATIONS:
                 message = new SendMessage(chatId, "заглушка");
@@ -152,15 +176,24 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 break;
 
             case ADOPT_DOG_APPROVED_CYNOLOGYSTS:
+
                 message = new SendMessage(chatId, "заглушка");
                 break;
             case ADOPT_DOG_DECLINE_REASONS:
-                message = new SendMessage(chatId, "заглушка");
+                replyTextMessage = shelterService.getDeclineReasons();
+                message = new SendMessage(chatId, replyTextMessage);
                 break;
             default:
                 message = new SendMessage(chatId, SORRY_MESSAGE);
         }
         return message;
+    }
+
+    private void callVolunteer(Message message) {
+
+        SendMessage messageVolunteer = new SendMessage(volunteerChatId, MESSAGE_FOR_VOLUNTEER + " " + "@" + message.from().username());
+        telegramBot.execute(messageVolunteer);
+
     }
 
     private void saveReport(Update update) {

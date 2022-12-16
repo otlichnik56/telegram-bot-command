@@ -18,32 +18,36 @@ import java.util.stream.Collectors;
 
 @Component
 public class Shelter {
+
+
     //  @Value("${greetingsFileName}")
     private String greetingsFileName = Constants.greetingsFileName;
     //@Value("${descriptionFileName}")
-    private String descriptionFileName= Constants.descriptionFileName;
-//    @Value("${scheduleFileName}")
-    private String scheduleAndAddressFileName= Constants.scheduleFileName;
+    private String descriptionFileName = Constants.descriptionFileName;
+    //    @Value("${scheduleFileName}")
+    private String scheduleAndAddressFileName = Constants.scheduleFileName;
 
-//    @Value("${documentsForAdoptionFileName}")
-    private String documentsForAdoptionFileName= Constants.documentsForAdoptionFileName;
-//    @Value("${safetyPrecuationsFileName")
-    private String safetyPrecuationsFileName= Constants.safetyPrecuationsFileName;
-//    @Value("${declineReasonsFileName}")
-    private String declineReasonsFileName= Constants.declineReasonsFileName;
+    //    @Value("${documentsForAdoptionFileName}")
+    private String documentsForAdoptionFileName = Constants.documentsForAdoptionFileName;
+    //    @Value("${safetyPrecuationsFileName")
+    private String safetyPrecuationsFileName = Constants.safetyPrecuationsFileName;
+    //    @Value("${declineReasonsFileName}")
+    private String declineReasonsFileName = Constants.declineReasonsFileName;
 
 
-    private List<String> greetings;
-    private List<String> description;
-    private List<String> scheduleAndAddress;
-    private List<String> documentsForAdoption;
-    private List<String> declineReasons;
+    private String greetings;
+    private String description;
+    private String scheduleAndAddress;
+    private String documentsForAdoption;
+    private String declineReasons;
+
+
+    private List<String> contactsList;
+    private String safetyPrecuations;
 
     private Logger logger = LoggerFactory.getLogger(Shelter.class);
 
 
-    private List<String> contactsList;
-    private List<String> safetyPrecuations;
 
     public Shelter() {
 
@@ -59,15 +63,18 @@ public class Shelter {
         safetyPrecuations = readStringsFromFile(safetyPrecuationsFileName);
 
     }
-    private List<String> readStringsFromFile(String fileName)  {
+
+    private String readStringsFromFile(String fileName) {
         try {
-            return Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI())));
+            return Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI())))
+                    .stream().collect(Collectors.joining("\n"));
         } catch (IOException e) {
 
         } catch (URISyntaxException e) {
 
         }
-        return new ArrayList<>(List.of("Не могу считать информацию"));
+
+        return "Не могу считать информацию";
     }
 
 /*    private List<String> readStringsFromFile(String fileName) {
@@ -94,19 +101,19 @@ public class Shelter {
 
 
     public String greetings() {
-        return greetings.stream().collect(Collectors.joining("\n"));
+        return greetings;
     }
 
     public String getAbout() {
-        return description.toString();
+        return description;
     }
 
     public String getScheduleAndAdress() {
-        return scheduleAndAddress.toString();
+        return scheduleAndAddress;
     }
 
     public String getSafetyPrecuations() {
-        return safetyPrecuations.toString();
+        return safetyPrecuations;
     }
 
     public String getContacts() {
@@ -117,10 +124,10 @@ public class Shelter {
     }
 
     public String getDocumentsForAdoption() {
-        return documentsForAdoption.toString();
+        return documentsForAdoption;
     }
 
     public String getDeclineReasons() {
-        return declineReasons.toString();
+        return declineReasons;
     }
 }

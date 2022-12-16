@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class ShelterService {
@@ -32,8 +33,14 @@ public class ShelterService {
     public String getSafetyPrecautions() {
         return shelter.getSafetyPrecuations();
     }
-    public String getDocumentsForAdpotion(){return shelter.getDocumentsForAdoption();}
-    public String getDeclineReasons(){return shelter.getDeclineReasons();}
+
+    public String getDocumentsForAdpotion() {
+        return shelter.getDocumentsForAdoption();
+    }
+
+    public String getDeclineReasons() {
+        return shelter.getDeclineReasons();
+    }
 
     public String getContacts() {
         return shelter.getContacts();
@@ -43,17 +50,25 @@ public class ShelterService {
         shelter.callVolunteer();
     }
 
-    public void updateInfo(){
+    public void updateInfo() {
         shelter.updateInfoAboutShelter();
     }
 
+
     public String hello() {
-        try (BufferedReader br = Files.newBufferedReader(     Paths.get("C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\hello.txt"))){
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\hello.txt"))) {
             return br.readLine();
-        }catch (IOException e){
+        } catch (IOException e) {
 
         }
-     return null;
+        return null;
 
+    }
+    public static String listToString(List<String> strings){
+        StringBuilder resultString = new StringBuilder();
+        for (String string : strings) {
+            resultString.append(string);
+        }
+        return resultString.toString();
     }
 }
