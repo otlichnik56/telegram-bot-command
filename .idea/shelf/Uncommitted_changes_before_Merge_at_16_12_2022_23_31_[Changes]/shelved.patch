@@ -1,0 +1,137 @@
+Index: telegram-bot-command/src/main/resources/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.url=jdbc:postgresql://localhost:5432/shelterTelegramBot\r\nspring.datasource.username=command\r\nspring.datasource.password=1234567890\r\ntelegram.bot.token=58980\r\n\r\ngreetingsFileName= C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\greetings.txt\r\ndescriptionFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\shelterDescription.txt\r\nscheduleFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\scheduleAndAddress.txt\r\ndocumentsForAdoptionFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\documentsForAdoption.txt\r\ndeclineReasonsFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\declineReasons.txt\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/telegram-bot-command/src/main/resources/application.properties b/telegram-bot-command/src/main/resources/application.properties
+--- a/telegram-bot-command/src/main/resources/application.properties	(revision 6840d6da7cb2d6a3d13b7652b77e746758fa9ccd)
++++ b/telegram-bot-command/src/main/resources/application.properties	(date 1671208021580)
+@@ -1,13 +1,14 @@
+ spring.datasource.url=jdbc:postgresql://localhost:5432/shelterTelegramBot
+-spring.datasource.username=command
+-spring.datasource.password=1234567890
+-telegram.bot.token=58980
++spring.datasource.username=myUser
++spring.datasource.password=1qaz2wsx
++telegram.bot.token=5640743318:AAEg_UU1aDGgLax5ZW1yadaSf-sTq2mxKTM
+ 
+-greetingsFileName= C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\greetings.txt
+-descriptionFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\shelterDescription.txt
+-scheduleFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\scheduleAndAddress.txt
+-documentsForAdoptionFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\documentsForAdoption.txt
+-declineReasonsFileName=C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\declineReasons.txt
++greetings.FileName=/greetings.txt
++description.FileName=/shelterDescription.txt
++schedule.FileName=/scheduleAndAddress.txt
++documentsForAdoption.FileName=/documentsForAdoption.txt
++declineReasons.FileName=/declineReasons.txt
++safetyPrecuations.FileName=/safetyPrecuations.txt
+ 
+ 
+ 
+Index: telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Person.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pro.sky.telegrambot.entitydatabase;\r\n\r\nimport javax.persistence.*;\r\n\r\n@Entity\r\n@Table\r\npublic class Person {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long id;\r\n\r\n    private Long chatId;\r\n\r\n    private String numberPhone;\r\n\r\n    private String fullName;\r\n\r\n    private Boolean status;\r\n\r\n\r\n    public Long getId() {\r\n        return id;\r\n    }\r\n\r\n    public void setId(Long id) {\r\n        this.id = id;\r\n    }\r\n\r\n    public Long getChatId() {\r\n        return chatId;\r\n    }\r\n\r\n    public void setChatId(Long chatId) {\r\n        this.chatId = chatId;\r\n    }\r\n\r\n    public String getNumberPhone() {\r\n        return numberPhone;\r\n    }\r\n\r\n    public void setNumberPhone(String numberPhone) {\r\n        this.numberPhone = numberPhone;\r\n    }\r\n\r\n    public String getFullName() {\r\n        return fullName;\r\n    }\r\n\r\n    public void setFullName(String fullName) {\r\n        this.fullName = fullName;\r\n    }\r\n\r\n    public Boolean getStatus() {\r\n        return status;\r\n    }\r\n\r\n    public void setStatus(Boolean status) {\r\n        this.status = status;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Person.java b/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Person.java
+--- a/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Person.java	(revision 6840d6da7cb2d6a3d13b7652b77e746758fa9ccd)
++++ b/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Person.java	(date 1671208021589)
+@@ -9,16 +9,28 @@
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private Long id;
+-
+     private Long chatId;
+-
+     private String numberPhone;
+-
+     private String fullName;
+ 
++    //nickname
+     private Boolean status;
+ 
+ 
++    //начало испытательного срока
++    // конец испытательного срока
++    //статус усыновления
++
++    public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
++        this.chatId = chatId;
++        this.numberPhone = numberPhone;
++        this.fullName = fullName;
++        this.status = status;
++    }
++
++    public Person() {
++    }
++
+     public Long getId() {
+         return id;
+     }
+Index: telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Report.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package pro.sky.telegrambot.entitydatabase;\r\n\r\nimport javax.persistence.*;\r\n\r\n@Entity\r\n@Table\r\npublic class Report {\r\n\r\n    @Id\r\n    @GeneratedValue(strategy = GenerationType.IDENTITY)\r\n    private Long id;\r\n\r\n    private Long chatId;\r\n\r\n    private String message;\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Report.java b/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Report.java
+--- a/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Report.java	(revision 6840d6da7cb2d6a3d13b7652b77e746758fa9ccd)
++++ b/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Report.java	(date 1671208021585)
+@@ -9,8 +9,30 @@
+     @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+     private Long id;
+-
+     private Long chatId;
+-
+     private String message;
++    //
++    public Long getId() {
++        return id;
++    }
++
++    public void setId(Long id) {
++        this.id = id;
++    }
++
++    public Long getChatId() {
++        return chatId;
++    }
++
++    public void setChatId(Long chatId) {
++        this.chatId = chatId;
++    }
++
++    public String getMessage() {
++        return message;
++    }
++
++    public void setMessage(String message) {
++        this.message = message;
++    }
+ }
+Index: telegram-bot-command/target/classes/application.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>spring.datasource.url=jdbc:postgresql://localhost:5432/shelterTelegramBot\r\nspring.datasource.username=command\r\nspring.datasource.password=1234567890\r\ntelegram.bot.token=58980\r\n\r\ngreetingsFileName= C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\greetings.txt\r\ndescriptionFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\shelterDescription.txt\r\nscheduleFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\scheduleAndAddress.txt\r\ndocumentsForAdoptionFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\documentsForAdoption.txt\r\ndeclineReasonsFileName=C:\\\\Users\\\\mishutkin.va\\\\IdeaProjects\\\\commandProject\\\\telegram-bot-command\\\\src\\\\main\\\\resources\\\\files\\\\declineReasons.txt\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/telegram-bot-command/target/classes/application.properties b/telegram-bot-command/target/classes/application.properties
+--- a/telegram-bot-command/target/classes/application.properties	(revision 6840d6da7cb2d6a3d13b7652b77e746758fa9ccd)
++++ b/telegram-bot-command/target/classes/application.properties	(date 1671208019946)
+@@ -1,6 +1,6 @@
+ spring.datasource.url=jdbc:postgresql://localhost:5432/shelterTelegramBot
+-spring.datasource.username=command
+-spring.datasource.password=1234567890
++spring.datasource.username=myUser
++spring.datasource.password=1qaz2wsx
+ telegram.bot.token=58980
+ 
+ greetingsFileName= C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\greetings.txt

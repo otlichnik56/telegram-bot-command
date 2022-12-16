@@ -9,15 +9,27 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long chatId;
-
     private String numberPhone;
-
     private String fullName;
 
+    //nickname
     private Boolean status;
 
+
+    //начало испытательного срока
+    // конец испытательного срока
+    //статус усыновления
+
+    public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
+        this.chatId = chatId;
+        this.numberPhone = numberPhone;
+        this.fullName = fullName;
+        this.status = status;
+    }
+
+    public Person() {
+    }
 
     public Long getId() {
         return id;
