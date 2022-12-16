@@ -14,7 +14,7 @@ public class ShelterService {
     private final Shelter shelter;
 
     public ShelterService(Shelter shelter) {
-        System.out.println("Вызываю конструктор сервиса");
+
         this.shelter = shelter;
     }
 
@@ -26,14 +26,26 @@ public class ShelterService {
         return shelter.getAbout();
     }
 
-    public String getSheduleAndAdress() {
+    public String getScheduleAndAdress() {
         return shelter.getScheduleAndAdress();
     }
 
     public String getSafetyPrecautions() {
         return shelter.getSafetyPrecuations();
     }
-    public String getDocumentsForAdpotion(){return shelter.getDocumentsForAdoption();}
+
+    public String getDocumentsForAdpotion() {
+        return shelter.getDocumentsForAdoption();
+    }
+
+    public String getDeclineReasons() {
+        return shelter.getDeclineReasons();
+    }
+    public String getmeetingRules() {
+        return shelter.getMeetingRules();
+    }
+
+
 
     public String getContacts() {
         return shelter.getContacts();
@@ -43,17 +55,10 @@ public class ShelterService {
         shelter.callVolunteer();
     }
 
-    public void updateInfo(){
+    public void updateInfo() {
         shelter.updateInfoAboutShelter();
     }
 
-    public String hello() {
-        try (BufferedReader br = Files.newBufferedReader(     Paths.get("C:\\Users\\mishutkin.va\\IdeaProjects\\commandProject\\telegram-bot-command\\src\\main\\resources\\files\\hello.txt"))){
-            return br.readLine();
-        }catch (IOException e){
 
-        }
-     return null;
 
-    }
 }

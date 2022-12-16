@@ -9,10 +9,14 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long chatId;
+
     private String numberPhone;
+
     private String fullName;
 
+    private Boolean status;
     //nickname
     private Boolean status;
 
@@ -20,6 +24,7 @@ public class Person {
     //начало испытательного срока
     // конец испытательного срока
     //статус усыновления
+
 
     public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
         this.chatId = chatId;

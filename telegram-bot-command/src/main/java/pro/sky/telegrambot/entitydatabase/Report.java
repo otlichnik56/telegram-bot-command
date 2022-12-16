@@ -9,9 +9,11 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Long chatId;
+
     private String message;
-    //
+
     public Long getId() {
         return id;
     }

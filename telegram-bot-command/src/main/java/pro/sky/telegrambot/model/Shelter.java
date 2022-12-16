@@ -4,44 +4,55 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import pro.sky.telegrambot.TelegramBotApplication;
+import pro.sky.telegrambot.constants.Constants;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
 public class Shelter {
-    @Value("${greetingsFileName}")
-    private String greetingsFileName;
-    @Value("${descriptionFileName}")
-    private String descriptionFileName;
-    @Value("${scheduleFileName}")
-    private String scheduleAndAddressFileName;
-    @Value("${documentsForAdoptionFileName}")
-    private String documentsForAdoptionFileName;
-    @Value("${safetyPrecuationsFileName")
-    private String safetyPrecuationsFileName;
-    @Value("${declineReasonsFileName}")
-    private String declineReasonsFileName;
 
 
-    private List<String> greetings;
-    private List<String> description;
-    private List<String> scheduleAndAddress;
-    private List<String> documentsForAdoption;
-    private List<String> declineReasons;
+    //  @Value("${greetingsFileName}")
+    private String greetingsFileName = Constants.greetingsFileName;
+    //@Value("${descriptionFileName}")
+    private String descriptionFileName = Constants.descriptionFileName;
+    //    @Value("${scheduleFileName}")
+    private String scheduleAndAddressFileName = Constants.scheduleFileName;
+
+    //    @Value("${documentsForAdoptionFileName}")
+    private String documentsForAdoptionFileName = Constants.documentsForAdoptionFileName;
+    //    @Value("${safetyPrecuationsFileName")
+    private String safetyPrecuationsFileName = Constants.safetyPrecuationsFileName;
+    //    @Value("${declineReasonsFileName}")
+    private String declineReasonsFileName = Constants.declineReasonsFileName;
+    private String meetingRulesFileName = Constants.meetingRulesFileName;
+
+
+    private String greetings;
+    private String description;
+    private String scheduleAndAddress;
+    private String documentsForAdoption;
+    private String declineReasons;
+    private String meetingRules;
+
+
+    private List<String> contactsList;
+    private String safetyPrecuations;
 
     private Logger logger = LoggerFactory.getLogger(Shelter.class);
 
 
-    private List<String> contactsList;
-    private List<String> safetyPrecuations;
 
     public Shelter() {
-        System.out.println("Вызываю конструктор приюта");
+
         updateInfoAboutShelter();
     }
 
@@ -52,15 +63,29 @@ public class Shelter {
         documentsForAdoption = readStringsFromFile(documentsForAdoptionFileName);
         declineReasons = readStringsFromFile(declineReasonsFileName);
         safetyPrecuations = readStringsFromFile(safetyPrecuationsFileName);
+        meetingRules = readStringsFromFile(meetingRulesFileName);
 
     }
 
-    private List<String> readStringsFromFile(String fileName) {
+    private String readStringsFromFile(String fileName) {
+        try {
+            return Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI())))
+                    .stream().collect(Collectors.joining("\n"));
+        } catch (IOException e) {
+
+        } catch (URISyntaxException e) {
+
+        }
+
+        return "Не могу считать информацию";
+    }
+
+/*    private List<String> readStringsFromFile(String fileName) {
         List<String> strings = new ArrayList<>();
         try (
                 BufferedReader br = Files.newBufferedReader(Paths.get(fileName))
-              /* FileReader fr = new FileReader(fileName);
-                BufferedReader reader = new BufferedReader(fr)*/) {
+              *//* FileReader fr = new FileReader(fileName);
+                BufferedReader reader = new BufferedReader(fr)*//*) {
             while (br.ready()) {
                 strings.add(br.readLine());
             }
@@ -75,23 +100,26 @@ public class Shelter {
         } finally {
             return strings;
         }
-    }
+    }*/
 
 
     public String greetings() {
-        return greetings.stream().collect(Collectors.joining("\n"));
+        return greetings;
     }
 
     public String getAbout() {
-        return description.toString();
+        return description;
+    }
+    public String getMeetingRules() {
+        return meetingRules;
     }
 
     public String getScheduleAndAdress() {
-        return scheduleAndAddress.toString();
+        return scheduleAndAddress;
     }
 
     public String getSafetyPrecuations() {
-        return safetyPrecuations.toString();
+        return safetyPrecuations;
     }
 
     public String getContacts() {
@@ -102,6 +130,10 @@ public class Shelter {
     }
 
     public String getDocumentsForAdoption() {
-        return documentsForAdoption.toString();
+        return documentsForAdoption;
+    }
+
+    public String getDeclineReasons() {
+        return declineReasons;
     }
 }
