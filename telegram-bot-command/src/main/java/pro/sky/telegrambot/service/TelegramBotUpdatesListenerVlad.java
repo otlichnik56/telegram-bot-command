@@ -19,6 +19,8 @@ import pro.sky.telegrambot.repositoty.PersonRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static pro.sky.telegrambot.constants.Constants.*;
 
@@ -76,14 +78,42 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     }
 
     private void getContact(Message inputMessage) {
-
+        String parsedPhoneString = "";
+        String contactName = "";
         String inputText = inputMessage.text();
 
-        System.out.println(inputText.substring(0, inputText.indexOf("\\W")));
-        //Person newContact = new Person(inputMessage.chat().id(), phoneString, name, false);
-        /*if (!contactRepository.contains()) {
-            contactRepository.save(newContact);
-        }*/
+        Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
+        Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
+
+        Matcher letterMatcher = letterPattern.matcher(inputText);
+        Matcher phoneMatcher = phonePattern.matcher(inputText);
+        if(phoneMatcher.find()){
+            parsedPhoneString = phoneMatcher.group();
+        }
+        if(letterMatcher.find()){
+            contactName = inputText.substring(letterMatcher.start(0));
+        }
+        String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]","");
+if(formattedPhoneString.charAt(0)=='+' && formattedPhoneString.charAt(1)=='7') {
+    formattedPhoneString = "8" + formattedPhoneString.substring(2);
+} else if (formattedPhoneString.charAt(0)=='9') {
+formattedPhoneString = "8" + formattedPhoneString;
+}
+        Person newContact = new Person(inputMessage.chat().id(),
+                formattedPhoneString, contactName, true);
+saveContact(newContact);
+                /*
+                public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
+        this.chatId = chatId;
+        this.numberPhone = numberPhone;
+        this.fullName = fullName;
+        this.status = status;
+    }
+                 */
+
+
+        System.out.println("phone  = " + formattedPhoneString);
+        System.out.println("name = " + contactName);
 
         isLeavingContact=false;
 
@@ -238,7 +268,8 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         return message;
     }
 
-    private void saveContact() {
+    private void saveContact(Person person) {
+        contactRepository.save(person);
 
     }
     /*
