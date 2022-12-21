@@ -20,12 +20,6 @@ public class TelegramBotConfiguration {
     @Bean
     public TelegramBot telegramBot() {
         TelegramBot bot = new TelegramBot(token);
-
-        List<BotCommand> commands = new ArrayList<>();
-        commands.add(new BotCommand("/menu", "Меню"));
-        commands.add(new BotCommand("/hello", "Привет"));
-        bot.execute(new SetMyCommands(commands.toArray(new BotCommand[]{})));
-
         bot.execute(new DeleteMyCommands());
         return bot;
     }

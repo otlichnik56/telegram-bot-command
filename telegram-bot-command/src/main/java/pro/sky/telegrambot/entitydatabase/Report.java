@@ -8,11 +8,10 @@ import java.time.LocalDate;
 public class Report {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String message;
-
     private byte[] photo;
     private LocalDate dateReport;
 

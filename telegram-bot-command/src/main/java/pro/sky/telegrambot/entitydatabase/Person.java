@@ -25,9 +25,9 @@ public class Person {
         this.username = username;
         this.numberPhone = numberPhone;
         this.contactName = contactName;
-        status=false;
-        startDate=null;
-        endDate=null;
+        status = false;
+        startDate = null;
+        endDate = null;
     }
 
 
@@ -55,7 +55,6 @@ public class Person {
     public void setContactName(String firstName) {
         this.contactName = firstName;
     }
-
 
 
     public String getUsername() {

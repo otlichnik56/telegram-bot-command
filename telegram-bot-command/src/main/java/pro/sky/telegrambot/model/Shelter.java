@@ -2,16 +2,14 @@ package pro.sky.telegrambot.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import pro.sky.telegrambot.TelegramBotApplication;
-import pro.sky.telegrambot.constants.Constants;
+import pro.sky.telegrambot.constants.FileNames;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -21,26 +19,26 @@ public class Shelter {
 
 
     //  @Value("${greetingsFileName}")
-    private String greetingsFileName = Constants.greetingsFileName;
+    private String greetingsFileName = FileNames.GREETINGS;
     //@Value("${descriptionFileName}")
-    private String descriptionFileName = Constants.descriptionFileName;
+    private String descriptionFileName = FileNames.DESCRIPTION;
     //    @Value("${scheduleFileName}")
-    private String scheduleAndAddressFileName = Constants.scheduleFileName;
+    private String scheduleAndAddressFileName = FileNames.SCHEDULE_AND_ADDRESS;
 
     //    @Value("${documentsForAdoptionFileName}")
-    private String documentsForAdoptionFileName = Constants.documentsForAdoptionFileName;
+    private String documentsForAdoptionFileName = FileNames.DOCUMENTS_FOR_ADOPTION;
     //    @Value("${safetyPrecuationsFileName")
-    private String safetyPrecuationsFileName = Constants.safetyPrecuationsFileName;
+    private String safetyPrecuationsFileName = FileNames.SAFETY_PRECUATIONS;
     //    @Value("${declineReasonsFileName}")
-    private String declineReasonsFileName = Constants.declineReasonsFileName;
-    private String meetingRulesFileName = Constants.meetingRulesFileName;
-    private String approvedCynologystsFileName = Constants.approvedCynologystsFileName;
-    private String cynologystsAdvicesFileName = Constants.cynologystsAdvicesFileName;
+    private String declineReasonsFileName = FileNames.DECLINE_REASONS;
+    private String meetingRulesFileName = FileNames.MEETING_RULES;
+    private String approvedCynologystsFileName = FileNames.APPROVED_CYNOLOGYSTS;
+    private String cynologystsAdvicesFileName = FileNames.CYNOLOGYSTS_ADVICES;
 
-    private String transportationRecommendationsFileName = Constants.transportationRecommendationsFileName;
-    private String homeImprovementsForPuppiesFileName = Constants.homeImprovementsForPuppiesFileName;
-    private String homeImprovementsForDisabledFileName = Constants.homeImprovementsForDisabledFileName;
-    private String homeImprovementsForAdultsFileName = Constants.homeImprovementsForAdultsFileName;
+    private String transportationRecommendationsFileName = FileNames.TRANSPORTATION_RECOMMENDATIONS;
+    private String homeImprovementsForPuppiesFileName = FileNames.HOME_IMPROVEMENTS_FOR_PUPPIES;
+    private String homeImprovementsForDisabledFileName = FileNames.HOME_IMPROVEMENTS_FOR_DISABLED;
+    private String homeImprovementsForAdultsFileName = FileNames.HOME_IMPROVEMENTS_FOR_ADULTS;
 
 
 
@@ -58,7 +56,6 @@ public class Shelter {
     private String homeImprovementsForAdults;
 
 
-    private List<String> contactsList;
     private String safetyPrecuations;
 
     private Logger logger = LoggerFactory.getLogger(Shelter.class);
@@ -99,30 +96,6 @@ public class Shelter {
 
         return "Не могу считать информацию";
     }
-
-/*    private List<String> readStringsFromFile(String fileName) {
-        List<String> strings = new ArrayList<>();
-        try (
-                BufferedReader br = Files.newBufferedReader(Paths.get(fileName))
-              *//* FileReader fr = new FileReader(fileName);
-                BufferedReader reader = new BufferedReader(fr)*//*) {
-            while (br.ready()) {
-                strings.add(br.readLine());
-            }
-            System.out.println("пытаюсь прочитать " + fileName);
-            //strings = new BufferedReader(new InputStreamReader(/is)).lines().filter(line-> !line.isBlank()).collect(Collectors.toList());
-            //strings = lines.filter(line -> !line.isBlank()).collect(Collectors.toList());
-            System.out.println("!!! " + strings);
-
-        } catch (IOException e) {
-            logger.error("Can't open file + " + fileName);
-            strings = new ArrayList<String>(List.of("Ошибка чтения"));
-        } finally {
-            return strings;
-        }
-    }*/
-
-
     public String greetings() {
         return greetings;
     }
@@ -142,12 +115,7 @@ public class Shelter {
         return safetyPrecuations;
     }
 
-    public String getContacts() {
-        return null;
-    }
 
-    public void callVolunteer() {
-    }
 
     public String getDocumentsForAdoption() {
         return documentsForAdoption;

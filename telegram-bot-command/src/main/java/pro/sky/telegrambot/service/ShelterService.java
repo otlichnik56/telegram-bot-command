@@ -45,16 +45,6 @@ public class ShelterService {
         return shelter.getMeetingRules();
     }
 
-
-
-    public String getContacts() {
-        return shelter.getContacts();
-    }
-
-    public void callVolunteer() {
-        shelter.callVolunteer();
-    }
-
     public void updateInfo() {
         shelter.updateInfoAboutShelter();
     }
