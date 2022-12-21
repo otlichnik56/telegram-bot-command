@@ -4,25 +4,23 @@
 
 -- создание таблиц, пока не уверен, что это окончательный вариант
 
-CREATE TABLE person(
-    id              INTEGER PRIMARY KEY,
-    chat_id         INTEGER,
-    number_phone    TEXT,
-    full_name       TEXT,
-    status          BOOLEAN
+CREATE TABLE person
+(
+    id           INTEGER PRIMARY KEY,
+    username     TEXT,
+    number_phone TEXT,
+    contact_name TEXT,
+    status       BOOLEAN,
+    start_date   DATE,
+    end_date     DATE
 );
 
-CREATE TABLE volunteer(
-    id              INTEGER PRIMARY KEY,
-    chat_id         INTEGER,
-    number_phone    TEXT,
-    full_name       TEXT,
-    status          BOOLEAN
-);
+
 
 CREATE TABLE report(
-    id              INTEGER PRIMARY KEY,
-    chat_id         INTEGER,
-    message         TEXT
+                       id              SERIAL PRIMARY KEY,
+                       username        TEXT,
+                       message         TEXT,
+                       photo           BYTEA,
+                       date_report     DATE
 );
-

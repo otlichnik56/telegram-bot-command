@@ -19,7 +19,7 @@ public class ReplyKeyboards {
                         new KeyboardButton(Constants.TO_ADOPT_DOG)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(Constants.KEYBOARD_MAIM_SUBMIT_REPORT),
+                        new KeyboardButton(Constants.SEND_REPORT),
                         new KeyboardButton(Constants.CALL_VOLUNTEER)
                 });
         replyKeyboardMarkup.resizeKeyboard(true);

@@ -3,18 +3,26 @@ package pro.sky.telegrambot.service;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.Keyboard;
+import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.request.SendPhoto;
+import com.pengrad.telegrambot.response.GetFileResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.Buttons.ReplyKeyboards;
 import pro.sky.telegrambot.entitydatabase.Person;
+import pro.sky.telegrambot.entitydatabase.Report;
 import pro.sky.telegrambot.repositoty.PersonRepository;
+import pro.sky.telegrambot.repositoty.ReportRepository;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,6 +32,7 @@ import static pro.sky.telegrambot.constants.Constants.*;
 @Service
 public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     private final PersonRepository contactRepository;
+    private final ReportRepository reportRepository;
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
     private final static Keyboard replyMainKeyboards = new ReplyKeyboards().generateMainMenuKeyboard();
     private final static Keyboard replyAboutShelterKeyboards = new ReplyKeyboards().generateAboutShelterMenuKeyboard();
@@ -33,13 +42,14 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     private final static Keyboard recommendationKeyboard = new ReplyKeyboards().generateRecommendationMenuKeyboard();
 
 
-    private Boolean recordStatus = false;
+    private Boolean isSendReport = false;
     private boolean isLeavingRequest = false;
     private boolean isLeavingContact = false;
     private final static Long volunteerChatId = 202671625L;
 
-    public TelegramBotUpdatesListenerVlad(PersonRepository contactRepository, ShelterService shelterService) {
+    public TelegramBotUpdatesListenerVlad(PersonRepository contactRepository, ReportRepository reportRepository, ShelterService shelterService) {
         this.contactRepository = contactRepository;
+        this.reportRepository = reportRepository;
         this.shelterService = shelterService;
     }
 
@@ -58,16 +68,24 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
+                try {
+                    Message inputMessage = update.message();
+                    if (isLeavingRequest) {
+                        callVolunteer(inputMessage);
+                    } else if (isLeavingContact) {
+                        getContact(inputMessage);
+                    } else if (isSendReport) {
 
-            Message inputMessage = update.message();
-            if (isLeavingRequest) {
-                callVolunteer(inputMessage);
-            } else if (isLeavingContact) {
-                getContact(inputMessage);
-            } else {
-                SendMessage replyMessage = createMessage(inputMessage);
-                telegramBot.execute(replyMessage);
-            }
+                        saveReport(inputMessage);
+                    } else {
+                        SendMessage replyMessage = createMessage(inputMessage);
+                        telegramBot.execute(replyMessage);
+                    }
+
+                }catch (Exception e){
+
+                }
+
 
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
@@ -95,17 +113,14 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         } else if (formattedPhoneString.charAt(0) == '9') {
             formattedPhoneString = "8" + formattedPhoneString;
         }
-        Person newContact = new Person(inputMessage.chat().id(),
-                formattedPhoneString, contactName, true);
 
-            saveContact(newContact);
+        Person newContact = new Person(inputMessage.from().username(),
+                formattedPhoneString, contactName);
+
+        saveContact(newContact);
 
                 /*
-                public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
-        this.chatId = chatId;
-        this.numberPhone = numberPhone;
-        this.fullName = fullName;
-        this.status = status;
+    public Person(String username, String numberPhone, String contactName)
     }
                  */
 
@@ -194,22 +209,22 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 message = new SendMessage(chatId, WELCOME_MESSAGE_MENU_ADOPT_DOG);
                 message.replyMarkup(replyAdoptDogKeyboards);
                 break;
-            case KEYBOARD_MAIM_SUBMIT_REPORT:
-                message = new SendMessage(chatId, WELCOME_MESSAGE_THREE);
-                recordStatus = true;
+            case SEND_REPORT:
+                message = new SendMessage(chatId, SEND_REPORT_OFFER);
+                isSendReport = true;
                 break;
 
             case CALL_VOLUNTEER:
                 isLeavingRequest = true;
                 //callVolunteer(inputMessage);
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
-                message.replyMarkup(recommendationKeyboard);
+                message.replyMarkup(replyEmptyKeyboard);
 
                 break;
             case SEND_CONTACTS:
                 isLeavingContact = true;
                 message = new SendMessage(chatId, RECORD_CONTACT);
-                message.replyMarkup(recommendationKeyboard);
+                message.replyMarkup(replyEmptyKeyboard);
                 //message = new SendMessage(chatId, RECORD_CONTACT);
                 //recordStatus = true;
                 break;
@@ -259,7 +274,6 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 break;
 
 
-
             case ADOPT_DOG_APPROVED_CYNOLOGYSTS:
                 replyTextMessage = shelterService.getApprovedCynologysts();
                 message = new SendMessage(chatId, replyTextMessage);
@@ -273,6 +287,7 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 replyTextMessage = shelterService.getDeclineReasons();
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
+
             default:
                 message = new SendMessage(chatId, SORRY_MESSAGE);
         }
@@ -292,8 +307,32 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
 
     }
 */
-    private void saveReport(Update update) {
+    private void saveReport(Message message) {
+        isSendReport=false;
 
+        Report report = new Report();
+        report.setUsername(message.chat().username());
+        report.setMessage(message.caption());
+        report.setDateReport(LocalDate.now());
+
+        PhotoSize photoSize = message.photo()[1];
+        GetFile getFile = new GetFile(photoSize.fileId());
+        GetFileResponse getFileResponse = telegramBot.execute(getFile);
+        try{
+            byte[] image = telegramBot.getFileContent(getFileResponse.file());
+
+            report.setPhoto(image);
+            reportRepository.save(report);
+        } catch (IOException e){
+            System.out.println("Ошибка чтения или записи отчёта");
+        } finally {
+              // Переводим в состояние чтения, чтобы перестать записывать
+
+            SendMessage reply = new SendMessage(message.chat().id(), "Благодарим за ваш отчёт");
+            telegramBot.execute(reply);
+            SendPhoto sendPhoto = new SendPhoto(message.chat().id(), reportRepository.findById(1L).get().getPhoto());
+            telegramBot.execute(sendPhoto);
+        }
     }
 
 

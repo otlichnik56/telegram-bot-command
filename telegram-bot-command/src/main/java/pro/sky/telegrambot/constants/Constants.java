@@ -25,7 +25,7 @@ public class Constants {
     //public static final String KEYBOARD_MAIM_ADOPT_DOG = "Как взять собаку из приюта";
     public static final String TO_ADOPT_DOG = "Взять собаку";
     //public static final String KEYBOARD_MAIM_SUBMIT_REPORT = "Прислать отчет о питомце";
-    public static final String KEYBOARD_MAIM_SUBMIT_REPORT = "Отправить отчет";
+    public static final String SEND_REPORT = "Отправить отчет";
     public static final String CALL_VOLUNTEER = "Позвать волонтера";
     public static final String KEYBOARD_CONTACT = "Оставить контактные данные для связи";
     public static final String TO_MAIN_MENU = "Главное меню";
@@ -64,6 +64,9 @@ public class Constants {
     public static final String RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_ADUALTS = "Обустройство дома для взрослой собаки";
     public static final String RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_DISABLED = "Обустройство дома для собаки с ограничениями";
     public static final String RECOMMENDATIONS_MENU_GREETINGS = "Выберите список рекоммендаций для просмотра";
+    public static final String SEND_REPORT_OFFER = "Прикрепите фотографию животного и опищите - *Рацион животного.*\n" +
+            "- *Общее самочувствие и привыкание к новому месту.*\n" +
+            "- *Изменение в поведении: отказ от старых привычек, приобретение новых.*";
 
     public static String meetingRulesFileName = "/meetingRules.txt";
     public static String approvedCynologystsFileName="/approvedCynologysts.txt";

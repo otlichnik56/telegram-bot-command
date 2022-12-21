@@ -1,28 +1,35 @@
 package pro.sky.telegrambot.entitydatabase;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table
+@Table(name = "person")
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long chatId;
+    private String username;
     private String numberPhone;
-    private String fullName;
-    private Boolean status;
+    private String contactName;
 
-    public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
-        this.chatId = chatId;
-        this.numberPhone = numberPhone;
-        this.fullName = fullName;
-        this.status = status;
-    }
+    private Boolean status;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public Person() {
     }
+
+    public Person(String username, String numberPhone, String contactName) {
+        this.username = username;
+        this.numberPhone = numberPhone;
+        this.contactName = contactName;
+        status=false;
+        startDate=null;
+        endDate=null;
+    }
+
 
     public Long getId() {
         return id;
@@ -32,13 +39,6 @@ public class Person {
         this.id = id;
     }
 
-    public Long getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(Long chatId) {
-        this.chatId = chatId;
-    }
 
     public String getNumberPhone() {
         return numberPhone;
@@ -48,12 +48,22 @@ public class Person {
         this.numberPhone = numberPhone;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getContactName() {
+        return contactName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setContactName(String firstName) {
+        this.contactName = firstName;
+    }
+
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Boolean getStatus() {
@@ -62,5 +72,21 @@ public class Person {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 }
