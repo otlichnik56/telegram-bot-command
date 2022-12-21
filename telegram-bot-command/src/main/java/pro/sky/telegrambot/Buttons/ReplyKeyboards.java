@@ -52,16 +52,9 @@ public class ReplyKeyboards {
                         new KeyboardButton(ADOPT_DOG_MEETING_RULES),
                         new KeyboardButton(ADOPT_DOG_DOCUMENTS)
                 },
-                new KeyboardButton[]{
-                        new KeyboardButton(ADOPT_DOG_RECOMENDATIONS)
 
-                },
-/*                new KeyboardButton[]{
-                        new KeyboardButton(KEYBOARD_TWO_BIG_DOG),
-                        new KeyboardButton(KEYBOARD_TWO_INVALID_DOG)
-                },*/
                 new KeyboardButton[]{
-                        new KeyboardButton(ADOPT_DOG_CYNOLOGYSTS_ADVICES),
+                        new KeyboardButton(ADOPT_DOG_RECOMENDATIONS),
                         new KeyboardButton(ADOPT_DOG_APPROVED_CYNOLOGYSTS)
                 },
                 new KeyboardButton[]{
@@ -87,6 +80,29 @@ public class ReplyKeyboards {
 
 
         replyKeyboardMarkup.resizeKeyboard(true);
+        replyKeyboardMarkup.oneTimeKeyboard(true);
+        return replyKeyboardMarkup;
+    }
+
+    public Keyboard generateRecommendationMenuKeyboard() {
+
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
+                new KeyboardButton[]{
+                        new KeyboardButton(Constants.RECOMMENDATIONS_TRANSPORTATION),
+                        new KeyboardButton(Constants.RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_PUPPIES)
+                },
+                new KeyboardButton[]{
+                        new KeyboardButton(Constants.RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_ADUALTS),
+                        new KeyboardButton(Constants.RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_DISABLED)
+                },
+                new KeyboardButton[] {
+                        new KeyboardButton(Constants.RECOMMENDATIONS_CYNOLOGYSTS_ADVICES),
+                        new KeyboardButton(TO_MAIN_MENU)
+                })
+
+
+        ;
+        //replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
     }

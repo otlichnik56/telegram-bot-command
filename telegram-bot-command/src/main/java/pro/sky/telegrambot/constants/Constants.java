@@ -28,7 +28,7 @@ public class Constants {
     public static final String KEYBOARD_MAIM_SUBMIT_REPORT = "Отправить отчет";
     public static final String CALL_VOLUNTEER = "Позвать волонтера";
     public static final String KEYBOARD_CONTACT = "Оставить контактные данные для связи";
-    public static final String TO_MAIN_MENU = "Вернуться в главное меню";
+    public static final String TO_MAIN_MENU = "Главное меню";
 
 
     //название кнопок из меню 1, которое выпадает по нажатию кнопки "Информация о приюте" из главного меню
@@ -37,7 +37,7 @@ public class Constants {
     public static final String ABOUT_SHELTER_SAFETY_PRECUATUINS = "Техника безопасности";
 
 
-    public static final String SEND_CONTACTS = "Оставить контактные данные для связи";
+    public static final String SEND_CONTACTS = "Оставить контактные данные";
 
 
     //название кнопок из меню 2, которое выпадает по нажатию кнопки "Приютить собаку" из главного меню
@@ -47,7 +47,7 @@ public class Constants {
     public static final String KEYBOARD_TWO_SMALL_DOG = "Список рекомендаций по обустройству дома для щенка";
     public static final String KEYBOARD_TWO_BIG_DOG = "Список рекомендаций по обустройству дома для взрослой собаки";
     public static final String KEYBOARD_TWO_INVALID_DOG = "Список рекомендаций по обустройству дома для собаки с ограниченными возможностями (зрение, передвижение)";
-    public static final String ADOPT_DOG_CYNOLOGYSTS_ADVICES = "Советы кинолога";
+    public static final String RECOMMENDATIONS_CYNOLOGYSTS_ADVICES = "Советы кинолога";
     public static final String ADOPT_DOG_APPROVED_CYNOLOGYSTS = "Проверенные кинологи";
     public static final String ADOPT_DOG_DECLINE_REASONS = "Причины отказа";
 
@@ -59,6 +59,17 @@ public class Constants {
     public static final String documentsForAdoptionFileName = "/documentsForAdoption.txt";
     public static final String declineReasonsFileName = "/declineReasons.txt";
     public static final String safetyPrecuationsFileName = "/safetyPrecuations.txt";
+    public static final String RECOMMENDATIONS_TRANSPORTATION = "Рекомендации по транспортировке";
+    public static final String RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_PUPPIES = "Обустройство дома для щенков";
+    public static final String RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_ADUALTS = "Обустройство дома для взрослой собаки";
+    public static final String RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_DISABLED = "Обустройство дома для собаки с ограничениями";
+    public static final String RECOMMENDATIONS_MENU_GREETINGS = "Выберите список рекоммендаций для просмотра";
 
     public static String meetingRulesFileName = "/meetingRules.txt";
+    public static String approvedCynologystsFileName="/approvedCynologysts.txt";
+    public static String cynologystsAdvicesFileName = "/cynologystsAdvices.txt";
+    public static String transportationRecommendationsFileName = "/transportationRecommendations.txt";
+    public static String homeImprovementsForPuppiesFileName = "/homeImprovementsForPuppies.txt";
+    public static String homeImprovementsForDisabledFileName = "/homeImprovementsForDisabled.txt";
+    public static String homeImprovementsForAdultsFileName = "/homeImprovementsForAdults.txt";
 }

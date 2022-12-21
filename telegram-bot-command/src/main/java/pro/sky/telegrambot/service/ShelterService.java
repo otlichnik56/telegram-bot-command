@@ -60,5 +60,27 @@ public class ShelterService {
     }
 
 
+    public String getApprovedCynologysts() {
+        return shelter.getApprovedCunologysts();
+    }
 
+    public String getCynologystsAdvices() {
+        return shelter.getCynologystsAdvices();
+    }
+
+    public String getTransportationRecommendations() {
+        return shelter.getTransportationRecommendations();
+    }
+
+    public String getHomeImprovementsForAdultsRecommendations() {
+        return shelter.getHomeImprovementsForAdultsRecommendations();
+    }
+
+    public String getHomeImprovementsForPuppiesRecommendations() {
+        return shelter.getHomeImprovementsForPuppiesRecommendations();
+    }
+
+    public String getHomeImprovementsForDisabledRecommendations() {
+        return shelter.getHomeImprovementsForDisabledRecommendations();
+    }
 }

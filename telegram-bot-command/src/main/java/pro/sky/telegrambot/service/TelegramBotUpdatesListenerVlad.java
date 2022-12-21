@@ -5,14 +5,11 @@ import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.Keyboard;
-import com.pengrad.telegrambot.model.request.KeyboardButton;
-import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.Buttons.Keyboards;
 import pro.sky.telegrambot.Buttons.ReplyKeyboards;
 import pro.sky.telegrambot.entitydatabase.Person;
 import pro.sky.telegrambot.repositoty.PersonRepository;
@@ -27,13 +24,13 @@ import static pro.sky.telegrambot.constants.Constants.*;
 @Service
 public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     private final PersonRepository contactRepository;
-    private Keyboards keyboard;
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
     private final static Keyboard replyMainKeyboards = new ReplyKeyboards().generateMainMenuKeyboard();
     private final static Keyboard replyAboutShelterKeyboards = new ReplyKeyboards().generateAboutShelterMenuKeyboard();
     private final static Keyboard replyAdoptDogKeyboards = new ReplyKeyboards().generateAdoptDogMenuKeyboard();
 
     private final static Keyboard replyEmptyKeyboard = new ReplyKeyboards().generateEmptyMenuKeyboard();
+    private final static Keyboard recommendationKeyboard = new ReplyKeyboards().generateRecommendationMenuKeyboard();
 
 
     private Boolean recordStatus = false;
@@ -44,7 +41,6 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     public TelegramBotUpdatesListenerVlad(PersonRepository contactRepository, ShelterService shelterService) {
         this.contactRepository = contactRepository;
         this.shelterService = shelterService;
-        this.keyboard = new Keyboards();
     }
 
     private final ShelterService shelterService;
@@ -87,21 +83,23 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
 
         Matcher letterMatcher = letterPattern.matcher(inputText);
         Matcher phoneMatcher = phonePattern.matcher(inputText);
-        if(phoneMatcher.find()){
+        if (phoneMatcher.find()) {
             parsedPhoneString = phoneMatcher.group();
         }
-        if(letterMatcher.find()){
+        if (letterMatcher.find()) {
             contactName = inputText.substring(letterMatcher.start(0));
         }
-        String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]","");
-if(formattedPhoneString.charAt(0)=='+' && formattedPhoneString.charAt(1)=='7') {
-    formattedPhoneString = "8" + formattedPhoneString.substring(2);
-} else if (formattedPhoneString.charAt(0)=='9') {
-formattedPhoneString = "8" + formattedPhoneString;
-}
+        String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]", "");
+        if (formattedPhoneString.charAt(0) == '+' && formattedPhoneString.charAt(1) == '7') {
+            formattedPhoneString = "8" + formattedPhoneString.substring(2);
+        } else if (formattedPhoneString.charAt(0) == '9') {
+            formattedPhoneString = "8" + formattedPhoneString;
+        }
         Person newContact = new Person(inputMessage.chat().id(),
                 formattedPhoneString, contactName, true);
-saveContact(newContact);
+
+            saveContact(newContact);
+
                 /*
                 public Person(Long chatId, String numberPhone, String fullName, Boolean status) {
         this.chatId = chatId;
@@ -112,10 +110,7 @@ saveContact(newContact);
                  */
 
 
-        System.out.println("phone  = " + formattedPhoneString);
-        System.out.println("name = " + contactName);
-
-        isLeavingContact=false;
+        isLeavingContact = false;
 
     }
 
@@ -123,12 +118,12 @@ saveContact(newContact);
         String nickName = inputMessage.from().username();
         String requestText = inputMessage.text();
 
-        SendMessage messageVolunteer = new SendMessage(inputMessage.chat().id(), MESSAGE_FOR_VOLUNTEER + "\n " + "@" + nickName + "\n" + requestText );
+        SendMessage messageVolunteer = new SendMessage(inputMessage.chat().id(), MESSAGE_FOR_VOLUNTEER + "\n " + "@" + nickName + "\n" + requestText);
         telegramBot.execute(messageVolunteer);
-        SendMessage replyMessage = new SendMessage(inputMessage.chat().id(), THANKS_FOR_REQUEST );
+        SendMessage replyMessage = new SendMessage(inputMessage.chat().id(), THANKS_FOR_REQUEST);
 
         telegramBot.execute(replyMessage);
-        isLeavingRequest=false;
+        isLeavingRequest = false;
 
     }
 
@@ -205,16 +200,16 @@ saveContact(newContact);
                 break;
 
             case CALL_VOLUNTEER:
-                isLeavingRequest=true;
+                isLeavingRequest = true;
                 //callVolunteer(inputMessage);
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
-                message.replyMarkup(replyEmptyKeyboard);
+                message.replyMarkup(recommendationKeyboard);
 
                 break;
             case SEND_CONTACTS:
                 isLeavingContact = true;
                 message = new SendMessage(chatId, RECORD_CONTACT);
-                message.replyMarkup(replyEmptyKeyboard);
+                message.replyMarkup(recommendationKeyboard);
                 //message = new SendMessage(chatId, RECORD_CONTACT);
                 //recordStatus = true;
                 break;
@@ -234,7 +229,7 @@ saveContact(newContact);
 
             // меню два
             case ADOPT_DOG_MEETING_RULES:
-                replyTextMessage= shelterService.getmeetingRules();
+                replyTextMessage = shelterService.getmeetingRules();
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
             case ADOPT_DOG_DOCUMENTS:
@@ -242,22 +237,38 @@ saveContact(newContact);
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
             case ADOPT_DOG_RECOMENDATIONS:
-                message = new SendMessage(chatId, "заглушка");
+
+                message = new SendMessage(chatId, RECOMMENDATIONS_MENU_GREETINGS);
+                message.replyMarkup(recommendationKeyboard);
                 break;
-            case KEYBOARD_TWO_SMALL_DOG:
-                message = new SendMessage(chatId, "заглушка");
+            case RECOMMENDATIONS_TRANSPORTATION:
+                replyTextMessage = shelterService.getTransportationRecommendations();
+                message = new SendMessage(chatId, replyTextMessage);
                 break;
-            case KEYBOARD_TWO_BIG_DOG:
-                message = new SendMessage(chatId, "заглушка");
+            case RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_ADUALTS:
+                replyTextMessage = shelterService.getHomeImprovementsForAdultsRecommendations();
+                message = new SendMessage(chatId, replyTextMessage);
                 break;
-            case KEYBOARD_TWO_INVALID_DOG:
-                message = new SendMessage(chatId, "заглушка");
+            case RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_PUPPIES:
+                replyTextMessage = shelterService.getHomeImprovementsForPuppiesRecommendations();
+                message = new SendMessage(chatId, replyTextMessage);
                 break;
+            case RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_DISABLED:
+                replyTextMessage = shelterService.getHomeImprovementsForDisabledRecommendations();
+                message = new SendMessage(chatId, replyTextMessage);
+                break;
+
+
 
             case ADOPT_DOG_APPROVED_CYNOLOGYSTS:
-
-                message = new SendMessage(chatId, "заглушка");
+                replyTextMessage = shelterService.getApprovedCynologysts();
+                message = new SendMessage(chatId, replyTextMessage);
                 break;
+            case RECOMMENDATIONS_CYNOLOGYSTS_ADVICES:
+                replyTextMessage = shelterService.getCynologystsAdvices();
+                message = new SendMessage(chatId, replyTextMessage);
+                break;
+
             case ADOPT_DOG_DECLINE_REASONS:
                 replyTextMessage = shelterService.getDeclineReasons();
                 message = new SendMessage(chatId, replyTextMessage);
@@ -272,6 +283,7 @@ saveContact(newContact);
         contactRepository.save(person);
 
     }
+
     /*
     private void callVolunteer(Message message) {
 

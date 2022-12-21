@@ -34,6 +34,14 @@ public class Shelter {
     //    @Value("${declineReasonsFileName}")
     private String declineReasonsFileName = Constants.declineReasonsFileName;
     private String meetingRulesFileName = Constants.meetingRulesFileName;
+    private String approvedCynologystsFileName = Constants.approvedCynologystsFileName;
+    private String cynologystsAdvicesFileName = Constants.cynologystsAdvicesFileName;
+
+    private String transportationRecommendationsFileName = Constants.transportationRecommendationsFileName;
+    private String homeImprovementsForPuppiesFileName = Constants.homeImprovementsForPuppiesFileName;
+    private String homeImprovementsForDisabledFileName = Constants.homeImprovementsForDisabledFileName;
+    private String homeImprovementsForAdultsFileName = Constants.homeImprovementsForAdultsFileName;
+
 
 
     private String greetings;
@@ -42,6 +50,12 @@ public class Shelter {
     private String documentsForAdoption;
     private String declineReasons;
     private String meetingRules;
+    private String approvedCynologysts;
+    private String cynologystsAdvices;
+    private String transportationRecommendations;
+    private String homeImprovementsForPuppies;
+    private String homeImprovementsForDisabled;
+    private String homeImprovementsForAdults;
 
 
     private List<String> contactsList;
@@ -64,6 +78,12 @@ public class Shelter {
         declineReasons = readStringsFromFile(declineReasonsFileName);
         safetyPrecuations = readStringsFromFile(safetyPrecuationsFileName);
         meetingRules = readStringsFromFile(meetingRulesFileName);
+        approvedCynologysts = readStringsFromFile(approvedCynologystsFileName);
+        cynologystsAdvices = readStringsFromFile(cynologystsAdvicesFileName);
+        transportationRecommendations = readStringsFromFile(transportationRecommendationsFileName);
+        homeImprovementsForAdults = readStringsFromFile(homeImprovementsForAdultsFileName);
+        homeImprovementsForPuppies = readStringsFromFile(homeImprovementsForPuppiesFileName);
+        homeImprovementsForDisabled = readStringsFromFile(homeImprovementsForDisabledFileName);
 
     }
 
@@ -135,5 +155,30 @@ public class Shelter {
 
     public String getDeclineReasons() {
         return declineReasons;
+    }
+
+    public String getApprovedCunologysts() {
+        return approvedCynologysts;
+
+    }
+
+    public String getCynologystsAdvices() {
+        return cynologystsAdvices;
+    }
+
+    public String getTransportationRecommendations() {
+        return transportationRecommendations;
+    }
+
+    public String getHomeImprovementsForAdultsRecommendations() {
+        return homeImprovementsForAdults;
+    }
+
+    public String getHomeImprovementsForPuppiesRecommendations() {
+        return homeImprovementsForPuppies;
+    }
+
+    public String getHomeImprovementsForDisabledRecommendations() {
+        return homeImprovementsForDisabled;
     }
 }
