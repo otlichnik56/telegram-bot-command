@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import pro.sky.telegrambot.entitydatabase.Identity;
 import pro.sky.telegrambot.entitydatabase.Person;
 
 import java.time.LocalDate;
@@ -28,13 +29,13 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     //void deletePersonFromDataBase(@Param("username") String username, @Param("status") Boolean status);
 
 
-    /** Метод возвращает лист пользователей в Телеграмме.
-     * В качестве параметра передается дата. Делается SQL-запрос в БД
+    /** Метод возвращает лист пользователей из таблицы person.
+     * В качестве параметра передается дата. Возвращаемые сущности Identity.
      * @param endDate
-     * @return List<String>
+     * @return List<Identity>
      */
     @Query(value = "SELECT * FROM person WHERE end_date = :endDate", nativeQuery = true)
-    List<Person> getUsernameEndDate(@Param("endDate") LocalDate endDate);
+    List<Identity> getUsernameEndDate(@Param("endDate") LocalDate endDate);
 
 
 }
