@@ -167,6 +167,8 @@ public class ShelterService {
         contactRepository.deleteById(Long.valueOf(message));
     }
 
+
+    /**
     public void updateContact(String message) {
         personRepository.updatePersonFromDataBase(LocalDate.parse(data[1]), Long.valueOf(data[0]));
     }
@@ -187,5 +189,5 @@ public class ShelterService {
     public void extendProbation(String message) {
 
         personRepository.updatePersonDateFromDataBase(LocalDate.parse(data[2]), LocalDate.parse(data[1]), Long.valueOf(data[0]));
-    }
+    } */
 }

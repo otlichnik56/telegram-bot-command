@@ -88,4 +88,5 @@ public class Person {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
 }
