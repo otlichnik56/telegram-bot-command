@@ -63,7 +63,6 @@ public class Shelter {
 
 
     public Shelter() {
-
         updateInfoAboutShelter();
     }
 

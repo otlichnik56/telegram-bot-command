@@ -22,8 +22,14 @@ public class ReplyKeyboards {
     public final  Keyboard adoptDogMenuKeyboards;
     public final  Keyboard emptyKeyboard;
     public final  Keyboard recommendationMenuKeyboard;
+    public final  Keyboard replyControlMainKeyboards;
+    public final  Keyboard replyControlOneKeyboards;
+    public final  Keyboard replyControlTwoKeyboards;
 
     public ReplyKeyboards() {
+        this.replyControlMainKeyboards = generateControlMainKeyboard();
+        this.replyControlOneKeyboards = generateControlOneKeyboard();
+        this.replyControlTwoKeyboards = generateControlTwoKeyboard();
         mainMenuKeyboards = generateMainMenuKeyboard();
         aboutShelterMenuKeyboards = generateAboutShelterMenuKeyboard();
         adoptDogMenuKeyboards = generateAdoptDogMenuKeyboard();
@@ -94,9 +100,7 @@ public class ReplyKeyboards {
 
     public Keyboard generateEmptyMenuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
-                new KeyboardButton[]{
-                        new KeyboardButton(MenuItemsNames.TO_MAIN_MENU)
-                });
+                new KeyboardButton(MenuItemsNames.TO_MAIN_MENU));
 
 
         replyKeyboardMarkup.resizeKeyboard(true);
@@ -120,6 +124,51 @@ public class ReplyKeyboards {
                         new KeyboardButton(MenuItemsNames.TO_MAIN_MENU)
                 });
         //replyKeyboardMarkup.resizeKeyboard(true);
+        replyKeyboardMarkup.oneTimeKeyboard(true);
+        return replyKeyboardMarkup;
+    }
+
+    public Keyboard generateControlMainKeyboard(){
+
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
+                new KeyboardButton[]{
+                        new KeyboardButton("Контакты"),
+                        new KeyboardButton("Усыновители")
+                },
+                new KeyboardButton[]{
+                        new KeyboardButton("Испытательный срок"),
+                        new KeyboardButton("Отчёты")
+                });
+        replyKeyboardMarkup.resizeKeyboard(true);
+        replyKeyboardMarkup.oneTimeKeyboard(true);
+        return replyKeyboardMarkup;
+    }
+
+    public Keyboard generateControlOneKeyboard(){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
+                new KeyboardButton[]{
+                        new KeyboardButton("Посмотреть"),
+                        new KeyboardButton("Добавить")
+                },
+                new KeyboardButton[]{
+                        new KeyboardButton("Удалить"),
+                        new KeyboardButton("Вернуться назад")
+                });
+        replyKeyboardMarkup.resizeKeyboard(true);
+        replyKeyboardMarkup.oneTimeKeyboard(true);
+        return replyKeyboardMarkup;
+    }
+
+    public Keyboard generateControlTwoKeyboard(){
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
+                new KeyboardButton[]{
+                        new KeyboardButton("Продлить срок"),
+                        new KeyboardButton("Список должников")
+                },
+                new KeyboardButton[]{
+                        new KeyboardButton("Вернуться назад")
+                });
+        replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
     }

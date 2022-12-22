@@ -65,9 +65,11 @@ public class ShelterService {
 
         saveContact(newContact);
     }
+
     public void saveContact(Person person) {
         contactRepository.save(person);
     }
+
     public void getReport(Message message) {
 
         Report report = new Report();
@@ -108,7 +110,6 @@ public class ShelterService {
     }
 
 
-
     public String getAbout() {
         return shelter.getAbout();
     }
@@ -128,6 +129,7 @@ public class ShelterService {
     public String getDeclineReasons() {
         return shelter.getDeclineReasons();
     }
+
     public String getmeetingRules() {
         return shelter.getMeetingRules();
     }
@@ -159,5 +161,31 @@ public class ShelterService {
 
     public String getHomeImprovementsForDisabledRecommendations() {
         return shelter.getHomeImprovementsForDisabledRecommendations();
+    }
+
+    public void deleteContact(String message) {
+        contactRepository.deleteById(Long.valueOf(message));
+    }
+
+    public void updateContact(String message) {
+        personRepository.updatePersonFromDataBase(LocalDate.parse(data[1]), Long.valueOf(data[0]));
+    }
+
+    public void addContact(String message) {
+        Person person = new Person();
+        person.setUsername(data[0]);
+        person.setNumberPhone(data[1]);
+        person.setFirstName(data[2]);
+        person.setLastName(data[3]);
+        person.setStatus(false);
+        person.setStartDate(null);
+        person.setEndDate(null);
+        System.out.println(person);
+        personRepository.save(person);
+    }
+
+    public void extendProbation(String message) {
+
+        personRepository.updatePersonDateFromDataBase(LocalDate.parse(data[2]), LocalDate.parse(data[1]), Long.valueOf(data[0]));
     }
 }

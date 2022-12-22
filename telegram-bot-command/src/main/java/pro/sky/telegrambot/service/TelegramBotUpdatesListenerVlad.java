@@ -3,32 +3,25 @@ package pro.sky.telegrambot.service;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Message;
-import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.model.Update;
-import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.request.SendPhoto;
-import com.pengrad.telegrambot.response.GetFileResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.Buttons.ReplyKeyboards;
+import pro.sky.telegrambot.constants.AdminMenuItems;
 import pro.sky.telegrambot.constants.MenuItemsNames;
+
+import pro.sky.telegrambot.constants.Strings;
 import pro.sky.telegrambot.entitydatabase.Person;
-import pro.sky.telegrambot.entitydatabase.Report;
+import pro.sky.telegrambot.model.AdminResponses;
 import pro.sky.telegrambot.model.Responses;
-import pro.sky.telegrambot.repositoty.PersonRepository;
-import pro.sky.telegrambot.repositoty.ReportRepository;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static pro.sky.telegrambot.constants.Strings.*;
 
@@ -40,15 +33,18 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
     @Autowired
     private TelegramBot telegramBot;
+    private Boolean recordChange = false;
+    private Boolean status = false;
 
 
-    private Map<Long, Responses> waitedResponses;
+    private Map<Long, Responses> pendingResponses;
+    private Map<Long, AdminResponses> adminPendingResponses;
     private final static Long volunteerChatId = 202671625L;
 
     public TelegramBotUpdatesListenerVlad(ReplyKeyboards keyboards, ShelterService shelterService) {
         this.keyboards = keyboards;
         this.shelterService = shelterService;
-        waitedResponses = new HashMap<Long, Responses>();
+        pendingResponses = new HashMap<Long, Responses>();
     }
 
     @PostConstruct
@@ -65,7 +61,9 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
             String messageText = update.message().text();
 
             try {
-                if (waitedResponses.containsKey(chatId)) {
+                if (chatId == volunteerChatId) {
+                    adminMenu(messageText);
+                } else if (pendingResponses.containsKey(chatId)) {
                     processRequest(update.message());
                 } else {
                     sendMenuAndReplies(chatId, messageText);
@@ -78,9 +76,9 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    private void processRequest(Message message) {
+    private void requestProccessing(Message message) {
         Long chatid = message.chat().id();
-        switch (waitedResponses.get(chatid)) {
+        switch (pendingResponses.get(chatid)) {
             case REPORT:
                 shelterService.getReport(message);
                 break;
@@ -91,15 +89,15 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 shelterService.getContact(message);
                 break;
         }
-        waitedResponses.remove(chatid);
+        pendingResponses.remove(chatid);
 
     }
 
-    private void sendMenuAndReplies(long chatId, String messageText) {
+    private void sendMenuAndReplies(long chatId, String command) {
         String replyTextMessage;
         SendMessage message;
 
-        switch (messageText) {
+        switch (command) {
             // главное меню и общее
             case MenuItemsNames.START:
             case MenuItemsNames.TO_MAIN_MENU:
@@ -116,7 +114,7 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 break;
             case MenuItemsNames.SEND_REPORT:
                 message = new SendMessage(chatId, SEND_REPORT_OFFER);
-                waitedResponses.put(chatId, Responses.REPORT);
+                pendingResponses.put(chatId, Responses.REPORT);
                 break;
 
             case MenuItemsNames.CALL_VOLUNTEER:
@@ -124,10 +122,10 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 //callVolunteer(inputMessage);
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
                 message.replyMarkup(keyboards.emptyKeyboard);
-                waitedResponses.put(chatId, Responses.REQUEST);
+                pendingResponses.put(chatId, Responses.REQUEST);
                 break;
             case MenuItemsNames.SEND_CONTACTS:
-                waitedResponses.put(chatId, Responses.CONTACT);
+                pendingResponses.put(chatId, Responses.CONTACT);
                 message = new SendMessage(chatId, RECORD_CONTACT);
                 message.replyMarkup(keyboards.emptyKeyboard);
                 //message = new SendMessage(chatId, RECORD_CONTACT);
@@ -157,7 +155,6 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
             case MenuItemsNames.ADOPT_DOG_RECOMENDATIONS:
-
                 message = new SendMessage(chatId, RECOMMENDATIONS_MENU_GREETINGS);
                 message.replyMarkup(keyboards.recommendationMenuKeyboard);
                 break;
@@ -199,9 +196,136 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
         telegramBot.execute(message);
     }
 
+    private void adminRequestProccessing(Message message) {
+        Long chatid = message.chat().id();
+        String inputText = message.text();
+        switch (adminPendingResponses.get(volunteerChatId)) {
+            case DELETE:
+                shelterService.deleteContact(inputText);
+                break;
+            case UPDATE:
+                shelterService.updateContact(inputText);
+                break;
+            case CREATE:
+                shelterService.addContact(inputText);
+                break;
+            case EXTEND_PROBATION:
+                shelterService.extendProbation(inputText);
+                break;
+        }
+        adminPendingResponses.remove(chatid);
+
+    }
 
 
+    private void adminMenu(String command) {
+        SendMessage message;
+        switch (command) {
+            case AdminMenuItems.DELETE_CONTACT:
+                adminPendingResponses.put(volunteerChatId, AdminResponses.DELETE);
+                message = new SendMessage(volunteerChatId, Strings.DELETE_CONTACT);
+                break;
+            case AdminMenuItems.APPOINT_GUARDIAN:
+                adminPendingResponses.put(volunteerChatId, AdminResponses.UPDATE);
+                message = new SendMessage(volunteerChatId, Strings.UPDATE_CONTACT);
+                break;
+            case AdminMenuItems.EXTEND_PROBATION:
+                adminPendingResponses.put(volunteerChatId, AdminResponses.EXTEND_PROBATION);
+                message = new SendMessage(volunteerChatId, Strings.EXTEND_PROBATION);
+                break;
+            case AdminMenuItems.ADD_CONTACT:
+                adminPendingResponses.put(volunteerChatId, AdminResponses.CREATE);
+                message = new SendMessage(volunteerChatId, Strings.ADD_CONTACT);
+                break;
+            default:
+                message = new SendMessage(volunteerChatId, "Ошибка ввода данных. Попробуйте снова и внимательно!");
+                telegramBot.execute(message);
+        }
+        recordChange = false;
+        telegramBot.execute(message);
 
 
+    }
+
+    private SendMessage createControlMessage(String messageText) {
+        String text = "Выберете одно из действий";
+        SendMessage message = null;
+        switch (messageText) {
+            // главное меню
+            case "/control":
+            case "Вернуться назад":
+                message = new SendMessage(volunteerChatId, text);
+                message.replyMarkup(keyboards.replyControlMainKeyboards);
+                break;
+            case "Контакты":
+                status = false;
+                message = new SendMessage(volunteerChatId, "Контакты. " + text);
+                message.replyMarkup(keyboards.replyControlOneKeyboards);
+                break;
+            case "Усыновители":
+                status = true;
+                message = new SendMessage(volunteerChatId, "Усыновители. " + text);
+                message.replyMarkup(keyboards.replyControlOneKeyboards);
+                break;
+            case "Испытательный срок":
+                message = new SendMessage(volunteerChatId, "Испытательный срок. " + text);
+                message.replyMarkup(keyboards.replyControlTwoKeyboards);
+                break;
+            case "Отчёты":
+                text = "Чтобы посмотреть отчёты усыновителя введите его ID.\n" +
+                        "Вы модете посмотреть ID в списке усыновителей.\n" + "Например: 156";
+                message = new SendMessage(volunteerChatId, text);
+                //recordChange = true;
+                break;
+            // меню один
+            case "Посмотреть":
+
+                List<Person> people = personRepository.getPersonFromDataBase(status);
+
+
+                text = people.toString();
+                message = new SendMessage(volunteerChatId, text);
+
+                break;
+            case "Добавить":
+                if (!status) {
+                    text = "Чтобы добавить контакт введите через пробел имя пользователя в Телеграмме, имя, номер телефона, фамилию.\n" +
+                            "Например: CrazyPuck 898745212350 Иван Иванов";
+                } else {
+                    text = "Чтобы добавить усыновителя введите через пробел его ID, дату начала и дату окончания испытания.\n" +
+                            "Вы модете посмотреть ID в списке контактов.\n" + "Например: 156 2022-10-01 2022-11-01";
+                }
+                message = new SendMessage(volunteerChatId, text);
+                recordChange = true;
+                break;
+            case "Удалить":
+                if (!status) {
+                    text = "Для удаления контакта из списка, введите его ID, его вы можете посмотреть в Списке контактов";
+                } else {
+                    text = "Для удаления усыновителя из списка, введите его ID, его вы можете посмотреть в Списке усыновителей";
+                }
+                message = new SendMessage(volunteerChatId, text);
+                recordChange = true;
+                break;
+            // меню два
+            case "Продлить срок":
+                text = "Чтобы продлить испытательный срок введите через пробел ID нарушителя и дату окончания испытания.\n" +
+                        "Вы модете посмотреть ID в списке контактов.\n" + "Например: 156 2022-12-01";
+                message = new SendMessage(volunteerChatId, text);
+                recordChange = true;
+                break;
+            case "Список должников":   // писать
+                //text = personRepository.getPersonFromDataBase(status).toString();
+                //message = new SendMessage(volunteerChatId, text);
+                break;
+            default:
+                message = new SendMessage(volunteerChatId, "Моя, твоя, не понимать");
+        }
+        return message;
+    }
+
+    private String[] parseString(String insertText) {
+        return insertText.split(" ");
+    }
 
 }

@@ -20,4 +20,8 @@ public class Strings {
             "- *Общее самочувствие и привыкание к новому месту.*\n" +
             "- *Изменение в поведении: отказ от старых привычек, приобретение новых.*";
 
+    public static final String DELETE_CONTACT = ;
+    public static final String UPDATE_CONTACT = ;
+    public static final String EXTEND_PROBATION = ;
+    public static final String ADD_CONTACT = ;
 }
