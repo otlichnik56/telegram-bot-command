@@ -1,26 +1,113 @@
 package pro.sky.telegrambot.service;
 
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.model.Message;
+import com.pengrad.telegrambot.model.PhotoSize;
+import com.pengrad.telegrambot.request.GetFile;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.request.SendPhoto;
+import com.pengrad.telegrambot.response.GetFileResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.entitydatabase.Person;
+import pro.sky.telegrambot.entitydatabase.Report;
 import pro.sky.telegrambot.model.Shelter;
+import pro.sky.telegrambot.repositoty.PersonRepository;
+import pro.sky.telegrambot.repositoty.ReportRepository;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static pro.sky.telegrambot.constants.Strings.MESSAGE_FOR_VOLUNTEER;
+import static pro.sky.telegrambot.constants.Strings.THANKS_FOR_REQUEST;
 
 @Service
 public class ShelterService {
     private final Shelter shelter;
+    private final PersonRepository contactRepository;
+    private final ReportRepository reportRepository;
+    @Autowired
+    private TelegramBot telegramBot;
 
-    public ShelterService(Shelter shelter) {
+    public ShelterService(Shelter shelter, PersonRepository contactRepository, ReportRepository reportRepository) {
 
         this.shelter = shelter;
+        this.contactRepository = contactRepository;
+        this.reportRepository = reportRepository;
     }
 
-    public String greetings() {
-        return shelter.greetings();
+    public void getContact(Message inputMessage) {
+        String parsedPhoneString = "";
+        String contactName = "";
+        String inputText = inputMessage.text();
+
+        Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
+        Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
+
+        Matcher letterMatcher = letterPattern.matcher(inputText);
+        Matcher phoneMatcher = phonePattern.matcher(inputText);
+        if (phoneMatcher.find()) {
+            parsedPhoneString = phoneMatcher.group();
+        }
+        if (letterMatcher.find()) {
+            contactName = inputText.substring(letterMatcher.start(0));
+        }
+        String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]", "");
+        if (formattedPhoneString.charAt(0) == '+' && formattedPhoneString.charAt(1) == '7') {
+            formattedPhoneString = "8" + formattedPhoneString.substring(2);
+        } else if (formattedPhoneString.charAt(0) == '9') {
+            formattedPhoneString = "8" + formattedPhoneString;
+        }
+
+        Person newContact = new Person(inputMessage.from().username(), formattedPhoneString, contactName);
+
+        saveContact(newContact);
     }
+    public void saveContact(Person person) {
+        contactRepository.save(person);
+    }
+    public void getReport(Message message) {
+
+        Report report = new Report();
+        report.setUsername(message.chat().username());
+        report.setMessage(message.caption());
+        report.setDateReport(LocalDate.now());
+
+        PhotoSize photoSize = message.photo()[1];
+        GetFile getFile = new GetFile(photoSize.fileId());
+        GetFileResponse getFileResponse = telegramBot.execute(getFile);
+        try {
+            byte[] image = telegramBot.getFileContent(getFileResponse.file());
+
+            report.setPhoto(image);
+            reportRepository.save(report);
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения или записи отчёта");
+        } finally {
+            // Переводим в состояние чтения, чтобы перестать записывать
+
+            SendMessage reply = new SendMessage(message.chat().id(), "Благодарим за ваш отчёт");
+            telegramBot.execute(reply);
+            SendPhoto sendPhoto = new SendPhoto(message.chat().id(), reportRepository.findById(1L).get().getPhoto());
+            telegramBot.execute(sendPhoto);
+        }
+    }
+
+    public void getRequest(Message inputMessage) {
+        String nickName = inputMessage.from().username();
+        String requestText = inputMessage.text();
+
+        SendMessage messageVolunteer = new SendMessage(inputMessage.chat().id(), MESSAGE_FOR_VOLUNTEER + "\n " + "@" + nickName + "\n" + requestText);
+        telegramBot.execute(messageVolunteer);
+        SendMessage replyMessage = new SendMessage(inputMessage.chat().id(), THANKS_FOR_REQUEST);
+
+        telegramBot.execute(replyMessage);
+
+    }
+
+
 
     public String getAbout() {
         return shelter.getAbout();

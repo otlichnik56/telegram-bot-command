@@ -12,6 +12,7 @@ public class Report {
     private Long id;
     private String username;
     private String message;
+    @Lob
     private byte[] photo;
     private LocalDate dateReport;
 
@@ -38,6 +39,7 @@ public class Report {
     public void setMessage(String message) {
         this.message = message;
     }
+
 
     public byte[] getPhoto() {
         return photo;

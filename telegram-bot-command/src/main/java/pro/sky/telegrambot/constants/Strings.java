@@ -4,7 +4,7 @@ public class Strings {
 
 
     // заготовленные фразы, которые пишет бот. например, приветствие
-    public static final String WELCOME_MESSAGE_MENU_MAIN = "Добро пожаловать в наш приют для собак. \nВы можете воспользоваться одним из пунктов гланого меню ниже ";
+    public static final String WELCOME_MESSAGE_MENU_MAIN = "Добро пожаловать в наш приют для собак. \nВы можете воспользоваться одним из пунктов главного меню ниже ";
     public static final String WELCOME_MESSAGE_MENU_ABOUT_SHELTER = "Ещё раз здравствуйте. Вы можете узнать следующую инфу о нашем приюте ";
     public static final String WELCOME_MESSAGE_MENU_ADOPT_DOG = "Готов предоставить вам следующую полезную инфу ";
 

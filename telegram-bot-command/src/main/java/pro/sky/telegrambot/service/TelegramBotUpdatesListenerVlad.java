@@ -17,13 +17,16 @@ import pro.sky.telegrambot.Buttons.ReplyKeyboards;
 import pro.sky.telegrambot.constants.MenuItemsNames;
 import pro.sky.telegrambot.entitydatabase.Person;
 import pro.sky.telegrambot.entitydatabase.Report;
+import pro.sky.telegrambot.model.Responses;
 import pro.sky.telegrambot.repositoty.PersonRepository;
 import pro.sky.telegrambot.repositoty.ReportRepository;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,28 +34,22 @@ import static pro.sky.telegrambot.constants.Strings.*;
 
 @Service
 public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
-    private final ReplyKeyboards keyboards;
-    private final PersonRepository contactRepository;
-    private final ReportRepository reportRepository;
-    private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
-
-    private Boolean isSendReport = false;
-    private boolean isLeavingRequest = false;
-    private boolean isLeavingContact = false;
-    private final static Long volunteerChatId = 202671625L;
-
-    public TelegramBotUpdatesListenerVlad(ReplyKeyboards keyboards, PersonRepository contactRepository, ReportRepository reportRepository, ShelterService shelterService) {
-        this.keyboards = keyboards;
-        this.contactRepository = contactRepository;
-        this.reportRepository = reportRepository;
-        this.shelterService = shelterService;
-    }
-
     private final ShelterService shelterService;
+    private final ReplyKeyboards keyboards;
 
-
+    private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListenerVlad.class);
     @Autowired
     private TelegramBot telegramBot;
+
+
+    private Map<Long, Responses> waitedResponses;
+    private final static Long volunteerChatId = 202671625L;
+
+    public TelegramBotUpdatesListenerVlad(ReplyKeyboards keyboards, ShelterService shelterService) {
+        this.keyboards = keyboards;
+        this.shelterService = shelterService;
+        waitedResponses = new HashMap<Long, Responses>();
+    }
 
     @PostConstruct
     public void init() {
@@ -63,132 +60,46 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-            try {
-                Message inputMessage = update.message();
-                if (isLeavingRequest) {
-                    callVolunteer(inputMessage);
-                } else if (isLeavingContact) {
-                    getContact(inputMessage);
-                } else if (isSendReport) {
 
-                    saveReport(inputMessage);
+            long chatId = update.message().chat().id();
+            String messageText = update.message().text();
+
+            try {
+                if (waitedResponses.containsKey(chatId)) {
+                    processRequest(update.message());
                 } else {
-                    SendMessage replyMessage = createMessage(inputMessage);
-                    telegramBot.execute(replyMessage);
+                    sendMenuAndReplies(chatId, messageText);
                 }
 
             } catch (Exception e) {
 
             }
-
-
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
 
-    private void getContact(Message inputMessage) {
-        String parsedPhoneString = "";
-        String contactName = "";
-        String inputText = inputMessage.text();
-
-        Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
-        Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
-
-        Matcher letterMatcher = letterPattern.matcher(inputText);
-        Matcher phoneMatcher = phonePattern.matcher(inputText);
-        if (phoneMatcher.find()) {
-            parsedPhoneString = phoneMatcher.group();
+    private void processRequest(Message message) {
+        Long chatid = message.chat().id();
+        switch (waitedResponses.get(chatid)) {
+            case REPORT:
+                shelterService.getReport(message);
+                break;
+            case REQUEST:
+                shelterService.getRequest(message);
+                break;
+            case CONTACT:
+                shelterService.getContact(message);
+                break;
         }
-        if (letterMatcher.find()) {
-            contactName = inputText.substring(letterMatcher.start(0));
-        }
-        String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]", "");
-        if (formattedPhoneString.charAt(0) == '+' && formattedPhoneString.charAt(1) == '7') {
-            formattedPhoneString = "8" + formattedPhoneString.substring(2);
-        } else if (formattedPhoneString.charAt(0) == '9') {
-            formattedPhoneString = "8" + formattedPhoneString;
-        }
-
-        Person newContact = new Person(inputMessage.from().username(), formattedPhoneString, contactName);
-
-        saveContact(newContact);
-
-                /*
-    public Person(String username, String numberPhone, String contactName)
-    }
-                 */
-
-
-        isLeavingContact = false;
+        waitedResponses.remove(chatid);
 
     }
 
-    private void callVolunteer(Message inputMessage) {
-        String nickName = inputMessage.from().username();
-        String requestText = inputMessage.text();
-
-        SendMessage messageVolunteer = new SendMessage(inputMessage.chat().id(), MESSAGE_FOR_VOLUNTEER + "\n " + "@" + nickName + "\n" + requestText);
-        telegramBot.execute(messageVolunteer);
-        SendMessage replyMessage = new SendMessage(inputMessage.chat().id(), THANKS_FOR_REQUEST);
-
-        telegramBot.execute(replyMessage);
-        isLeavingRequest = false;
-
-    }
-
-    private void sendReply(SendMessage replyMessage) {
-        telegramBot.execute(replyMessage);
-    }
-
-/*
-    private void messageProcessing(Update update) {
-        Long chatId = getChatId(update);
-        if (recordStatus) {
-            if (!(update.message() == null)) {
-                String text = "Ребят, новый контакт, запишите  " + update.message().text() + " " + update.message().chat().firstName() + " " + update.message().chat().lastName();
-                SendMessage message = new SendMessage(volunteerChatId, text);
-                telegramBot.execute(message);
-                recordStatus = false;
-            }
-        } else {
-            if (!(update.message() == null)) {
-                telegramBot.execute(createMessage(chatId, update.message().text()));
-                if (!(update.message().text() == null) && update.message().text().equals(CALL_VOLUNTEER)) {
-                    SendMessage messageVolunteer = new SendMessage(volunteerChatId, MESSAGE_FOR_VOLUNTEER + " " + "@" + update.message().from().username());
-                    telegramBot.execute(messageVolunteer);
-                }
-            }
-        }
-    }
-    */
-
-
-    private Long getChatId(Update update) {
-        Long chatId = null;
-        try {
-            if (update.message() == null) {
-                if (update.callbackQuery() == null) {
-                    chatId = update.myChatMember().chat().id();
-                } else {
-                    chatId = update.callbackQuery().message().chat().id();
-                }
-            } else {
-                chatId = update.message().chat().id();
-            }
-        } catch (NullPointerException notInitializedChatId) {
-            System.out.println("Сработал блок try catch в методе getChatId() " + chatId);
-        }
-        return chatId;
-    }
-
-    private SendMessage createMessage(Message inputMessage) {
-        long chatId = inputMessage.chat().id();
-        String inputTextMessage = inputMessage.text();
+    private void sendMenuAndReplies(long chatId, String messageText) {
         String replyTextMessage;
         SendMessage message;
 
-
-        switch (inputTextMessage) {
+        switch (messageText) {
             // главное меню и общее
             case MenuItemsNames.START:
             case MenuItemsNames.TO_MAIN_MENU:
@@ -205,18 +116,18 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
                 break;
             case MenuItemsNames.SEND_REPORT:
                 message = new SendMessage(chatId, SEND_REPORT_OFFER);
-                isSendReport = true;
+                waitedResponses.put(chatId, Responses.REPORT);
                 break;
 
             case MenuItemsNames.CALL_VOLUNTEER:
-                isLeavingRequest = true;
+
                 //callVolunteer(inputMessage);
                 message = new SendMessage(chatId, WELCOME_MESSAGE_FOUR);
                 message.replyMarkup(keyboards.emptyKeyboard);
-
+                waitedResponses.put(chatId, Responses.REQUEST);
                 break;
             case MenuItemsNames.SEND_CONTACTS:
-                isLeavingContact = true;
+                waitedResponses.put(chatId, Responses.CONTACT);
                 message = new SendMessage(chatId, RECORD_CONTACT);
                 message.replyMarkup(keyboards.emptyKeyboard);
                 //message = new SendMessage(chatId, RECORD_CONTACT);
@@ -285,41 +196,12 @@ public class TelegramBotUpdatesListenerVlad implements UpdatesListener {
             default:
                 message = new SendMessage(chatId, SORRY_MESSAGE);
         }
-        return message;
+        telegramBot.execute(message);
     }
 
-    private void saveContact(Person person) {
-        contactRepository.save(person);
 
-    }
 
-    private void saveReport(Message message) {
-        isSendReport = false;
 
-        Report report = new Report();
-        report.setUsername(message.chat().username());
-        report.setMessage(message.caption());
-        report.setDateReport(LocalDate.now());
-
-        PhotoSize photoSize = message.photo()[1];
-        GetFile getFile = new GetFile(photoSize.fileId());
-        GetFileResponse getFileResponse = telegramBot.execute(getFile);
-        try {
-            byte[] image = telegramBot.getFileContent(getFileResponse.file());
-
-            report.setPhoto(image);
-            reportRepository.save(report);
-        } catch (IOException e) {
-            System.out.println("Ошибка чтения или записи отчёта");
-        } finally {
-            // Переводим в состояние чтения, чтобы перестать записывать
-
-            SendMessage reply = new SendMessage(message.chat().id(), "Благодарим за ваш отчёт");
-            telegramBot.execute(reply);
-            SendPhoto sendPhoto = new SendPhoto(message.chat().id(), reportRepository.findById(1L).get().getPhoto());
-            telegramBot.execute(sendPhoto);
-        }
-    }
 
 
 }

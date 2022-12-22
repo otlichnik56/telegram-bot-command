@@ -21,6 +21,6 @@ CREATE TABLE report(
                        id              SERIAL PRIMARY KEY,
                        username        TEXT,
                        message         TEXT,
-                       photo           BYTEA,
+                       photo           OID,
                        date_report     DATE
 );
