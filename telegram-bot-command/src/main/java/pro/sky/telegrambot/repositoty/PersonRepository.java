@@ -27,4 +27,14 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     //@Query(value = "DELETE FROM person WHERE username = :username AND status = :status", nativeQuery = true)
     //void deletePersonFromDataBase(@Param("username") String username, @Param("status") Boolean status);
 
+
+    /** Метод возвращает лист пользователей в Телеграмме.
+     * В качестве параметра передается дата. Делается SQL-запрос в БД
+     * @param endDate
+     * @return List<String>
+     */
+    @Query(value = "SELECT * FROM person WHERE end_date = :endDate", nativeQuery = true)
+    List<Person> getUsernameEndDate(@Param("endDate") LocalDate endDate);
+
+
 }

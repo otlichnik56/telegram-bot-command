@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import static pro.sky.telegrambot.constants.Strings.*;
+import static pro.sky.telegrambot.constants.ChatSettings.*;
 
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
@@ -39,7 +40,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Map<Long, Responses> pendingResponses;
     private Map<Long, AdminResponses> adminPendingResponses;
-    private final static Long volunteerChatId = 202671625L;
 
     public TelegramBotUpdatesListener(ReplyKeyboards keyboards, ShelterService shelterService) {
         this.keyboards = keyboards;

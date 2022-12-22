@@ -12,7 +12,10 @@ CREATE TABLE person
     contact_name TEXT,
     status       BOOLEAN,
     start_date   DATE,
-    end_date     DATE
+    end_date     DATE,
+    condition_test BOOLEAN,
+    chat_id      INTEGER
+
 );
 
 

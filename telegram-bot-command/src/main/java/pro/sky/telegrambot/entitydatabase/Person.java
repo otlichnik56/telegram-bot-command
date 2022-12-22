@@ -13,21 +13,26 @@ public class Person {
     private String username;
     private String numberPhone;
     private String contactName;
-
     private Boolean status;
     private LocalDate startDate;
     private LocalDate endDate;
 
+    private Boolean conditionTest;
+
+    private Long chatId;
     public Person() {
     }
 
-    public Person(String username, String numberPhone, String contactName) {
+
+    public Person(String username, String numberPhone, String contactName, Long chatId) {
         this.username = username;
         this.numberPhone = numberPhone;
         this.contactName = contactName;
         status = false;
         startDate = null;
         endDate = null;
+        conditionTest = true;
+        this.chatId = chatId;
     }
 
 
@@ -89,4 +94,19 @@ public class Person {
         this.endDate = endDate;
     }
 
+    public Boolean getConditionTest() {
+        return conditionTest;
+    }
+
+    public void setConditionTest(Boolean conditionTest) {
+        this.conditionTest = conditionTest;
+    }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
 }

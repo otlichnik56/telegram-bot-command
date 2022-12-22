@@ -20,8 +20,22 @@ public class Strings {
             "- *Общее самочувствие и привыкание к новому месту.*\n" +
             "- *Изменение в поведении: отказ от старых привычек, приобретение новых.*";
 
-    public static final String DELETE_CONTACT = ;
-    public static final String UPDATE_CONTACT = ;
-    public static final String EXTEND_PROBATION = ;
-    public static final String ADD_CONTACT = ;
+
+    public static final String DELETE_CONTACT = "";
+    public static final String UPDATE_CONTACT = "";
+    public static final String EXTEND_PROBATION = "";
+    public static final String ADD_CONTACT = "";
+
+
+    // записи для Scheduler
+    public static final String COMPLETE_MESSAGE = "Поздравляю, вы прошли испытание! Питомец ваш навеки ";
+
+    public static final String FAIL_MESSAGE = "Вы не прошли испытание. С вами сяжется волонтёр или свяжитесь с ним сами ";
+
+    public static final String ADDITIONAL_TEST_MESSAGE = "Чуть-чуть не хватило, но вам был назначен дополнительный срок истынания - ";
+
+    public static final String END_DATE_FAR_VOLUNTEER_MESSAGE = "Ребята, проверьте список усыновителй. У них завтра заканчивается испытательный срок и ВСЁ этих пёселей вы больше не увидите! ";
+
+
+
 }

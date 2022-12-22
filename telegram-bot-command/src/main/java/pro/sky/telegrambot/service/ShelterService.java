@@ -61,7 +61,7 @@ public class ShelterService {
             formattedPhoneString = "8" + formattedPhoneString;
         }
 
-        Person newContact = new Person(inputMessage.from().username(), formattedPhoneString, contactName);
+        Person newContact = new Person(inputMessage.from().username(), formattedPhoneString, contactName, inputMessage.chat().id());
 
         saveContact(newContact);
     }
