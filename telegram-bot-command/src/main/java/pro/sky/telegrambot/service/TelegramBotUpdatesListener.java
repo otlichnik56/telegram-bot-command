@@ -43,6 +43,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public TelegramBotUpdatesListener(ReplyKeyboards keyboards, ShelterService shelterService) {
         this.keyboards = keyboards;
         this.shelterService = shelterService;
+        this.adminPendingResponses = new HashMap<Long, AdminResponses>();
         pendingResponses = new HashMap<Long, Responses>();
     }
 
@@ -56,26 +57,26 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
 
-            try {
-                long chatId = update.message().chat().id();
-                String messageText = update.message().text();
-                if (chatId == volunteerChatId) {
-                    if (pendingResponses.containsKey(chatId)) {
-                        adminRequestProccessing(update.message());
-                    } else {
-                        adminMenu(chatId, messageText);
-                    }
+            //try {
+            long chatId = update.message().chat().id();
+            String messageText = update.message().text();
+            if (chatId == volunteerChatId) {
+                if (adminPendingResponses.containsKey(volunteerChatId)) {
+                    adminRequestProccessing(update.message());
                 } else {
-                    if (pendingResponses.containsKey(chatId)) {
-                        requestProccessing(update.message());
-                    } else {
-                        sendMenuAndReplies(chatId, messageText);
-                    }
-
+                    adminMenu(chatId, messageText);
                 }
-            } catch (Exception e) {
+            } else {
+                if (pendingResponses.containsKey(chatId)) {
+                    requestProccessing(update.message());
+                } else {
+                    sendMenuAndReplies(chatId, messageText);
+                }
 
             }
+           /* } catch (Exception e) {
+
+            }*/
         });
         return UpdatesListener.CONFIRMED_UPDATES_ALL;
     }
@@ -90,7 +91,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 shelterService.getRequest(message);
                 break;
             case CONTACT:
-                shelterService.getContact(message);
+                shelterService.getContactFromChat(message);
                 break;
         }
         pendingResponses.remove(chatid);
@@ -208,19 +209,16 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 shelterService.deleteContact(inputText);
                 break;
             case APPOINT_GUARDIAN:
-                shelterService.updateContact(inputText);
+                shelterService.appointGuardian(inputText);
                 break;
             case CREATE:
-                shelterService.addContact(inputText);
+                shelterService.addContact(chatid, inputText);
                 break;
             case EXTEND_PROBATION:
                 shelterService.extendProbation(inputText);
                 break;
-            case PRINT_CONTACT_LIST:
-                shelterService.printContactsList();
         }
-        adminPendingResponses.remove(chatid);
-
+        adminPendingResponses.remove(volunteerChatId);
     }
 
 
@@ -256,8 +254,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 message = new SendMessage(volunteerChatId, Strings.REPORTS_MENU);
                 break;
             case AdminMenuItems.PRINT_CONTACTS_LIST:
-                adminPendingResponses.put(volunteerChatId, AdminResponses.PRINT_CONTACT_LIST);
-                message = new SendMessage(volunteerChatId, Strings.PRINT_CONTACTS_LIST);
+                String contactsAsString = shelterService.printContactsList();
+                message = new SendMessage(volunteerChatId, contactsAsString);
                 break;
             //        case AdminMenuItems.WATCH_IRRESPONSIBLES:   // писать
             //      text = personRepository.getPersonFromDataBase(status).toString();

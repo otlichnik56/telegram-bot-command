@@ -4,6 +4,6 @@ public enum AdminResponses {
     DELETE,
     APPOINT_GUARDIAN,
     CREATE,
-    PRINT_CONTACT_LIST,
+    BACK,
     EXTEND_PROBATION
 }

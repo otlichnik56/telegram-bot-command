@@ -18,13 +18,22 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query(value = "SELECT * FROM person WHERE status = :status", nativeQuery = true)
     List<Person> getPersonFromDataBase(@Param("status") Boolean status);
 
-    @Query(value = "UPDATE person SET start_date = :startDate AND end_date = :endDate WHERE id = :id", nativeQuery = true)
-    void updatePersonDateFromDataBase(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate, @Param("id") Long id);
+    @Query(value = "UPDATE person SET start_date = CURRENT_DATE, end_date = (CURRENT_DATE + integer '30'), is_adoptive = true WHERE id = :id", nativeQuery = true)
+    void setStatusAndStartDateById(@Param("id") Long id);
 
-    @Query(value = "UPDATE person SET end_date = :endDate WHERE id = :id", nativeQuery = true)
-    void updatePersonFromDataBase(@Param("endDate") LocalDate endDate, @Param("id") Long id);
+    @Query(value = "UPDATE person SET end_date = end_date + :extendDays WHERE id = :id", nativeQuery = true)
+    void addToEndDateById(@Param("id") Long id, @Param("endDate") Integer extendDays);
 
     //@Query(value = "DELETE FROM person WHERE username = :username AND status = :status", nativeQuery = true)
     //void deletePersonFromDataBase(@Param("username") String username, @Param("status") Boolean status);
+
+
+    /** Метод возвращает лист пользователей из таблицы person.
+     * В качестве параметра передается дата. Возвращаемые сущности Identity.
+     * @param endDate
+     * @return List<Identity>
+     */
+    @Query(value = "SELECT * FROM person WHERE end_date = :endDate", nativeQuery = true)
+    List<Person> getUsernameEndDate(@Param("endDate") LocalDate endDate);
 
 }

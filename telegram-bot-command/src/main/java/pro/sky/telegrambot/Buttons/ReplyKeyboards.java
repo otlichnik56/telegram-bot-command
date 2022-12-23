@@ -150,8 +150,11 @@ public class ReplyKeyboards {
                         new KeyboardButton(AdminMenuItems.DELETE_CONTACT)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton(AdminMenuItems.APPOINT_GUARDIAN),
+                        new KeyboardButton(AdminMenuItems.ADD_CONTACT),
                         new KeyboardButton(AdminMenuItems.EXTEND_PROBATION)
+                },
+                new KeyboardButton[]{
+                        new KeyboardButton(AdminMenuItems.APPOINT_GUARDIAN),
                 },
         new KeyboardButton[]{
 

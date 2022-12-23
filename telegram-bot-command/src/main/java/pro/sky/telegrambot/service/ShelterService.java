@@ -17,9 +17,10 @@ import pro.sky.telegrambot.repositoty.ReportRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static pro.sky.telegrambot.constants.Strings.MESSAGE_FOR_VOLUNTEER;
 import static pro.sky.telegrambot.constants.Strings.THANKS_FOR_REQUEST;
@@ -39,32 +40,11 @@ public class ShelterService {
         this.reportRepository = reportRepository;
     }
 
-    public void getContact(Message inputMessage) {
-        String parsedPhoneString = "";
-        String contactName = "";
-        String inputText = inputMessage.text();
+    public void getContactFromChat(Message inputMessage) {
+        long chatId = inputMessage.chat().id();
+        String text = inputMessage.text() + " @" + inputMessage.from().username();
+        addContact(chatId, text);
 
-        Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
-        Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
-
-        Matcher letterMatcher = letterPattern.matcher(inputText);
-        Matcher phoneMatcher = phonePattern.matcher(inputText);
-        if (phoneMatcher.find()) {
-            parsedPhoneString = phoneMatcher.group();
-        }
-        if (letterMatcher.find()) {
-            contactName = inputText.substring(letterMatcher.start(0));
-        }
-        String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]", "");
-        if (formattedPhoneString.charAt(0) == '+' && formattedPhoneString.charAt(1) == '7') {
-            formattedPhoneString = "8" + formattedPhoneString.substring(2);
-        } else if (formattedPhoneString.charAt(0) == '9') {
-            formattedPhoneString = "8" + formattedPhoneString;
-        }
-
-        Person newContact = new Person(inputMessage.from().username(), formattedPhoneString, contactName);
-
-        saveContact(newContact);
     }
 
     public void saveContact(Person person) {
@@ -165,33 +145,72 @@ public class ShelterService {
     }
 
     public void deleteContact(String message) {
-        personRepository.deleteById(Long.valueOf(message));
+        try {
+            personRepository.deleteById(Long.valueOf(message));
+        } catch (RuntimeException e) {
+
+        }
     }
 
-    public void updateContact(String message) {
-     //   personRepository.updatePersonFromDataBase(LocalDate.parse(data[1]), Long.valueOf(data[0]));
+    public void appointGuardian(String id) {
+
+        personRepository.setStatusAndStartDateById(Long.valueOf(id));
+
+
     }
 
-    public void addContact(String message) {
-        Person person = new Person();
-//        person.setUsername(data[0]);
-//        person.setNumberPhone(data[1]);
-//        person.setFirstName(data[2]);
-//        person.setLastName(data[3]);
-        person.setStatus(false);
-        person.setStartDate(null);
-        person.setEndDate(null);
-        System.out.println(person);
-        personRepository.save(person);
+    public void addContact(long chatId, String inputText) {
+        //+7999 876 44 22 Петух Иванов @OrangeUp
+        String parsedPhoneString = "";
+        String contactNameAndUserName = "";
+        Person newContact;
+
+        try {
+
+
+            Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
+            Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
+
+            Matcher letterMatcher = letterPattern.matcher(inputText);
+            Matcher phoneMatcher = phonePattern.matcher(inputText);
+            if (phoneMatcher.find()) {
+                parsedPhoneString = phoneMatcher.group();
+            }
+            if (letterMatcher.find()) {
+                contactNameAndUserName = inputText.substring(letterMatcher.start(0));
+            }
+            String contactName = contactNameAndUserName.substring(0, contactNameAndUserName.indexOf("@"));
+            String userName = contactNameAndUserName.substring(contactNameAndUserName.indexOf("@"));
+
+            String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]", "");
+
+            if (formattedPhoneString.charAt(0) == '+' && formattedPhoneString.charAt(1) == '7') {
+                formattedPhoneString = "8" + formattedPhoneString.substring(2);
+            } else if (formattedPhoneString.charAt(0) == '9') {
+                formattedPhoneString = "8" + formattedPhoneString;
+            } else if (formattedPhoneString.charAt(0) == '7') {
+                formattedPhoneString = "7" + formattedPhoneString.substring(1);
+            }
+
+
+            newContact = new Person(userName, formattedPhoneString, contactName);
+        } catch (Exception e) {
+            newContact = null;
+        }
+        if (newContact != null) {
+            saveContact(newContact);
+        }
     }
 
     public void extendProbation(String message) {
-
-        //personRepository.updatePersonDateFromDataBase(LocalDate.parse(data[2]), LocalDate.parse(data[1]), Long.valueOf(data[0]));
+        Long id = Long.valueOf(message.substring(0, message.indexOf(" ")));
+        Integer days = Integer.valueOf(message.substring(message.indexOf(" ")+1));
+        personRepository.addToEndDateById(id, days);
     }
 
-    public void printContactsList() {
-//        List<Person> people = personRepository.getPersonFromDataBase(status);
+    public String printContactsList() {
+
+        return personRepository.findAll().stream().map(Objects::toString).collect(Collectors.joining("\n"));
 //        text = people.toString();
     }
 }
