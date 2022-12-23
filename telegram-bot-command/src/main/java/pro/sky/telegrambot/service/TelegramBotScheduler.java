@@ -10,7 +10,10 @@ import pro.sky.telegrambot.entitydatabase.Identity;
 import pro.sky.telegrambot.repositoty.IdentityRepository;
 import pro.sky.telegrambot.repositoty.PersonRepository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,7 @@ public class TelegramBotScheduler {
     private final TelegramBot telegramBot;
     private final PersonRepository personRepository;
     private final IdentityRepository identityRepository;
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public TelegramBotScheduler(TelegramBot telegramBot, PersonRepository personRepository, IdentityRepository identityRepository) {
         this.telegramBot = telegramBot;
@@ -100,10 +104,10 @@ public class TelegramBotScheduler {
      * @return List<Identity>
      */
     private List<Identity> getListUserAdditionalTest() {
-        List<Identity> listNow = getUsernameEndDateNow();
+        List<Identity> listNow = identityRepository.findAll();
         List<Identity> listYesterday = getUsernameEndDateYesterday();
-        listYesterday.removeAll(listNow);
-        return listYesterday;
+        listNow.removeAll(listYesterday);
+        return listNow;
     }
 
     /** Возвращает записи из тиблицы person с параметром поля endDate сегодня.
@@ -119,7 +123,10 @@ public class TelegramBotScheduler {
      * @return List<Identity>
      */
     private List<Identity> getUsernameEndDateYesterday() {
-        return identityRepository.findAll();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        LocalDate localDate = LocalDate.parse(dateFormat.format(calendar.getTime()));
+        return personRepository.getUsernameEndDate(localDate);
     }
 
 }
