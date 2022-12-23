@@ -99,7 +99,8 @@ public class TelegramBotScheduler {
         return getUsernameEndDateYesterday().stream().filter(identity -> !identity.getConditionTest()).collect(Collectors.toList());
     }
 
-    /** Возвращает записи, которые получены путём вычитания списка, полученного сегодня, из списка, полученного вчера.
+    /** Возвращает записи, которые получены путём вычитания списка записей из тиблицы person с параметром поля endDate вчера,
+     *  из списка всех записей полученных из таблицы identity.
      * Т.е. те кому продлили испытательный срок.
      * @return List<Identity>
      */
@@ -119,7 +120,8 @@ public class TelegramBotScheduler {
         return personRepository.getUsernameEndDate(localDate);
     }
 
-    /** Возвращает все записи из тиблицы identity.
+    /** Возвращает все записи из тиблицы person с параметром поля endDate вчера.
+     * Возвращаемые сущности Identity.
      * @return List<Identity>
      */
     private List<Identity> getUsernameEndDateYesterday() {
