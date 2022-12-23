@@ -18,18 +18,6 @@ CREATE TABLE person
 );
 
 
-CREATE TABLE identity
-(
-    id           INTEGER PRIMARY KEY,
-    username     TEXT,
-    number_phone TEXT,
-    contact_name TEXT,
-    status       BOOLEAN,
-    start_date   DATE,
-    end_date     DATE,
-    condition_test BOOLEAN,
-    chat_id      INTEGER
-);
 
 
 CREATE TABLE report(
