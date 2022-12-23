@@ -5,7 +5,6 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.PhotoSize;
 import com.pengrad.telegrambot.request.GetFile;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.response.GetFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static pro.sky.telegrambot.constants.Strings.MESSAGE_FOR_VOLUNTEER;
-import static pro.sky.telegrambot.constants.Strings.THANKS_FOR_REQUEST;
+import static pro.sky.telegrambot.constants.ChatSettings.*;
+import static pro.sky.telegrambot.constants.Strings.*;
 
 @Service
 public class ShelterService {
@@ -32,7 +30,6 @@ public class ShelterService {
     private TelegramBot telegramBot;
 
     public ShelterService(Shelter shelter, PersonRepository contactRepository, ReportRepository reportRepository) {
-
         this.shelter = shelter;
         this.contactRepository = contactRepository;
         this.reportRepository = reportRepository;
@@ -42,10 +39,8 @@ public class ShelterService {
         String parsedPhoneString = "";
         String contactName = "";
         String inputText = inputMessage.text();
-
         Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
         Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
-
         Matcher letterMatcher = letterPattern.matcher(inputText);
         Matcher phoneMatcher = phonePattern.matcher(inputText);
         if (phoneMatcher.find()) {
@@ -60,9 +55,7 @@ public class ShelterService {
         } else if (formattedPhoneString.charAt(0) == '9') {
             formattedPhoneString = "8" + formattedPhoneString;
         }
-
         Person newContact = new Person(inputMessage.from().username(), formattedPhoneString, contactName, inputMessage.chat().id());
-
         saveContact(newContact);
     }
 
@@ -71,42 +64,50 @@ public class ShelterService {
     }
 
     public void getReport(Message message) {
-
         Report report = new Report();
         report.setUsername(message.chat().username());
         report.setMessage(message.caption());
         report.setDateReport(LocalDate.now());
-
         PhotoSize photoSize = message.photo()[1];
         GetFile getFile = new GetFile(photoSize.fileId());
         GetFileResponse getFileResponse = telegramBot.execute(getFile);
         try {
             byte[] image = telegramBot.getFileContent(getFileResponse.file());
-
             report.setPhoto(image);
             reportRepository.save(report);
         } catch (IOException e) {
             System.out.println("Ошибка чтения или записи отчёта");
         } finally {
-            // Переводим в состояние чтения, чтобы перестать записывать
 
-            SendMessage reply = new SendMessage(message.chat().id(), "Благодарим за ваш отчёт");
+            // Перовека на полноту записи!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+            String text = "Отчёт не сохранён, попытайтесь его отправить заново";
+            if (!(report.getMessage() == null) && !(report.getPhoto() == null)) {
+                text = "Благодарим за ваш отчёт";
+            }
+            if (report.getMessage() == null) {
+                text = WARNING_MESSAGE + " Текст где?";
+                SendMessage reply = new SendMessage(volunteerChatId, "Усыновитель @" + message.chat().username() + " не прислал текст");
+                telegramBot.execute(reply);
+            }
+            if (report.getPhoto() == null) {
+                text = WARNING_MESSAGE + " Фото где?";
+                SendMessage reply = new SendMessage(volunteerChatId, "Усыновитель @" + message.chat().username() + " не прислал фото");
+                telegramBot.execute(reply);
+            }
+            SendMessage reply = new SendMessage(message.chat().id(), text);
             telegramBot.execute(reply);
-            SendPhoto sendPhoto = new SendPhoto(message.chat().id(), reportRepository.findById(1L).get().getPhoto());
-            telegramBot.execute(sendPhoto);
         }
     }
 
     public void getRequest(Message inputMessage) {
         String nickName = inputMessage.from().username();
         String requestText = inputMessage.text();
-
         SendMessage messageVolunteer = new SendMessage(inputMessage.chat().id(), MESSAGE_FOR_VOLUNTEER + "\n " + "@" + nickName + "\n" + requestText);
         telegramBot.execute(messageVolunteer);
         SendMessage replyMessage = new SendMessage(inputMessage.chat().id(), THANKS_FOR_REQUEST);
-
         telegramBot.execute(replyMessage);
-
     }
 
 

@@ -12,12 +12,9 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.Buttons.ReplyKeyboards;
 import pro.sky.telegrambot.constants.AdminMenuItems;
 import pro.sky.telegrambot.constants.MenuItemsNames;
-
 import pro.sky.telegrambot.constants.Strings;
-import pro.sky.telegrambot.entitydatabase.Person;
 import pro.sky.telegrambot.model.AdminResponses;
 import pro.sky.telegrambot.model.Responses;
-
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
@@ -30,13 +27,11 @@ import static pro.sky.telegrambot.constants.ChatSettings.*;
 public class TelegramBotUpdatesListener implements UpdatesListener {
     private final ShelterService shelterService;
     private final ReplyKeyboards keyboards;
-
     private Logger logger = LoggerFactory.getLogger(TelegramBotUpdatesListener.class);
     @Autowired
     private TelegramBot telegramBot;
     private Boolean recordChange = false;
     private Boolean status = false;
-
 
     private Map<Long, Responses> pendingResponses;
     private Map<Long, AdminResponses> adminPendingResponses;
@@ -56,10 +51,8 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     public int process(List<Update> updates) {
         updates.forEach(update -> {
             logger.info("Processing update: {}", update);
-
             long chatId = update.message().chat().id();
             String messageText = update.message().text();
-
             try {
                 if (chatId == volunteerChatId) {
                     adminMenu(messageText);
@@ -68,7 +61,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 } else {
                     sendMenuAndReplies(chatId, messageText);
                 }
-
             } catch (Exception e) {
 
             }
@@ -90,13 +82,11 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 break;
         }
         pendingResponses.remove(chatid);
-
     }
 
     private void sendMenuAndReplies(long chatId, String command) {
         String replyTextMessage;
         SendMessage message;
-
         switch (command) {
             // главное меню и общее
             case MenuItemsNames.START:
@@ -116,7 +106,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 message = new SendMessage(chatId, SEND_REPORT_OFFER);
                 pendingResponses.put(chatId, Responses.REPORT);
                 break;
-
             case MenuItemsNames.CALL_VOLUNTEER:
 
                 //callVolunteer(inputMessage);
@@ -144,7 +133,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 replyTextMessage = shelterService.getSafetyPrecautions();
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
-
             // меню два
             case MenuItemsNames.ADOPT_DOG_MEETING_RULES:
                 replyTextMessage = shelterService.getmeetingRules();
@@ -174,8 +162,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 replyTextMessage = shelterService.getHomeImprovementsForDisabledRecommendations();
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
-
-
             case MenuItemsNames.ADOPT_DOG_APPROVED_CYNOLOGYSTS:
                 replyTextMessage = shelterService.getApprovedCynologysts();
                 message = new SendMessage(chatId, replyTextMessage);
@@ -184,12 +170,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
                 replyTextMessage = shelterService.getCynologystsAdvices();
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
-
             case MenuItemsNames.ADOPT_DOG_DECLINE_REASONS:
                 replyTextMessage = shelterService.getDeclineReasons();
                 message = new SendMessage(chatId, replyTextMessage);
                 break;
-
             default:
                 message = new SendMessage(chatId, SORRY_MESSAGE);
         }
@@ -244,8 +228,6 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         }
         recordChange = false;
         telegramBot.execute(message);
-
-
     }
 
     /**
