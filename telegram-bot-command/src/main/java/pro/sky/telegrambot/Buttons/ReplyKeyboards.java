@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import org.springframework.stereotype.Component;
+import pro.sky.telegrambot.constants.AdminMenuItems;
 import pro.sky.telegrambot.constants.MenuItemsNames;
 
 
@@ -17,19 +18,21 @@ public class ReplyKeyboards {
         public final static Keyboard replyEmptyKeyboard = new ReplyKeyboards().generateEmptyMenuKeyboard();
         public final static Keyboard recommendationKeyboard = new ReplyKeyboards().generateRecommendationMenuKeyboard();
     */
-    public final  Keyboard mainMenuKeyboards;
-    public final  Keyboard aboutShelterMenuKeyboards;
-    public final  Keyboard adoptDogMenuKeyboards;
-    public final  Keyboard emptyKeyboard;
-    public final  Keyboard recommendationMenuKeyboard;
-    public final  Keyboard replyControlMainKeyboards;
-    public final  Keyboard replyControlOneKeyboards;
-    public final  Keyboard replyControlTwoKeyboards;
+    public final Keyboard mainMenuKeyboards;
+    public final Keyboard aboutShelterMenuKeyboards;
+    public final Keyboard adoptDogMenuKeyboards;
+    public final Keyboard emptyKeyboard;
+    public final Keyboard recommendationMenuKeyboard;
+    public final Keyboard сontrolMainMenu;
+    public final Keyboard contactsControlMenu;
+    public final Keyboard reportsControlMenu;
 
     public ReplyKeyboards() {
-        this.replyControlMainKeyboards = generateControlMainKeyboard();
-        this.replyControlOneKeyboards = generateControlOneKeyboard();
-        this.replyControlTwoKeyboards = generateControlTwoKeyboard();
+        сontrolMainMenu = generateControlMainKeyboard();
+        contactsControlMenu = generateContactsMenuKeyboard();
+        reportsControlMenu = generateControlTwoKeyboard();
+
+
         mainMenuKeyboards = generateMainMenuKeyboard();
         aboutShelterMenuKeyboards = generateAboutShelterMenuKeyboard();
         adoptDogMenuKeyboards = generateAdoptDogMenuKeyboard();
@@ -128,38 +131,39 @@ public class ReplyKeyboards {
         return replyKeyboardMarkup;
     }
 
-    public Keyboard generateControlMainKeyboard(){
+    public Keyboard generateControlMainKeyboard() {
 
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
-                new KeyboardButton[]{
-                        new KeyboardButton("Контакты"),
-                        new KeyboardButton("Усыновители")
-                },
-                new KeyboardButton[]{
-                        new KeyboardButton("Испытательный срок"),
-                        new KeyboardButton("Отчёты")
-                });
+                new KeyboardButton(AdminMenuItems.TO_CONTACTS_MENU),
+                new KeyboardButton(AdminMenuItems.TO_REPORTS_MENU),
+                new KeyboardButton(AdminMenuItems.TO_FILES_MENU)
+        );
         replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
     }
 
-    public Keyboard generateControlOneKeyboard(){
+    public Keyboard generateContactsMenuKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
-                        new KeyboardButton("Посмотреть"),
-                        new KeyboardButton("Добавить")
+                        new KeyboardButton(AdminMenuItems.PRINT_CONTACTS_LIST),
+                        new KeyboardButton(AdminMenuItems.DELETE_CONTACT)
                 },
                 new KeyboardButton[]{
-                        new KeyboardButton("Удалить"),
-                        new KeyboardButton("Вернуться назад")
-                });
+                        new KeyboardButton(AdminMenuItems.APPOINT_GUARDIAN),
+                        new KeyboardButton(AdminMenuItems.EXTEND_PROBATION)
+                },
+        new KeyboardButton[]{
+
+                new KeyboardButton(AdminMenuItems.WATCH_DEBTORS),
+                new KeyboardButton(AdminMenuItems.TO_MAIN_MENU)
+        });
         replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
     }
 
-    public Keyboard generateControlTwoKeyboard(){
+    public Keyboard generateControlTwoKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
                 new KeyboardButton[]{
                         new KeyboardButton("Продлить срок"),

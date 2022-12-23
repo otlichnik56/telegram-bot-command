@@ -17,6 +17,7 @@ import pro.sky.telegrambot.repositoty.ReportRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +27,7 @@ import static pro.sky.telegrambot.constants.Strings.THANKS_FOR_REQUEST;
 @Service
 public class ShelterService {
     private final Shelter shelter;
-    private final PersonRepository contactRepository;
+    private final PersonRepository personRepository;
     private final ReportRepository reportRepository;
     @Autowired
     private TelegramBot telegramBot;
@@ -34,7 +35,7 @@ public class ShelterService {
     public ShelterService(Shelter shelter, PersonRepository contactRepository, ReportRepository reportRepository) {
 
         this.shelter = shelter;
-        this.contactRepository = contactRepository;
+        this.personRepository = contactRepository;
         this.reportRepository = reportRepository;
     }
 
@@ -67,7 +68,7 @@ public class ShelterService {
     }
 
     public void saveContact(Person person) {
-        contactRepository.save(person);
+        personRepository.save(person);
     }
 
     public void getReport(Message message) {
@@ -164,19 +165,19 @@ public class ShelterService {
     }
 
     public void deleteContact(String message) {
-        contactRepository.deleteById(Long.valueOf(message));
+        personRepository.deleteById(Long.valueOf(message));
     }
 
     public void updateContact(String message) {
-        personRepository.updatePersonFromDataBase(LocalDate.parse(data[1]), Long.valueOf(data[0]));
+     //   personRepository.updatePersonFromDataBase(LocalDate.parse(data[1]), Long.valueOf(data[0]));
     }
 
     public void addContact(String message) {
         Person person = new Person();
-        person.setUsername(data[0]);
-        person.setNumberPhone(data[1]);
-        person.setFirstName(data[2]);
-        person.setLastName(data[3]);
+//        person.setUsername(data[0]);
+//        person.setNumberPhone(data[1]);
+//        person.setFirstName(data[2]);
+//        person.setLastName(data[3]);
         person.setStatus(false);
         person.setStartDate(null);
         person.setEndDate(null);
@@ -186,6 +187,11 @@ public class ShelterService {
 
     public void extendProbation(String message) {
 
-        personRepository.updatePersonDateFromDataBase(LocalDate.parse(data[2]), LocalDate.parse(data[1]), Long.valueOf(data[0]));
+        //personRepository.updatePersonDateFromDataBase(LocalDate.parse(data[2]), LocalDate.parse(data[1]), Long.valueOf(data[0]));
+    }
+
+    public void printContactsList() {
+//        List<Person> people = personRepository.getPersonFromDataBase(status);
+//        text = people.toString();
     }
 }
