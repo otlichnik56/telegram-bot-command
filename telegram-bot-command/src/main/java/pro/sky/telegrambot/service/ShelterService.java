@@ -8,6 +8,8 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.response.GetFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.entitydatabase.Person;
 import pro.sky.telegrambot.entitydatabase.Report;
@@ -153,8 +155,18 @@ public class ShelterService {
     }
 
     public void appointGuardian(String id) {
+        //@Query(value = "UPDATE person SET start_date = CURRENT_DATE, end_date = (CURRENT_DATE + integer '30'), is_adoptive = true WHERE id = :id", nativeQuery = true)
+        //void setStatusAndStartDateById(@Param("id") Long id);
+        try {
+            Person guardian = personRepository.findById(Long.valueOf(id)).get();
+            guardian.setAdoptive(true);
+            guardian.setStartDate(LocalDate.now());
+            LocalDate endDate = LocalDate.now().plusDays(30);
+            guardian.setEndDate(endDate);
+            personRepository.save(guardian);
+        }catch (RuntimeException e){
 
-        personRepository.setStatusAndStartDateById(Long.valueOf(id));
+        }
 
 
     }
@@ -203,9 +215,21 @@ public class ShelterService {
     }
 
     public void extendProbation(String message) {
-        Long id = Long.valueOf(message.substring(0, message.indexOf(" ")));
-        Integer days = Integer.valueOf(message.substring(message.indexOf(" ")+1));
-        personRepository.addToEndDateById(id, days);
+        try {
+            String idString= message.substring(0, message.indexOf(" "));
+            Long id = Long.valueOf(idString);
+            String daysAdd = message.substring(message.indexOf(" ") + 1);
+
+            int days = Integer.parseInt(daysAdd);
+            Person guardian = personRepository.getById(id);
+            LocalDate endDate = guardian.getEndDate();
+
+            guardian.setEndDate(endDate.plusDays(days));
+            personRepository.save(guardian);
+        }catch (RuntimeException e){
+
+        }
+
     }
 
     public String printContactsList() {

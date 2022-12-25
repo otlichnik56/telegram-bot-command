@@ -2,6 +2,7 @@ package pro.sky.telegrambot.entitydatabase;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Entity
@@ -100,7 +101,8 @@ public class Person {
 
     @Override
     public String toString() {
-        String status = isAdoptive ? "взял собаку " + startDate + "конец исп. + " + endDate : "не брал животное";
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+        String status = isAdoptive ? " взял собаку " + startDate.format(dateFormatter) + " конец исп. " + endDate.format(dateFormatter) : "не брал(а) животное";
         String personString = String.format("%d. %s, телефон %s, ник в ТГ: %s. %s", id, contactName, phoneNumber, username, status);
         return personString;
     }
