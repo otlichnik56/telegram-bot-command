@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f40732f1-8c74-4428-932f-5530b0c72575" name="Changes" comment="test" />
+    <list default="true" id="f40732f1-8c74-4428-932f-5530b0c72575" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_25_[Changes]1/Person.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_25_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_25__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_25__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_25__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_31__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_16_12_2022_23_31_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Merge_at_16_12_2022_23_31__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_12_2022_22_21_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_16_12_2022_22_21__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/constants/Strings.java" beforeDir="false" afterPath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/constants/Strings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/entitydatabase/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/repositoty/PersonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/repositoty/PersonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/service/ShelterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/telegram-bot-command/src/main/java/pro/sky/telegrambot/service/ShelterService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +64,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-19&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/user/IdeaProjects/telegram-bot-command/telegram-bot-command/src/main/resources/application.properties&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
@@ -57,7 +73,7 @@
     &quot;spring.configuration.checksum&quot;: &quot;7b0ed8c8c9087e5bcaf8917932d6604c&quot;
   }
 }</component>
-  <component name="RunManager" selected="JUnit.TelegramBotApplicationTests.contextLoads">
+  <component name="RunManager" selected="Spring Boot.TelegramBotApplication (1)">
     <configuration name="TelegramBotApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="telegram-bot" />
       <extension name="coverage">
@@ -70,19 +86,6 @@
       <option name="MAIN_CLASS_NAME" value="pro.sky.telegrambot.TelegramBotApplicationTests" />
       <option name="METHOD_NAME" value="contextLoads" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="telegram-bot" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="telegram-bot" />
-      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -123,8 +126,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TelegramBotApplicationTests.contextLoads" />
         <item itemvalue="Spring Boot.TelegramBotApplication (1)" />
+        <item itemvalue="JUnit.TelegramBotApplicationTests.contextLoads" />
         <item itemvalue="Spring Boot.Main" />
       </list>
     </recent_temporary>
@@ -141,6 +144,7 @@
       <workItem from="1670517078474" duration="2705000" />
       <workItem from="1670521456959" duration="645000" />
       <workItem from="1671204073949" duration="3999000" />
+      <workItem from="1671995692760" duration="3347000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1670519632063</created>

@@ -15,6 +15,7 @@ public class Person {
     private String username;
     private String phoneNumber;
     private String contactName;
+    private Long chatId;
 
     private Boolean isAdoptive;
     private LocalDate startDate;
@@ -23,10 +24,12 @@ public class Person {
     public Person() {
     }
 
-    public Person(String username, String numberPhone, String contactName) {
+    public Person(String username, String numberPhone, String contactName, Long chatId) {
         this.username = username;
         this.phoneNumber = numberPhone;
         this.contactName = contactName;
+        this.chatId = chatId;
+
         isAdoptive = false;
         startDate = null;
         endDate = null;
@@ -88,22 +91,31 @@ public class Person {
         this.endDate = endDate;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(this);
+    public Long getChatId() {
+        return chatId;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        Person otherPerson = (Person) obj;
-        return Objects.equals(this.username, otherPerson.getUsername());
+    public void setChatId(Long chatId) {
+    this.chatId = chatId;
     }
 
-    @Override
-    public String toString() {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-        String status = isAdoptive ? " взял собаку " + startDate.format(dateFormatter) + " конец исп. " + endDate.format(dateFormatter) : "не брал(а) животное";
-        String personString = String.format("%d. %s, телефон %s, ник в ТГ: %s. %s", id, contactName, phoneNumber, username, status);
-        return personString;
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(this);
+        }
+
+        @Override
+        public boolean equals (Object obj){
+            Person otherPerson = (Person) obj;
+            return Objects.equals(this.username, otherPerson.getUsername());
+        }
+
+        @Override
+        public String toString () {
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+            String status = isAdoptive ? " взял собаку " + startDate.format(dateFormatter) + " конец исп. " + endDate.format(dateFormatter) : "не брал(а) животное";
+            String personString = String.format("%d. %s, телефон %s, ник в ТГ: %s. %s", id, contactName, phoneNumber, username, status);
+            return personString;
+        }
     }
-}

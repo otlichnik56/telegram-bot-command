@@ -33,4 +33,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query(value = "SELECT * FROM person WHERE end_date = :endDate", nativeQuery = true)
     List<Person> getUsernameEndDate(@Param("endDate") LocalDate endDate);
 
+    @Query(value = "select * from person where end_date = current_date", nativeQuery = true)
+    List<Person> getUsernameCompleted();
 }

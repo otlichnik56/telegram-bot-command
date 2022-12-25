@@ -8,8 +8,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SendPhoto;
 import com.pengrad.telegrambot.response.GetFileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.entitydatabase.Person;
 import pro.sky.telegrambot.entitydatabase.Report;
@@ -24,8 +22,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static pro.sky.telegrambot.constants.Strings.MESSAGE_FOR_VOLUNTEER;
-import static pro.sky.telegrambot.constants.Strings.THANKS_FOR_REQUEST;
+import static pro.sky.telegrambot.constants.ChatSettings.volunteerChatId;
+import static pro.sky.telegrambot.constants.Strings.*;
 
 @Service
 public class ShelterService {
@@ -72,8 +70,24 @@ public class ShelterService {
             System.out.println("Ошибка чтения или записи отчёта");
         } finally {
             // Переводим в состояние чтения, чтобы перестать записывать
+            // Перовека на полноту записи!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            SendMessage reply = new SendMessage(message.chat().id(), "Благодарим за ваш отчёт");
+            String text = "Отчёт не сохранён, попытайтесь его отправить заново";
+            if (!(report.getMessage() == null) && !(report.getPhoto() == null)) {
+                text = "Благодарим за ваш отчёт";
+            }
+            if (report.getMessage() == null) {
+                text = WARNING_MESSAGE + " Текст где?";
+                SendMessage reply = new SendMessage(volunteerChatId, "Усыновитель @" + message.chat().username() + " не прислал текст");
+                telegramBot.execute(reply);
+            }
+            if (report.getPhoto() == null) {
+                text = WARNING_MESSAGE + " Фото где?";
+                SendMessage reply = new SendMessage(volunteerChatId, "Усыновитель @" + message.chat().username() + " не прислал фото");
+                telegramBot.execute(reply);
+            }
+            SendMessage reply = new SendMessage(message.chat().id(), text);
             telegramBot.execute(reply);
             SendPhoto sendPhoto = new SendPhoto(message.chat().id(), reportRepository.findById(1L).get().getPhoto());
             telegramBot.execute(sendPhoto);
@@ -205,7 +219,7 @@ public class ShelterService {
             }
 
 
-            newContact = new Person(userName, formattedPhoneString, contactName);
+            newContact = new Person(userName, formattedPhoneString, contactName, chatId);
         } catch (Exception e) {
             newContact = null;
         }

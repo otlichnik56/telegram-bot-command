@@ -31,4 +31,11 @@ public class Strings {
     public static final String CONTACTS_MENU = "Выберите пункт меню";
     public static final String PRINT_CONTACTS_LIST = "Список сотрудников:";
     public static final String ADMIN_MAIN_MENU = "Вы попали в главное меню администратора, выберите подменю";
+
+    public static final String COMPLETE_MESSAGE = "Поздравляю, вы прошли испытание! Питомец ваш навеки ";
+    public static final String FAIL_MESSAGE = "Вы не прошли испытание. С вами сяжется волонтёр или свяжитесь с ним сами ";
+
+    public static final String ADDITIONAL_TEST_MESSAGE = "Чуть-чуть не хватило, но вам был назначен дополнительный срок истынания - ";
+    public static final String END_DATE_FAR_VOLUNTEER_MESSAGE = "Ребята, проверьте список усыновителй. У них завтра заканчивается испытательный срок и ВСЁ этих пёселей вы больше не увидите! ";
+    public static final String WARNING_MESSAGE = "Дорогой усыновитель, мы заметили, что ты заполняешь отчет не так подробно, как необходимо. Пожалуйста, подойди ответственнее к этому занятию. В противном случае волонтеры приюта будут обязаны самолично проверять условия содержания собаки";
 }

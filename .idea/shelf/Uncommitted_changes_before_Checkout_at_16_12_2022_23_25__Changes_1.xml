@@ -1,9 +1,0 @@
-<changelist name="Uncommitted_changes_before_Checkout_at_16_12_2022_23_25_[Changes]1" date="1671208021652" recycled="true" deleted="true">
-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_25_[Changes]1/shelved.patch" />
-  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 16.12.2022 23:25 [Changes]" />
-  <binary>
-    <option name="BEFORE_PATH" value="telegram-bot-command/target/classes/pro/sky/telegrambot/entitydatabase/Person.class" />
-    <option name="AFTER_PATH" value="telegram-bot-command/target/classes/pro/sky/telegrambot/entitydatabase/Person.class" />
-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_16_12_2022_23_25_[Changes]1/Person.class" />
-  </binary>
-</changelist>
