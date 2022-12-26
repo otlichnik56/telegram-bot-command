@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.constants;
-
+/**
+ * кнопки/команды в меню пользователей
+ */
 public class MenuItemsNames {
     public static final String SEND_REPORT = "Отправить отчет";
     public static final String CALL_VOLUNTEER = "Позвать волонтера";

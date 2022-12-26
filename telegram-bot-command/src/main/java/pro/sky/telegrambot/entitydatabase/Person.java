@@ -4,22 +4,49 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+/**
+ *Класс для сохранения контактов в БД.
 
+ * */
 @Entity
 @Table(name = "person")
 public class Person {
 
+    /**
+     * Первичный ключ для записи в БД
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     *  Имя пользователя из Телеграмм, начинается на символ @
+     */
     private String username;
+    /**
+    Номер телефона для информации
+    */
     private String phoneNumber;
+    /**
+    Контактное имя для связи для информации
+     */
     private String contactName;
+    /**
+     * идентификатор чата в телеграмме
+     */
     private Long chatId;
-
+    /**
+     * переменная типа boolean. true если человек взял собаку из приюта
+     */
     private Boolean isAdoptive;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    /**
+     * дата начала испытательного срока
+     */
+
+    private LocalDate startProbationDate;
+    /**
+     * дата окончания испытательного срока, может сдвигаться методом {@link pro.sky.telegrambot.service.ShelterService#extendProbation(String)}}
+     */
+    private LocalDate endProbationDate;
 
     public Person() {
     }
@@ -31,8 +58,8 @@ public class Person {
         this.chatId = chatId;
 
         isAdoptive = false;
-        startDate = null;
-        endDate = null;
+        startProbationDate = null;
+        endProbationDate = null;
     }
 
     public Long getId() {
@@ -75,20 +102,20 @@ public class Person {
         isAdoptive = adoptive;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getStartProbationDate() {
+        return startProbationDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setStartProbationDate(LocalDate startDate) {
+        this.startProbationDate = startDate;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getEndProbationDate() {
+        return endProbationDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void setEndProbationDate(LocalDate endDate) {
+        this.endProbationDate = endDate;
     }
 
     public Long getChatId() {
@@ -111,11 +138,15 @@ public class Person {
             return Objects.equals(this.username, otherPerson.getUsername());
         }
 
-        @Override
+    @Override
         public String toString () {
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-            String status = isAdoptive ? " взял собаку " + startDate.format(dateFormatter) + " конец исп. " + endDate.format(dateFormatter) : "не брал(а) животное";
+            String status = isAdoptive ? " взял собаку " + startProbationDate.format(dateFormatter) + " конец исп. " + endProbationDate.format(dateFormatter) : "не брал(а) животное";
             String personString = String.format("%d. %s, телефон %s, ник в ТГ: %s. %s", id, contactName, phoneNumber, username, status);
             return personString;
         }
+
+
+
+
     }

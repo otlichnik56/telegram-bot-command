@@ -174,9 +174,9 @@ public class ShelterService {
         try {
             Person guardian = personRepository.findById(Long.valueOf(id)).get();
             guardian.setAdoptive(true);
-            guardian.setStartDate(LocalDate.now());
+            guardian.setStartProbationDate(LocalDate.now());
             LocalDate endDate = LocalDate.now().plusDays(30);
-            guardian.setEndDate(endDate);
+            guardian.setEndProbationDate(endDate);
             personRepository.save(guardian);
         }catch (RuntimeException e){
 
@@ -236,9 +236,9 @@ public class ShelterService {
 
             int days = Integer.parseInt(daysAdd);
             Person guardian = personRepository.getById(id);
-            LocalDate endDate = guardian.getEndDate();
+            LocalDate endDate = guardian.getEndProbationDate();
 
-            guardian.setEndDate(endDate.plusDays(days));
+            guardian.setEndProbationDate(endDate.plusDays(days));
             personRepository.save(guardian);
         }catch (RuntimeException e){
 

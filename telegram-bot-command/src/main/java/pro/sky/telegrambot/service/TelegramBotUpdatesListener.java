@@ -24,6 +24,9 @@ import java.util.Map;
 
 import static pro.sky.telegrambot.constants.Strings.*;
 
+/**
+ * сервис будет делиться на 3 других, временно существует в таком виде
+ */
 @Service
 public class TelegramBotUpdatesListener implements UpdatesListener {
     private final ShelterService shelterService;

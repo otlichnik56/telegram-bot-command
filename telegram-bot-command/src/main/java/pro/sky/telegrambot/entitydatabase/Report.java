@@ -2,18 +2,34 @@ package pro.sky.telegrambot.entitydatabase;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
+/**
+ * Класс для сохранения отчетов в БД
+ */
 @Entity
 @Table(name = "report")
 public class Report {
-
+    /**
+     * Первичный ключ записи в БД
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    /**
+     * Имя пользователя в телеграмме, начинается с @
+     */
     private String username;
+    /**
+     * текст сопровождение отчета - описание рациона, поведения..
+     */
     private String message;
+    /**
+     * Представление фото отчета в виде массива байт
+     */
     @Lob
     private byte[] photo;
+    /**
+     * Дата фотоотчета
+     */
     private LocalDate dateReport;
 
     public Long getId() {

@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.constants;
-
+/**
+ * адреса и названия файлов из которых берутся данные для {@link pro.sky.telegrambot.model.Shelter}
+ */
 public class FileNames {
     public static final String DECLINE_REASONS = "/declineReasons.txt";
     public static final String GREETINGS = "/greetings.txt";

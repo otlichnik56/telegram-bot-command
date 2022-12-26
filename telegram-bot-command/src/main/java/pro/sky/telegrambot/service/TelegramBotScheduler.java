@@ -19,6 +19,9 @@ import java.util.stream.Collectors;
 import static pro.sky.telegrambot.constants.Strings.*;
 import static pro.sky.telegrambot.constants.ChatSettings.*;
 
+/**
+ * Класс для ежедневной проверки отчетов
+ */
 @Service
 public class TelegramBotScheduler {
 
@@ -37,7 +40,7 @@ public class TelegramBotScheduler {
      * Формирует поочередно собщения для прошедших испытание, не прошедших и тем кому продлили срок испытания.
      * Также посылает волонтерам список лиц, у которых истекает испытательный срок сегодня.
      */
-    @Scheduled(cron = "0 0/1 * ? * *")
+    @Scheduled(cron = "0 0 9 ? * *")
     public void run() {
         logger.info("Processing scheduled");
         sendingMessagesPerson(getListUserComplete(), COMPLETE_MESSAGE);

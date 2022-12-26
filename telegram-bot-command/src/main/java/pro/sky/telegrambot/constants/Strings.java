@@ -1,5 +1,7 @@
 package pro.sky.telegrambot.constants;
-
+/**
+ * строки приветствий и описаний меню, помощь в заполнении команд
+ */
 public class Strings {
 
 

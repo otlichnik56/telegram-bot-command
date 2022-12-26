@@ -1,5 +1,8 @@
 package pro.sky.telegrambot.constants;
 
+/**
+ * кнопки/команды в меню администратора
+ */
 public class AdminMenuItems {
     public static final String DELETE_CONTACT = "Удалить контакт";
     public static final String APPOINT_GUARDIAN = "Назначить опекуном";

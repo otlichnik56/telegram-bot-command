@@ -9,6 +9,10 @@ import pro.sky.telegrambot.constants.MenuItemsNames;
 
 
 // кнопки, которые отображаются из главного меню, этапа 1 и 2. генерирует три разные клавиатуры
+
+/**
+ * Клавиатуры всех меню бота
+ */
 @Component
 public class ReplyKeyboards {
     /*
@@ -18,13 +22,37 @@ public class ReplyKeyboards {
         public final static Keyboard replyEmptyKeyboard = new ReplyKeyboards().generateEmptyMenuKeyboard();
         public final static Keyboard recommendationKeyboard = new ReplyKeyboards().generateRecommendationMenuKeyboard();
     */
+    /**
+     * Главное меню пользователей
+     */
     public final Keyboard mainMenuKeyboards;
+    /**
+     * Меню пользователя с информацией о приюте
+     */
     public final Keyboard aboutShelterMenuKeyboards;
+    /**
+     * меню пользователя с информацией по усыновлению собаки
+     */
     public final Keyboard adoptDogMenuKeyboards;
+    /**
+     *пустая клавиатура при выполнении запроса
+     */
     public final Keyboard emptyKeyboard;
+    /**
+     * меню пользователя со списками рекоммендаций
+     */
     public final Keyboard recommendationMenuKeyboard;
+    /**
+     * Главное меню администратора
+     */
     public final Keyboard сontrolMainMenu;
+    /**
+     * Меню администратора по управлению контактами
+     */
     public final Keyboard contactsControlMenu;
+    /**
+     * Меню администратора по управлению отчетами
+     */
     public final Keyboard reportsControlMenu;
 
     public ReplyKeyboards() {

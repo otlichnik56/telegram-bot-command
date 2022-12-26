@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Класс для загрузки и хранения строк из текстовых файлов, которые не будут изменяться часто - адреса, рекомендации, описания.
+ */
 @Component
 public class Shelter {
 
@@ -55,17 +58,21 @@ public class Shelter {
     private String homeImprovementsForDisabled;
     private String homeImprovementsForAdults;
 
-
-    private String safetyPrecuations;
+   private String safetyPrecuations;
 
     private Logger logger = LoggerFactory.getLogger(Shelter.class);
 
 
-
+    /**
+     * При создании бина все строковые поля инициализуруются из файлов одним общим методом {@link #updateInfoAboutShelter()}
+     */
     public Shelter() {
         updateInfoAboutShelter();
     }
 
+    /**
+     * инициализация строковых полей из соответсвующих файлов методом {@link #readStringsFromFile(String)}
+     */
     public void updateInfoAboutShelter() {
         greetings = readStringsFromFile(greetingsFileName);
         description = readStringsFromFile(descriptionFileName);
@@ -82,11 +89,12 @@ public class Shelter {
         homeImprovementsForDisabled = readStringsFromFile(homeImprovementsForDisabledFileName);
 
     }
-
+    /**
+    Метод чтения из файла содержимого в виде массива строк. Затем строки склеиваются в одну чтобы передать ее в {@link com.pengrad.telegrambot.request.SendMessage#SendMessage(Object, String)}
+     */
     private String readStringsFromFile(String fileName) {
         try {
-            return Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI())))
-                    .stream().collect(Collectors.joining("\n"));
+            return String.join("\n", Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI()))));
         } catch (IOException e) {
 
         } catch (URISyntaxException e) {
@@ -95,9 +103,7 @@ public class Shelter {
 
         return "Не могу считать информацию";
     }
-    public String greetings() {
-        return greetings;
-    }
+
 
     public String getAbout() {
         return description;
@@ -113,8 +119,6 @@ public class Shelter {
     public String getSafetyPrecuations() {
         return safetyPrecuations;
     }
-
-
 
     public String getDocumentsForAdoption() {
         return documentsForAdoption;
