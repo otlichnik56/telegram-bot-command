@@ -16,4 +16,5 @@ public class FileNames {
     public static final String HOME_IMPROVEMENTS_FOR_PUPPIES = "/homeImprovementsForPuppies.txt";
     public static final String HOME_IMPROVEMENTS_FOR_DISABLED = "/homeImprovementsForDisabled.txt";
     public static final String HOME_IMPROVEMENTS_FOR_ADULTS = "/homeImprovementsForAdults.txt";
+
 }

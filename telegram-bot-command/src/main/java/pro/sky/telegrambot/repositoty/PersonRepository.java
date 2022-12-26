@@ -33,13 +33,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query(value = "SELECT * FROM person WHERE status = :status", nativeQuery = true)
     List<Person> getPersonFromDataBase(@Param("status") Boolean status);
 
-//    @Query(value = "UPDATE person SET end_date = end_date + :extendDays WHERE id = :id", nativeQuery = true)
-  //  void addToEndDateById(@Param("id") Long id, @Param("endDate") Integer extendDays);
-
-    //@Query(value = "DELETE FROM person WHERE username = :username AND status = :status", nativeQuery = true)
-    //void deletePersonFromDataBase(@Param("username") String username, @Param("status") Boolean status);
-
-
     /** Метод возвращает лист пользователей из таблицы person.
      * В качестве параметра передается дата. Возвращаемые сущности Identity.
      * @deprecated

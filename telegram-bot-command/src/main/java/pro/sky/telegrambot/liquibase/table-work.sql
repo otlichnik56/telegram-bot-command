@@ -2,7 +2,6 @@
 
 -- changeset nurkatovich:1
 
--- создание таблиц, пока не уверен, что это окончательный вариант
 
 CREATE TABLE person
 (
@@ -18,9 +17,9 @@ CREATE TABLE person
 
 
 CREATE TABLE report(
-                       id              SERIAL PRIMARY KEY,
-                       username        TEXT,
-                       message         TEXT,
-                       photo           OID,
-                       date_report     DATE
+    id              SERIAL PRIMARY KEY,
+    username        TEXT,
+    message         TEXT,
+    photo           OID,
+    date_report     DATE
 );

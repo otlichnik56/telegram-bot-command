@@ -41,7 +41,6 @@ public class Person {
     /**
      * дата начала испытательного срока
      */
-
     private LocalDate startProbationDate;
     /**
      * дата окончания испытательного срока, может сдвигаться методом {@link pro.sky.telegrambot.service.ShelterService#extendProbation(String)}}
@@ -56,7 +55,6 @@ public class Person {
         this.phoneNumber = numberPhone;
         this.contactName = contactName;
         this.chatId = chatId;
-
         isAdoptive = false;
         startProbationDate = null;
         endProbationDate = null;
@@ -127,26 +125,24 @@ public class Person {
     }
 
 
-        @Override
-        public int hashCode() {
+    @Override
+    public int hashCode() {
             return Objects.hashCode(this);
         }
 
-        @Override
-        public boolean equals (Object obj){
-            Person otherPerson = (Person) obj;
-            return Objects.equals(this.username, otherPerson.getUsername());
-        }
+    @Override
+    public boolean equals (Object obj){
+        Person otherPerson = (Person) obj;
+        return Objects.equals(this.username, otherPerson.getUsername());
+    }
 
     @Override
-        public String toString () {
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yy");
-            String status = isAdoptive ? " взял собаку " + startProbationDate.format(dateFormatter) + " конец исп. " + endProbationDate.format(dateFormatter) : "не брал(а) животное";
-            String personString = String.format("%d. %s, телефон %s, ник в ТГ: %s. %s", id, contactName, phoneNumber, username, status);
-            return personString;
-        }
-
-
-
-
+    public String toString () {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd.MM.yy");
+        String status = isAdoptive ? " взял собаку " + startProbationDate.format(dateFormatter) + " конец исп. " + endProbationDate.format(dateFormatter) : "не брал(а) животное";
+        String personString = String.format("%d. %s, телефон %s, ник в ТГ: %s. %s", id, contactName, phoneNumber, username, status);
+        return personString;
     }
+
+
+}

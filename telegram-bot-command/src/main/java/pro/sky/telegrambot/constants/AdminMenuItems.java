@@ -14,4 +14,5 @@ public class AdminMenuItems {
     public static final String PRINT_CONTACTS_LIST = "Вывести контакты";
     public static final String TO_FILES_MENU = "Файлы";
     public static final String WATCH_DEBTORS = "Вывести должников";
+
 }

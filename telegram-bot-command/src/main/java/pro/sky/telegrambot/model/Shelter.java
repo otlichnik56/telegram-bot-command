@@ -20,31 +20,19 @@ import java.util.stream.Collectors;
 @Component
 public class Shelter {
 
-
-    //  @Value("${greetingsFileName}")
     private String greetingsFileName = FileNames.GREETINGS;
-    //@Value("${descriptionFileName}")
     private String descriptionFileName = FileNames.DESCRIPTION;
-    //    @Value("${scheduleFileName}")
     private String scheduleAndAddressFileName = FileNames.SCHEDULE_AND_ADDRESS;
-
-    //    @Value("${documentsForAdoptionFileName}")
     private String documentsForAdoptionFileName = FileNames.DOCUMENTS_FOR_ADOPTION;
-    //    @Value("${safetyPrecuationsFileName")
     private String safetyPrecuationsFileName = FileNames.SAFETY_PRECUATIONS;
-    //    @Value("${declineReasonsFileName}")
     private String declineReasonsFileName = FileNames.DECLINE_REASONS;
     private String meetingRulesFileName = FileNames.MEETING_RULES;
     private String approvedCynologystsFileName = FileNames.APPROVED_CYNOLOGYSTS;
     private String cynologystsAdvicesFileName = FileNames.CYNOLOGYSTS_ADVICES;
-
     private String transportationRecommendationsFileName = FileNames.TRANSPORTATION_RECOMMENDATIONS;
     private String homeImprovementsForPuppiesFileName = FileNames.HOME_IMPROVEMENTS_FOR_PUPPIES;
     private String homeImprovementsForDisabledFileName = FileNames.HOME_IMPROVEMENTS_FOR_DISABLED;
     private String homeImprovementsForAdultsFileName = FileNames.HOME_IMPROVEMENTS_FOR_ADULTS;
-
-
-
     private String greetings;
     private String description;
     private String scheduleAndAddress;
@@ -57,8 +45,7 @@ public class Shelter {
     private String homeImprovementsForPuppies;
     private String homeImprovementsForDisabled;
     private String homeImprovementsForAdults;
-
-   private String safetyPrecuations;
+    private String safetyPrecuations;
 
     private Logger logger = LoggerFactory.getLogger(Shelter.class);
 
@@ -89,6 +76,7 @@ public class Shelter {
         homeImprovementsForDisabled = readStringsFromFile(homeImprovementsForDisabledFileName);
 
     }
+
     /**
     Метод чтения из файла содержимого в виде массива строк. Затем строки склеиваются в одну чтобы передать ее в {@link com.pengrad.telegrambot.request.SendMessage#SendMessage(Object, String)}
      */
@@ -96,60 +84,48 @@ public class Shelter {
         try {
             return String.join("\n", Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI()))));
         } catch (IOException e) {
-
+            logger.error("Ошибка чтения-записи");
         } catch (URISyntaxException e) {
-
+            logger.error("Ошибка URISyntaxException");
         }
-
         return "Не могу считать информацию";
     }
-
-
     public String getAbout() {
         return description;
     }
     public String getMeetingRules() {
         return meetingRules;
     }
-
     public String getScheduleAndAdress() {
         return scheduleAndAddress;
     }
-
     public String getSafetyPrecuations() {
         return safetyPrecuations;
     }
-
     public String getDocumentsForAdoption() {
         return documentsForAdoption;
     }
-
     public String getDeclineReasons() {
         return declineReasons;
     }
-
     public String getApprovedCunologysts() {
         return approvedCynologysts;
-
     }
 
     public String getCynologystsAdvices() {
         return cynologystsAdvices;
     }
-
     public String getTransportationRecommendations() {
         return transportationRecommendations;
     }
-
     public String getHomeImprovementsForAdultsRecommendations() {
         return homeImprovementsForAdults;
     }
-
     public String getHomeImprovementsForPuppiesRecommendations() {
         return homeImprovementsForPuppies;
     }
-
     public String getHomeImprovementsForDisabledRecommendations() {
         return homeImprovementsForDisabled;
     }
+
 }
