@@ -221,10 +221,17 @@ public class ShelterService {
             LocalDate endDate = guardian.getEndProbationDate();
             guardian.setEndProbationDate(endDate.plusDays(days));
             personRepository.save(guardian);
+            notificationExtendProbation(guardian.getChatId(), days);
         }catch (TelegramBotExceptionAPI e){
             logger.error("Ошибка. Изменение не сохранено");
         }
     }
+
+    public void notificationExtendProbation(Long chatID, int days) {
+        SendMessage message = new SendMessage(chatID, "Ваш испытательный срок увеличен на " + days + " дней");
+        telegramBot.execute(message);
+    }
+
 
     public String printContactsList() {
         return personRepository.findAll().stream().map(Objects::toString).collect(Collectors.joining("\n"));
