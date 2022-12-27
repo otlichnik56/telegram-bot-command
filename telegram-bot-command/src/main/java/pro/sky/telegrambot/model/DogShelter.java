@@ -1,7 +1,7 @@
 package pro.sky.telegrambot.model;
 
 import org.springframework.stereotype.Component;
-import pro.sky.telegrambot.constants.FileNames;
+import pro.sky.telegrambot.constant.FileNames;
 
 @Component
 public class DogShelter extends Shelter {

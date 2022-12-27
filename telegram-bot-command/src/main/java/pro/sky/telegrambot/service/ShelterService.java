@@ -10,12 +10,12 @@ import com.pengrad.telegrambot.response.GetFileResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import pro.sky.telegrambot.entitydatabase.Person;
-import pro.sky.telegrambot.entitydatabase.Report;
-import pro.sky.telegrambot.exceptions.TelegramBotExceptionAPI;
+import pro.sky.telegrambot.entity.Person;
+import pro.sky.telegrambot.entity.Report;
+import pro.sky.telegrambot.exception.TelegramBotExceptionAPI;
 import pro.sky.telegrambot.model.Shelter;
-import pro.sky.telegrambot.repositoty.PersonRepository;
-import pro.sky.telegrambot.repositoty.ReportRepository;
+import pro.sky.telegrambot.repository.PersonRepository;
+import pro.sky.telegrambot.repository.ReportRepository;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -24,8 +24,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static pro.sky.telegrambot.constants.ChatSettings.volunteerChatId;
-import static pro.sky.telegrambot.constants.Strings.*;
+import static pro.sky.telegrambot.constant.ChatSettings.volunteerChatId;
+import static pro.sky.telegrambot.constant.Strings.*;
 
 
 public class ShelterService {

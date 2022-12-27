@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.constants;
+package pro.sky.telegrambot.constant;
 
 /**
  * адреса и названия файлов из которых берутся данные для {@link pro.sky.telegrambot.model.Shelter}

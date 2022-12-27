@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.constants;
+package pro.sky.telegrambot.constant;
 /**
  * кнопки/команды в меню пользователей
  */

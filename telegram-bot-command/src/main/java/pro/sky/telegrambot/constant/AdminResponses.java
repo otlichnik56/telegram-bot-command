@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.constants;
+package pro.sky.telegrambot.constant;
 
 /**
  * Отметки, которыми помечаются админские запросы, чтобы предоставить данные для определенных методов, а не как пункты меню

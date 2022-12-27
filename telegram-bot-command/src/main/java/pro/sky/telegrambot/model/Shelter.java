@@ -3,7 +3,7 @@ package pro.sky.telegrambot.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pro.sky.telegrambot.TelegramBotApplication;
-import pro.sky.telegrambot.constants.FileNames;
+import pro.sky.telegrambot.constant.FileNames;
 
 import java.io.*;
 import java.net.URISyntaxException;

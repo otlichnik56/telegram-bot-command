@@ -6,18 +6,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.entitydatabase.Person;
-import pro.sky.telegrambot.repositoty.PersonRepository;
+import pro.sky.telegrambot.entity.Person;
+import pro.sky.telegrambot.repository.PersonRepository;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static pro.sky.telegrambot.constants.Strings.*;
-import static pro.sky.telegrambot.constants.ChatSettings.*;
+import static pro.sky.telegrambot.constant.Strings.*;
+import static pro.sky.telegrambot.constant.ChatSettings.*;
 
 /**
  * Класс для ежедневной проверки отчетов

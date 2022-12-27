@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.exceptions;
+package pro.sky.telegrambot.exception;
 
 public class TelegramBotExceptionAPI extends RuntimeException{
 

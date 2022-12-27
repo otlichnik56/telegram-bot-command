@@ -1,11 +1,11 @@
-package pro.sky.telegrambot.Buttons;
+package pro.sky.telegrambot.button;
 
 import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.model.request.KeyboardButton;
 import com.pengrad.telegrambot.model.request.ReplyKeyboardMarkup;
 import org.springframework.stereotype.Component;
-import pro.sky.telegrambot.constants.AdminMenuItems;
-import pro.sky.telegrambot.constants.MenuItemsNames;
+import pro.sky.telegrambot.constant.AdminMenuItems;
+import pro.sky.telegrambot.constant.MenuItemsNames;
 
 
 // кнопки, которые отображаются из главного меню, этапа 1 и 2. генерирует три разные клавиатуры

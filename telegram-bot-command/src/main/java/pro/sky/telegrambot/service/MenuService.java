@@ -5,19 +5,19 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.Keyboard;
 import com.pengrad.telegrambot.request.SendMessage;
 import org.springframework.stereotype.Service;
-import pro.sky.telegrambot.Buttons.ReplyKeyboards;
-import pro.sky.telegrambot.constants.AdminMenuItems;
-import pro.sky.telegrambot.constants.ChatSettings;
-import pro.sky.telegrambot.constants.MenuItemsNames;
-import pro.sky.telegrambot.constants.Strings;
-import pro.sky.telegrambot.constants.AdminResponses;
-import pro.sky.telegrambot.constants.Responses;
-import pro.sky.telegrambot.constants.ShelterType;
+import pro.sky.telegrambot.button.ReplyKeyboards;
+import pro.sky.telegrambot.constant.AdminMenuItems;
+import pro.sky.telegrambot.constant.ChatSettings;
+import pro.sky.telegrambot.constant.MenuItemsNames;
+import pro.sky.telegrambot.constant.Strings;
+import pro.sky.telegrambot.constant.AdminResponses;
+import pro.sky.telegrambot.constant.Responses;
+import pro.sky.telegrambot.constant.ShelterType;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static pro.sky.telegrambot.constants.Strings.*;
+import static pro.sky.telegrambot.constant.Strings.*;
 
 @Service
 public class MenuService {
