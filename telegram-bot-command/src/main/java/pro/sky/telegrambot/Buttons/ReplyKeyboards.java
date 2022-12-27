@@ -63,7 +63,7 @@ public class ReplyKeyboards {
         reportsControlMenu = generateControlTwoKeyboard();
 
 
-        shelterMenu = generateControlTwoKeyboard();
+        shelterMenu = generateShelterMenuKeyboard();
         mainMenuKeyboards = generateMainMenuKeyboard();
         aboutShelterMenuKeyboards = generateAboutShelterMenuKeyboard();
         adoptDogMenuKeyboards = generateAdoptDogMenuKeyboard();

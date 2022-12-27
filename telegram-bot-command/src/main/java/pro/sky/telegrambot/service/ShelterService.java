@@ -10,7 +10,6 @@ import com.pengrad.telegrambot.response.GetFileResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.entitydatabase.Person;
 import pro.sky.telegrambot.entitydatabase.Report;
 import pro.sky.telegrambot.exceptions.TelegramBotExceptionAPI;
@@ -123,7 +122,7 @@ public class ShelterService {
         return shelter.getDeclineReasons();
     }
 
-    public String getmeetingRules() {
+    public String getMeetingRules() {
         return shelter.getMeetingRules();
     }
 

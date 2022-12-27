@@ -1,4 +1,4 @@
-package pro.sky.telegrambot.model;
+package pro.sky.telegrambot.constants;
 
 public enum ShelterType {
     CAT_SHELTER,
