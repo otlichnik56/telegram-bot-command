@@ -35,7 +35,7 @@ public class ReplyKeyboards {
      */
     public final Keyboard adoptDogMenuKeyboards;
     /**
-     *пустая клавиатура при выполнении запроса
+     * пустая клавиатура при выполнении запроса
      */
     public final Keyboard emptyKeyboard;
     /**
@@ -54,6 +54,8 @@ public class ReplyKeyboards {
      * Меню администратора по управлению отчетами
      */
     public final Keyboard reportsControlMenu;
+    public final Keyboard shelterMenu;
+
 
     public ReplyKeyboards() {
         сontrolMainMenu = generateControlMainKeyboard();
@@ -61,6 +63,7 @@ public class ReplyKeyboards {
         reportsControlMenu = generateControlTwoKeyboard();
 
 
+        shelterMenu = generateShelterMenuKeyboard();
         mainMenuKeyboards = generateMainMenuKeyboard();
         aboutShelterMenuKeyboards = generateAboutShelterMenuKeyboard();
         adoptDogMenuKeyboards = generateAdoptDogMenuKeyboard();
@@ -78,7 +81,20 @@ public class ReplyKeyboards {
                 new KeyboardButton[]{
                         new KeyboardButton(MenuItemsNames.SEND_REPORT),
                         new KeyboardButton(MenuItemsNames.CALL_VOLUNTEER)
+                },
+                new KeyboardButton[]{
+                        new KeyboardButton(MenuItemsNames.TO_SHELTER_MENU)
                 });
+        replyKeyboardMarkup.resizeKeyboard(true);
+        replyKeyboardMarkup.oneTimeKeyboard(true);
+        return replyKeyboardMarkup;
+    }
+
+    public Keyboard generateShelterMenuKeyboard() {
+
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup(
+                new KeyboardButton(MenuItemsNames.DOG_SHELTER_CHOOSE),
+                new KeyboardButton(MenuItemsNames.CAT_SHELTER_CHOOSE));
         replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;
@@ -184,11 +200,11 @@ public class ReplyKeyboards {
                 new KeyboardButton[]{
                         new KeyboardButton(AdminMenuItems.APPOINT_GUARDIAN),
                 },
-        new KeyboardButton[]{
+                new KeyboardButton[]{
 
-                new KeyboardButton(AdminMenuItems.WATCH_DEBTORS),
-                new KeyboardButton(AdminMenuItems.TO_MAIN_MENU)
-        });
+                        new KeyboardButton(AdminMenuItems.WATCH_DEBTORS),
+                        new KeyboardButton(AdminMenuItems.TO_MAIN_MENU)
+                });
         replyKeyboardMarkup.resizeKeyboard(true);
         replyKeyboardMarkup.oneTimeKeyboard(true);
         return replyKeyboardMarkup;

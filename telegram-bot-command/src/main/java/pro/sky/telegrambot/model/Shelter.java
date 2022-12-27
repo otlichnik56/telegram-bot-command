@@ -2,7 +2,6 @@ package pro.sky.telegrambot.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import pro.sky.telegrambot.TelegramBotApplication;
 import pro.sky.telegrambot.constants.FileNames;
 
@@ -10,37 +9,33 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Класс для загрузки и хранения строк из текстовых файлов, которые не будут изменяться часто - адреса, рекомендации, описания.
  */
-@Component
-public class Shelter {
 
-    private String greetingsFileName = FileNames.GREETINGS;
-    private String descriptionFileName = FileNames.DESCRIPTION;
-    private String scheduleAndAddressFileName = FileNames.SCHEDULE_AND_ADDRESS;
-    private String documentsForAdoptionFileName = FileNames.DOCUMENTS_FOR_ADOPTION;
-    private String safetyPrecuationsFileName = FileNames.SAFETY_PRECUATIONS;
-    private String declineReasonsFileName = FileNames.DECLINE_REASONS;
-    private String meetingRulesFileName = FileNames.MEETING_RULES;
-    private String approvedCynologystsFileName = FileNames.APPROVED_CYNOLOGYSTS;
-    private String cynologystsAdvicesFileName = FileNames.CYNOLOGYSTS_ADVICES;
-    private String transportationRecommendationsFileName = FileNames.TRANSPORTATION_RECOMMENDATIONS;
-    private String homeImprovementsForPuppiesFileName = FileNames.HOME_IMPROVEMENTS_FOR_PUPPIES;
-    private String homeImprovementsForDisabledFileName = FileNames.HOME_IMPROVEMENTS_FOR_DISABLED;
-    private String homeImprovementsForAdultsFileName = FileNames.HOME_IMPROVEMENTS_FOR_ADULTS;
+public abstract class Shelter {
+
+    private String greetingsFileName = FileNames.GREETINGS_CAT_SHELTER;
+    private String descriptionFileName = FileNames.DESCRIPTION_CAT_SHELTER;
+    private String scheduleAndAddressFileName = FileNames.SCHEDULE_AND_ADDRESS_CAT_SHELTER;
+    private String documentsForAdoptionFileName = FileNames.DOCUMENTS_FOR_ADOPTION_CAT_SHELTER;
+    private String safetyPrecuationsFileName = FileNames.SAFETY_PRECUATIONS_CAT_SHELTER;
+    private String declineReasonsFileName = FileNames.DECLINE_REASONS_CAT_SHELTER;
+    private String meetingRulesFileName = FileNames.MEETING_RULES_CAT_SHELTER;
+    private String transportationRecommendationsFileName = FileNames.TRANSPORTATION_RECOMMENDATIONS_CAT_SHELTER;
+    private String homeImprovementsForPuppiesFileName = FileNames.HOME_IMPROVEMENTS_FOR_PUPPIES_CAT_SHELTER;
+    private String homeImprovementsForDisabledFileName = FileNames.HOME_IMPROVEMENTS_FOR_DISABLED_CAT_SHELTER;
+    private String homeImprovementsForAdultsFileName = FileNames.HOME_IMPROVEMENTS_FOR_ADULTS_CAT_SHELTER;
+
     private String greetings;
     private String description;
     private String scheduleAndAddress;
     private String documentsForAdoption;
     private String declineReasons;
     private String meetingRules;
-    private String approvedCynologysts;
-    private String cynologystsAdvices;
+
     private String transportationRecommendations;
     private String homeImprovementsForPuppies;
     private String homeImprovementsForDisabled;
@@ -53,8 +48,54 @@ public class Shelter {
     /**
      * При создании бина все строковые поля инициализуруются из файлов одним общим методом {@link #updateInfoAboutShelter()}
      */
-    public Shelter() {
+    public Shelter(String greetingsFileName,
+                   String descriptionFileName,
+                   String scheduleAndAddressFileName,
+                   String documentsForAdoptionFileName,
+                   String safetyPrecuationsFileName,
+                   String declineReasonsFileName,
+                   String meetingRulesFileName,
+                   String transportationRecommendationsFileName,
+                   String homeImprovementsForPuppiesFileName,
+                   String homeImprovementsForDisabledFileName,
+                   String homeImprovementsForAdultsFileName) {
+        initializeFileNames(greetingsFileName,
+                descriptionFileName,
+                scheduleAndAddressFileName,
+                documentsForAdoptionFileName,
+                safetyPrecuationsFileName,
+                declineReasonsFileName,
+                meetingRulesFileName,
+                transportationRecommendationsFileName,
+                homeImprovementsForPuppiesFileName,
+                homeImprovementsForDisabledFileName,
+                homeImprovementsForAdultsFileName);
         updateInfoAboutShelter();
+    }
+
+
+    protected void initializeFileNames(String greetingsFileName,
+                                       String descriptionFileName,
+                                       String scheduleAndAddressFileName,
+                                       String documentsForAdoptionFileName,
+                                       String safetyPrecuationsFileName,
+                                       String declineReasonsFileName,
+                                       String meetingRulesFileName,
+                                       String transportationRecommendationsFileName,
+                                       String homeImprovementsForPuppiesFileName,
+                                       String homeImprovementsForDisabledFileName,
+                                       String homeImprovementsForAdultsFileName) {
+        this.greetingsFileName = greetingsFileName;
+        this.descriptionFileName = descriptionFileName;
+        this.scheduleAndAddressFileName = scheduleAndAddressFileName;
+        this.documentsForAdoptionFileName = documentsForAdoptionFileName;
+        this.safetyPrecuationsFileName = safetyPrecuationsFileName;
+        this.declineReasonsFileName = declineReasonsFileName;
+        this.meetingRulesFileName = meetingRulesFileName;
+        this.transportationRecommendationsFileName = transportationRecommendationsFileName;
+        this.homeImprovementsForPuppiesFileName = homeImprovementsForPuppiesFileName;
+        this.homeImprovementsForDisabledFileName = homeImprovementsForDisabledFileName;
+        this.homeImprovementsForAdultsFileName = homeImprovementsForAdultsFileName;
     }
 
     /**
@@ -68,8 +109,6 @@ public class Shelter {
         declineReasons = readStringsFromFile(declineReasonsFileName);
         safetyPrecuations = readStringsFromFile(safetyPrecuationsFileName);
         meetingRules = readStringsFromFile(meetingRulesFileName);
-        approvedCynologysts = readStringsFromFile(approvedCynologystsFileName);
-        cynologystsAdvices = readStringsFromFile(cynologystsAdvicesFileName);
         transportationRecommendations = readStringsFromFile(transportationRecommendationsFileName);
         homeImprovementsForAdults = readStringsFromFile(homeImprovementsForAdultsFileName);
         homeImprovementsForPuppies = readStringsFromFile(homeImprovementsForPuppiesFileName);
@@ -78,9 +117,9 @@ public class Shelter {
     }
 
     /**
-    Метод чтения из файла содержимого в виде массива строк. Затем строки склеиваются в одну чтобы передать ее в {@link com.pengrad.telegrambot.request.SendMessage#SendMessage(Object, String)}
+     * Метод чтения из файла содержимого в виде массива строк. Затем строки склеиваются в одну чтобы передать ее в {@link com.pengrad.telegrambot.request.SendMessage#SendMessage(Object, String)}
      */
-    private String readStringsFromFile(String fileName) {
+    protected String readStringsFromFile(String fileName) {
         try {
             return String.join("\n", Files.readAllLines(Paths.get(Objects.requireNonNull(TelegramBotApplication.class.getResource(fileName).toURI()))));
         } catch (IOException e) {
@@ -90,40 +129,44 @@ public class Shelter {
         }
         return "Не могу считать информацию";
     }
+
     public String getAbout() {
         return description;
     }
+
     public String getMeetingRules() {
         return meetingRules;
     }
+
     public String getScheduleAndAdress() {
         return scheduleAndAddress;
     }
+
     public String getSafetyPrecuations() {
         return safetyPrecuations;
     }
+
     public String getDocumentsForAdoption() {
         return documentsForAdoption;
     }
+
     public String getDeclineReasons() {
         return declineReasons;
     }
-    public String getApprovedCunologysts() {
-        return approvedCynologysts;
-    }
 
-    public String getCynologystsAdvices() {
-        return cynologystsAdvices;
-    }
+
     public String getTransportationRecommendations() {
         return transportationRecommendations;
     }
+
     public String getHomeImprovementsForAdultsRecommendations() {
         return homeImprovementsForAdults;
     }
+
     public String getHomeImprovementsForPuppiesRecommendations() {
         return homeImprovementsForPuppies;
     }
+
     public String getHomeImprovementsForDisabledRecommendations() {
         return homeImprovementsForDisabled;
     }

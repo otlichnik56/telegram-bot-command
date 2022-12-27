@@ -10,7 +10,6 @@ import com.pengrad.telegrambot.response.GetFileResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.entitydatabase.Person;
 import pro.sky.telegrambot.entitydatabase.Report;
 import pro.sky.telegrambot.exceptions.TelegramBotExceptionAPI;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 import static pro.sky.telegrambot.constants.ChatSettings.volunteerChatId;
 import static pro.sky.telegrambot.constants.Strings.*;
 
-@Service
+
 public class ShelterService {
     private final Shelter shelter;
     private final PersonRepository personRepository;
@@ -99,6 +98,9 @@ public class ShelterService {
         telegramBot.execute(replyMessage);
     }
 
+    public Shelter getShelter() {
+        return shelter;
+    }
 
     public String getAbout() {
         return shelter.getAbout();
@@ -120,7 +122,7 @@ public class ShelterService {
         return shelter.getDeclineReasons();
     }
 
-    public String getmeetingRules() {
+    public String getMeetingRules() {
         return shelter.getMeetingRules();
     }
 
@@ -129,13 +131,7 @@ public class ShelterService {
     }
 
 
-    public String getApprovedCynologysts() {
-        return shelter.getApprovedCunologysts();
-    }
 
-    public String getCynologystsAdvices() {
-        return shelter.getCynologystsAdvices();
-    }
 
     public String getTransportationRecommendations() {
         return shelter.getTransportationRecommendations();
