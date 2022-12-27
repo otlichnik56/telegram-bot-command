@@ -27,5 +27,9 @@ public class MenuItemsNames {
     public static final String RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_ADUALTS = "Обустройство дома для взрослой собаки";
     public static final String RECOMMENDATIONS_HOME_IMPROVEMENT_FOR_DISABLED = "Обустройство дома для собаки с ограничениями";
     public static final String START = "/start";
+    public static final String TO_SHELTER_MENU = "Выбрать приют";
 
+
+    public static final String DOG_SHELTER_CHOOSE = "Собачий приют";
+    public static final String CAT_SHELTER_CHOOSE = "Кошачий приют";
 }

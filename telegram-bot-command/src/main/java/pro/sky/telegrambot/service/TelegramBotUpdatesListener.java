@@ -16,6 +16,7 @@ import pro.sky.telegrambot.constants.MenuItemsNames;
 import pro.sky.telegrambot.constants.Strings;
 import pro.sky.telegrambot.model.AdminResponses;
 import pro.sky.telegrambot.model.Responses;
+import pro.sky.telegrambot.model.ShelterType;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
 
     private Map<Long, Responses> pendingResponses;
     private Map<Long, AdminResponses> adminPendingResponses;
+    private Map<Long, ShelterType> shelterChooser;
     private final static Long volunteerChatId = 202671625L;
 
     public TelegramBotUpdatesListener(ReplyKeyboards keyboards, ShelterService shelterService) {
@@ -97,6 +99,9 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
         switch (command) {
             // главное меню и общее
             case MenuItemsNames.START:
+                message = new SendMessage(chatId, SHELTER_MENU_GREETINGS);
+                message.replyMarkup(keyboards.shelterMenu);
+                break;
             case MenuItemsNames.TO_MAIN_MENU:
                 message = new SendMessage(chatId, WELCOME_MESSAGE_MENU_MAIN);
                 message.replyMarkup(keyboards.mainMenuKeyboards);

@@ -13,6 +13,7 @@ public class Strings {
     public static final String MESSAGE_FOR_VOLUNTEER = "По братски прошу, свяжитесь с  ";
     public static final String RECORD_CONTACT = "Оставьте пожалуйста свой телефон и как к Вам обращаться";
     public static final String SORRY_MESSAGE = "Извинините, я вас не понимаю ";
+    public static final String SHELTER_MENU_GREETINGS = "Добро пожаловать в телеграмм бот Приютов. Выберите приют";
 
     public static final String THANKS_FOR_REQUEST = "Спасибо за обращение, Вам скоро ответит первый свободный волонтер";
 
