@@ -11,7 +11,6 @@ import java.util.List;
  */
 @Repository
 public interface AnimalRepository extends JpaRepository<Animal, Long> {
-
     List<Animal> findByKindOfAnimal(String kindOfAnimal);
 
 }

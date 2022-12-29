@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 /**
  *Класс для сохранения контактов в БД.
-
  * */
 @Entity
 @Table(name = "person")

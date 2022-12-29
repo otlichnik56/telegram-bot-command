@@ -21,6 +21,14 @@ CREATE TABLE person
 );
 
 
+CREATE TABLE volunteer
+(
+    id           INTEGER PRIMARY KEY,
+    username     TEXT,
+    number_phone TEXT,
+    contact_name TEXT
+);
+
 
 CREATE TABLE report(
     id              SERIAL PRIMARY KEY,

@@ -5,6 +5,10 @@ import pro.sky.telegrambot.model.DogShelter;
 import pro.sky.telegrambot.repository.PersonRepository;
 import pro.sky.telegrambot.repository.ReportRepository;
 
+/**
+ * Пока в работе
+ */
+
 @Service
 public class DogShelterService extends ShelterService{
     public DogShelterService(DogShelter dogShelter, PersonRepository contactRepository, ReportRepository reportRepository) {

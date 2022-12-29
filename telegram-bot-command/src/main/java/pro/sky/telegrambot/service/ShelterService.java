@@ -42,16 +42,28 @@ public class ShelterService {
         this.reportRepository = reportRepository;
     }
 
+    /**
+     *
+     * @param inputMessage
+     */
     public void getContactFromChat(Message inputMessage) {
         long chatId = inputMessage.chat().id();
         String text = inputMessage.text() + " @" + inputMessage.from().username();
         addContact(chatId, text);
     }
 
+    /**
+     *
+     * @param person
+     */
     public void saveContact(Person person) {
         personRepository.save(person);
     }
 
+    /**
+     *
+     * @param message
+     */
     public void getReport(Message message) {
         Report report = new Report();
         report.setUsername(message.chat().username());
@@ -89,6 +101,10 @@ public class ShelterService {
         }
     }
 
+    /**
+     *
+     * @param inputMessage
+     */
     public void getRequest(Message inputMessage) {
         String nickName = inputMessage.from().username();
         String requestText = inputMessage.text();
@@ -98,57 +114,105 @@ public class ShelterService {
         telegramBot.execute(replyMessage);
     }
 
+    /**
+     *
+     * @return
+     */
     public Shelter getShelter() {
         return shelter;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAbout() {
         return shelter.getAbout();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getScheduleAndAdress() {
         return shelter.getScheduleAndAdress();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getSafetyPrecautions() {
         return shelter.getSafetyPrecuations();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDocumentsForAdpotion() {
         return shelter.getDocumentsForAdoption();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDeclineReasons() {
         return shelter.getDeclineReasons();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getMeetingRules() {
         return shelter.getMeetingRules();
     }
 
+    /**
+     *
+     */
     public void updateInfo() {
         shelter.updateInfoAboutShelter();
     }
 
-
-
-
+    /**
+     *
+     * @return
+     */
     public String getTransportationRecommendations() {
         return shelter.getTransportationRecommendations();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getHomeImprovementsForAdultsRecommendations() {
         return shelter.getHomeImprovementsForAdultsRecommendations();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getHomeImprovementsForPuppiesRecommendations() {
         return shelter.getHomeImprovementsForPuppiesRecommendations();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getHomeImprovementsForDisabledRecommendations() {
         return shelter.getHomeImprovementsForDisabledRecommendations();
     }
 
+    /**
+     *
+     * @param message
+     */
     public void deleteContact(String message) {
         try {
             personRepository.deleteById(Long.valueOf(message));
@@ -157,6 +221,10 @@ public class ShelterService {
         }
     }
 
+    /**
+     *
+     * @param id
+     */
     public void appointGuardian(String id) {
         try {
             Person guardian = personRepository.findById(Long.valueOf(id)).get();
@@ -170,6 +238,11 @@ public class ShelterService {
         }
     }
 
+    /**
+     *
+     * @param chatId
+     * @param inputText
+     */
     public void addContact(long chatId, String inputText) {
         String parsedPhoneString = "";
         String contactNameAndUserName = "";
@@ -207,6 +280,10 @@ public class ShelterService {
         }
     }
 
+    /**
+     *
+     * @param message
+     */
     public void extendProbation(String message) {
         try {
             String idString= message.substring(0, message.indexOf(" "));
@@ -223,13 +300,22 @@ public class ShelterService {
         }
     }
 
+    /**
+     *
+     * @param chatID
+     * @param days
+     */
     public void notificationExtendProbation(Long chatID, int days) {
         SendMessage message = new SendMessage(chatID, "Ваш испытательный срок увеличен на " + days + " дней");
         telegramBot.execute(message);
     }
 
-
+    /**
+     *
+     * @return
+     */
     public String printContactsList() {
         return personRepository.findAll().stream().map(Objects::toString).collect(Collectors.joining("\n"));
     }
+
 }
