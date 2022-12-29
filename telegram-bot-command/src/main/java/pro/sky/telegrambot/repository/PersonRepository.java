@@ -34,10 +34,10 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     List<Person> getPersonFromDataBase(@Param("status") Boolean status);
 
     /** Метод возвращает лист пользователей из таблицы person.
-     * В качестве параметра передается дата. Возвращаемые сущности Identity.
+     * В качестве параметра передается дата. Возвращаемые сущности Person.
      * @deprecated
      * @param endDate
-     * @return List<Identity>
+     * @return List<Person>
      */
     @Query(value = "SELECT * FROM person WHERE end_date = :endDate", nativeQuery = true)
     List<Person> getUsernameEndDate(@Param("endDate") LocalDate endDate);
