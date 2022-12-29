@@ -1,6 +1,12 @@
--- liquibase formatted sql
-
--- changeset nurkatovich:1
+CREATE TABLE animal
+(
+    id              INTEGER PRIMARY KEY,
+    name            TEXT,
+    kind_of_animal  TEXT,
+    age             INTEGER,
+    invalid         BOOLEAN,
+    person_id       INTEGER REFERENCES person(id)
+);
 
 
 CREATE TABLE person

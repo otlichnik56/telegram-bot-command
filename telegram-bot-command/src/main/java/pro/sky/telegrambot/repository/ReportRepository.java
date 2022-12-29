@@ -6,7 +6,7 @@ import pro.sky.telegrambot.entity.Report;
 /**
  *  репозиторий для работы с отчетами
 */
- @Repository
+@Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
 }
