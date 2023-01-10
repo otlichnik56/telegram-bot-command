@@ -21,7 +21,7 @@ public abstract class Shelter {
     private String descriptionFileName = FileNames.DESCRIPTION_CAT_SHELTER;
     private String scheduleAndAddressFileName = FileNames.SCHEDULE_AND_ADDRESS_CAT_SHELTER;
     private String documentsForAdoptionFileName = FileNames.DOCUMENTS_FOR_ADOPTION_CAT_SHELTER;
-    private String safetyPrecuationsFileName = FileNames.SAFETY_PRECUATIONS_CAT_SHELTER;
+    private String safetyPrecautionsFileName = FileNames.SAFETY_PRECUATIONS_CAT_SHELTER;
     private String declineReasonsFileName = FileNames.DECLINE_REASONS_CAT_SHELTER;
     private String meetingRulesFileName = FileNames.MEETING_RULES_CAT_SHELTER;
     private String transportationRecommendationsFileName = FileNames.TRANSPORTATION_RECOMMENDATIONS_CAT_SHELTER;
@@ -40,7 +40,7 @@ public abstract class Shelter {
     private String homeImprovementsForPuppies;
     private String homeImprovementsForDisabled;
     private String homeImprovementsForAdults;
-    private String safetyPrecuations;
+    private String safetyPrecautions;
 
     private Logger logger = LoggerFactory.getLogger(Shelter.class);
 
@@ -52,7 +52,7 @@ public abstract class Shelter {
                    String descriptionFileName,
                    String scheduleAndAddressFileName,
                    String documentsForAdoptionFileName,
-                   String safetyPrecuationsFileName,
+                   String safetyPrecautionsFileName,
                    String declineReasonsFileName,
                    String meetingRulesFileName,
                    String transportationRecommendationsFileName,
@@ -63,7 +63,7 @@ public abstract class Shelter {
                 descriptionFileName,
                 scheduleAndAddressFileName,
                 documentsForAdoptionFileName,
-                safetyPrecuationsFileName,
+                safetyPrecautionsFileName,
                 declineReasonsFileName,
                 meetingRulesFileName,
                 transportationRecommendationsFileName,
@@ -78,7 +78,7 @@ public abstract class Shelter {
                                        String descriptionFileName,
                                        String scheduleAndAddressFileName,
                                        String documentsForAdoptionFileName,
-                                       String safetyPrecuationsFileName,
+                                       String safetyPrecautionsFileName,
                                        String declineReasonsFileName,
                                        String meetingRulesFileName,
                                        String transportationRecommendationsFileName,
@@ -89,7 +89,7 @@ public abstract class Shelter {
         this.descriptionFileName = descriptionFileName;
         this.scheduleAndAddressFileName = scheduleAndAddressFileName;
         this.documentsForAdoptionFileName = documentsForAdoptionFileName;
-        this.safetyPrecuationsFileName = safetyPrecuationsFileName;
+        this.safetyPrecautionsFileName = safetyPrecautionsFileName;
         this.declineReasonsFileName = declineReasonsFileName;
         this.meetingRulesFileName = meetingRulesFileName;
         this.transportationRecommendationsFileName = transportationRecommendationsFileName;
@@ -107,7 +107,7 @@ public abstract class Shelter {
         scheduleAndAddress = readStringsFromFile(scheduleAndAddressFileName);
         documentsForAdoption = readStringsFromFile(documentsForAdoptionFileName);
         declineReasons = readStringsFromFile(declineReasonsFileName);
-        safetyPrecuations = readStringsFromFile(safetyPrecuationsFileName);
+        safetyPrecautions = readStringsFromFile(safetyPrecautionsFileName);
         meetingRules = readStringsFromFile(meetingRulesFileName);
         transportationRecommendations = readStringsFromFile(transportationRecommendationsFileName);
         homeImprovementsForAdults = readStringsFromFile(homeImprovementsForAdultsFileName);
@@ -138,12 +138,12 @@ public abstract class Shelter {
         return meetingRules;
     }
 
-    public String getScheduleAndAdress() {
+    public String getScheduleAndAddress() {
         return scheduleAndAddress;
     }
 
-    public String getSafetyPrecuations() {
-        return safetyPrecuations;
+    public String getSafetyPrecautions() {
+        return safetyPrecautions;
     }
 
     public String getDocumentsForAdoption() {

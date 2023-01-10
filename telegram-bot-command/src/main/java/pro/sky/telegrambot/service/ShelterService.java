@@ -46,10 +46,52 @@ public class ShelterService {
      *
      * @param inputMessage
      */
-    public void getContactFromChat(Message inputMessage) {
+    public void setContactFromChat(Message inputMessage) {
         long chatId = inputMessage.chat().id();
         String text = inputMessage.text() + " @" + inputMessage.from().username();
         addContact(chatId, text);
+    }
+
+    /**
+     *
+     * @param chatId
+     * @param inputText
+     */
+    public void addContact(long chatId, String inputText) {
+        String parsedPhoneString = "";
+        String contactNameAndUserName = "";
+        Person newContact;
+        try {
+            Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
+            Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
+            Matcher letterMatcher = letterPattern.matcher(inputText);
+            Matcher phoneMatcher = phonePattern.matcher(inputText);
+            if (phoneMatcher.find()) {
+                parsedPhoneString = phoneMatcher.group();
+            }
+            if (letterMatcher.find()) {
+                contactNameAndUserName = inputText.substring(letterMatcher.start(0));
+            }
+            String contactName = contactNameAndUserName.substring(0, contactNameAndUserName.indexOf("@"));
+            String userName = contactNameAndUserName.substring(contactNameAndUserName.indexOf("@"));
+
+            String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]", "");
+
+            if (formattedPhoneString.charAt(0) == '+' && formattedPhoneString.charAt(1) == '7') {
+                formattedPhoneString = "8" + formattedPhoneString.substring(2);
+            } else if (formattedPhoneString.charAt(0) == '9') {
+                formattedPhoneString = "8" + formattedPhoneString;
+            } else if (formattedPhoneString.charAt(0) == '7') {
+                formattedPhoneString = "7" + formattedPhoneString.substring(1);
+            }
+            newContact = new Person(userName, formattedPhoneString, contactName, chatId);
+        } catch (TelegramBotExceptionAPI e) {
+            newContact = null;
+            logger.error("Ошибка. Контакт не удалось сохранить");
+        }
+        if (newContact != null) {
+            saveContact(newContact);
+        }
     }
 
     /**
@@ -64,7 +106,7 @@ public class ShelterService {
      *
      * @param message
      */
-    public void getReport(Message message) {
+    public void setReport(Message message) {
         Report report = new Report();
         report.setUsername(message.chat().username());
         report.setMessage(message.caption());
@@ -74,7 +116,6 @@ public class ShelterService {
         GetFileResponse getFileResponse = telegramBot.execute(getFile);
         try {
             byte[] image = telegramBot.getFileContent(getFileResponse.file());
-
             report.setPhoto(image);
             reportRepository.save(report);
         } catch (IOException e) {
@@ -134,8 +175,8 @@ public class ShelterService {
      *
      * @return
      */
-    public String getScheduleAndAdress() {
-        return shelter.getScheduleAndAdress();
+    public String getScheduleAndAddress() {
+        return shelter.getScheduleAndAddress();
     }
 
     /**
@@ -143,14 +184,14 @@ public class ShelterService {
      * @return
      */
     public String getSafetyPrecautions() {
-        return shelter.getSafetyPrecuations();
+        return shelter.getSafetyPrecautions();
     }
 
     /**
      *
      * @return
      */
-    public String getDocumentsForAdpotion() {
+    public String getDocumentsForAdoption() {
         return shelter.getDocumentsForAdoption();
     }
 
@@ -235,48 +276,6 @@ public class ShelterService {
             personRepository.save(guardian);
         }catch (TelegramBotExceptionAPI e){
             logger.error("Ошибка. Изменение сущности не возможно");
-        }
-    }
-
-    /**
-     *
-     * @param chatId
-     * @param inputText
-     */
-    public void addContact(long chatId, String inputText) {
-        String parsedPhoneString = "";
-        String contactNameAndUserName = "";
-        Person newContact;
-        try {
-            Pattern phonePattern = Pattern.compile("^((8|\\+7)[\\-\\s]?)?\\(?\\d{3}\\)?[\\d\\-\\s]{7,10}");
-            Pattern letterPattern = Pattern.compile("[^0-9\\+\\(\\)\\s\\-\\_]");
-            Matcher letterMatcher = letterPattern.matcher(inputText);
-            Matcher phoneMatcher = phonePattern.matcher(inputText);
-            if (phoneMatcher.find()) {
-                parsedPhoneString = phoneMatcher.group();
-            }
-            if (letterMatcher.find()) {
-                contactNameAndUserName = inputText.substring(letterMatcher.start(0));
-            }
-            String contactName = contactNameAndUserName.substring(0, contactNameAndUserName.indexOf("@"));
-            String userName = contactNameAndUserName.substring(contactNameAndUserName.indexOf("@"));
-
-            String formattedPhoneString = parsedPhoneString.replaceAll("[\\s\\-\\(\\)]", "");
-
-            if (formattedPhoneString.charAt(0) == '+' && formattedPhoneString.charAt(1) == '7') {
-                formattedPhoneString = "8" + formattedPhoneString.substring(2);
-            } else if (formattedPhoneString.charAt(0) == '9') {
-                formattedPhoneString = "8" + formattedPhoneString;
-            } else if (formattedPhoneString.charAt(0) == '7') {
-                formattedPhoneString = "7" + formattedPhoneString.substring(1);
-            }
-            newContact = new Person(userName, formattedPhoneString, contactName, chatId);
-        } catch (TelegramBotExceptionAPI e) {
-            newContact = null;
-            logger.error("Ошибка. Контакт не удалось сохранить");
-        }
-        if (newContact != null) {
-            saveContact(newContact);
         }
     }
 

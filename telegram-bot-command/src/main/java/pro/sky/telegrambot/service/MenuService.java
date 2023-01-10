@@ -74,13 +74,13 @@ public class MenuService {
         String messageText = message.text();
         if (isAdministratorUser(chatId)) {
             if (adminPendingResponses.containsKey(chatId)) {
-                adminRequestProccessing(chatId, messageText, shelterService);
+                adminRequestProcessing(chatId, messageText, shelterService);
             } else {
                 sendAdminMenuAndReply(chatId, messageText, shelterService);
             }
         } else {
             if (pendingResponses.containsKey(chatId)) {
-                requestProccessing(message, shelterService);
+                requestProcessing(message, shelterService);
             } else {
                 sendMenuAndReply(chatId, messageText, shelterService);
             }
@@ -92,17 +92,17 @@ public class MenuService {
      * @param message
      * @param shelterService
      */
-    private void requestProccessing(Message message, ShelterService shelterService) {
+    private void requestProcessing(Message message, ShelterService shelterService) {
         Long chatId = message.chat().id();
         switch (pendingResponses.get(chatId)) {
             case REPORT:
-                shelterService.getReport(message);
+                shelterService.setReport(message);
                 break;
             case REQUEST:
                 shelterService.getRequest(message);
                 break;
             case CONTACT:
-                shelterService.getContactFromChat(message);
+                shelterService.setContactFromChat(message);
                 break;
         }
         pendingResponses.remove(chatId);
@@ -192,7 +192,7 @@ public class MenuService {
                 sendReply(chatId, replyTextMessage, keyboards.aboutShelterMenuKeyboards);
                 break;
             case MenuItemsNames.ABOUT_SHELTER_ADDRESS_SCHEDULE:
-                replyTextMessage = shelterService.getScheduleAndAdress();
+                replyTextMessage = shelterService.getScheduleAndAddress();
                 sendReply(chatId, replyTextMessage, keyboards.aboutShelterMenuKeyboards);
                 break;
             case MenuItemsNames.ABOUT_SHELTER_SAFETY_PRECUATUINS:
@@ -205,7 +205,7 @@ public class MenuService {
                 sendReply(chatId, replyTextMessage, keyboards.adoptDogMenuKeyboards);
                 break;
             case MenuItemsNames.ADOPT_DOG_DOCUMENTS:
-                replyTextMessage = shelterService.getDocumentsForAdpotion();
+                replyTextMessage = shelterService.getDocumentsForAdoption();
                 sendReply(chatId, replyTextMessage, keyboards.adoptDogMenuKeyboards);
                 break;
             case MenuItemsNames.ADOPT_DOG_RECOMENDATIONS:
@@ -252,7 +252,7 @@ public class MenuService {
      * @param inputText
      * @param shelterService
      */
-    private void adminRequestProccessing(long chatid, String inputText, ShelterService shelterService) {
+    private void adminRequestProcessing(long chatid, String inputText, ShelterService shelterService) {
         switch (adminPendingResponses.get(chatid)) {
             case DELETE:
                 shelterService.deleteContact(inputText);

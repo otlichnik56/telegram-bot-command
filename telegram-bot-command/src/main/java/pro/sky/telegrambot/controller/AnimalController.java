@@ -101,7 +101,7 @@ public class AnimalController {
     )
     @PutMapping
     public Animal editAnimal(@RequestBody Animal animal) {
-        return animalService.createAnimal(animal);
+        return animalService.editAnimal(animal);
     }
 
 
